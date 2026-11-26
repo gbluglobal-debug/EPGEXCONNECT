@@ -307,6 +307,7 @@ $("info").onclick=function(){showInfo()};$("del").onclick=function(){var c=chats
 function choose(v){pick=v;["la","pa2"].forEach(function(i){$(i).classList.toggle("on",v===true)});["ld","pd2"].forEach(function(i){$(i).classList.toggle("on",v===false)})}
 ["la","pa2"].forEach(function(i){$(i).onclick=function(){choose(true)}});["ld","pd2"].forEach(function(i){$(i).onclick=function(){choose(false)}});
 var lmode="in",cloudT=null;
+var lastMailErr="";function mf(e){return t(e&&e.message==="mail"?"mailFail":"nd")+(e&&e.message==="mail"&&lastMailErr?" ["+lastMailErr+"]":"")}
 var lstep=1,sg=null,vOK=false,lastSend=0,USER_RE=/^[a-z0-9_]{3,20}$/,MAIL_RE=/^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 /* ===== EMAIL SERVICE: a web page cannot send email by itself. Put the URL of your own email endpoint here
    (it receives POST JSON {to, code, app} and emails the code). Empty = DEMO MODE (code is shown on screen). ===== */
@@ -340,13 +341,13 @@ function reloadApp(){try{location.reload()}catch(e){}}
 async function rd(p){var s=await db.doc(p).get();return s.data&&s.data()}
 function sha(s){return crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)).then(hex)}
 async function sendCodeEmail(em,code){var E=CFG.ejs;
-if(E&&E.service&&E.template&&E.key){var r0=await fetch("https://api.emailjs.com/api/v1.0/email/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({service_id:E.service,template_id:E.template,user_id:E.key,template_params:{to_email:em,email:em,code:code,passcode:code,time:new Date(Date.now()+900000).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}),app:"EPGEXX CONNECT"}})});if(!r0.ok)throw new Error("mail");return true}
+if(E&&E.service&&E.template&&E.key){lastMailErr="";try{var r0=await fetch("https://api.emailjs.com/api/v1.0/email/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({service_id:E.service,template_id:E.template,user_id:E.key,template_params:{to_email:em,email:em,code:code,passcode:code,time:new Date(Date.now()+900000).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}),app:"EPGEXX CONNECT"}})});if(!r0.ok){var tx="";try{tx=await r0.text()}catch(_){}lastMailErr=r0.status+" "+String(tx).slice(0,140);throw new Error("mail")}return true}catch(e){if(!lastMailErr)lastMailErr=String(e&&e.message||e);throw new Error("mail")}}
 if(!EMAIL_ENDPOINT)return false;var r=await fetch(EMAIL_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({to:em,code:code,app:"EPGEXX CONNECT"})});if(!r.ok)throw new Error("mail");return true}
 async function issueCode(){var a=new Uint32Array(1);crypto.getRandomValues(a);var code=String(a[0]%1000000).padStart(6,"0");
 await db.doc("pending/"+sg.h).set({ch:await sha(code+":"+sg.h),exp:Date.now()+900000,tries:0,ts:Date.now()});
 var sent=false;try{sent=await sendCodeEmail(sg.em,code)}catch(e){throw new Error("mail")}
 $("cinfo").textContent=t("codeSent")+" "+sg.em;var dm=$("demo");if(sent)dm.style.display="none";else{dm.style.display="block";dm.textContent=t("demoNote")+" "+code}lastSend=Date.now()}
-$("lrs").onclick=async function(){if(!sg||Date.now()-lastSend<30000)return;var lm=$("lm");lm.textContent=t("wk");try{await issueCode();lm.textContent=""}catch(e){lm.textContent=t(e.message==="mail"?"mailFail":"nd")}};
+$("lrs").onclick=async function(){if(!sg||Date.now()-lastSend<30000)return;var lm=$("lm");lm.textContent=t("wk");try{await issueCode();lm.textContent=""}catch(e){lm.textContent=mf(e)}};
 $("lgo").onclick=async function(){var lm=$("lm");if(!db){lm.textContent=t("nd");return}lm.textContent=t("wk");$("lgo").disabled=true;
 try{
 if(lmode==="up"){
@@ -380,7 +381,7 @@ var ud=await db.doc("userdata/"+x.aid).get(),d=ud.data&&ud.data(),st=null;
 if(d&&d.ct){try{st=await dec(dk2.key,d)}catch(e){}}
 if(st){sv("epx_prof",st.prof||{name:"",username:"",bio:""});sv("epx_con",st.contacts||{});sv("epx_bot",st.bot||[]);sv("epx_nm",!!st.nm);if(st.mode)sv("epx_mode",st.mode);if(st.email)em2=st.email}
 acct={email:em2,h:h2,allow:st&&typeof st.allow==="boolean"?st.allow:false,aid:x.aid,k:dk2.key};sv("epx_acct",acct);reloadApp()}
-catch(e){lm.textContent=t(e&&e.message==="mail"?"mailFail":"nd")}finally{$("lgo").disabled=false}};
+catch(e){lm.textContent=mf(e)}finally{$("lgo").disabled=false}};
 $("po").onclick=async function(){try{await saveCloud()}catch(e){}
 if(db&&me){try{await db.doc("profiles/"+me).update({visible:false})}catch(e){}}
 ["epx_prof","epx_con","epx_bot","epx_nm","epx_acct","epx_mode"].forEach(function(k){try{localStorage.removeItem(k)}catch(e){}});
