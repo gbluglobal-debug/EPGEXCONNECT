@@ -1483,7 +1483,7 @@ function wallet(b){var c=card(b,"hero");c.appendChild(el("small","","EXX Coins w
  var wn=el("div","xsw");wn.appendChild(el("span","","🔢 Wallet number"));wn.appendChild(el("b","",WNO?fmtW(WNO):"…"));c.appendChild(wn);if(WNO){c.appendChild(xb("Copy wallet number",function(){copyW()}));c.appendChild(el("small","xs",(prof.name||"")+" · give this number to the team to receive coins"))}
  [["🪙 Purchased EXX Coins",WAL.coins],["🎁 Creator earnings",WAL.earn],["🏦 Withdrawable balance",WAL.withdrawable]].forEach(function(x){var r=el("div","xsw");r.appendChild(el("span","",x[0]));r.appendChild(el("b","",(x[1]||0).toLocaleString()+" · "+coinVal(x[1]||0)));c.appendChild(r)});c.appendChild(el("small","",CT[CTY][1]==="ETB"?"Value: 1 EXX Coin = 1 birr":"Value shown in "+CT[CTY][1]+" at live rates"));
  var hb=card(b);hb.appendChild(el("b","","🛒 Buy EXX Coins"));hb.appendChild(el("small","xs","Tap Buy, choose your country and coins, and we take you to GBLU_OFFICIAL on Telegram."));hb.appendChild(xb("🛒 Buy on Telegram · GBLU_OFFICIAL",buyTg,1));hb.appendChild(xb("ℹ️ How to buy & about EXX Coins",function(){xpOpen("EXX Coins",coinInfo);$("xpn").style.zIndex=95}));
- var hw=card(b);hw.appendChild(el("b","","💸 How to withdraw"));["Creators earn 50% of eligible gifts received in LIVE.","Earnings become Withdrawable balance after review.","Type the number of coins below (up to your Withdrawable balance).","Tap Request withdrawal. It is reviewed, then paid."].forEach(function(x,i){hw.appendChild(el("div","",(i+1)+". "+x))});hw.appendChild(el("small","xs","Your withdrawable balance now: "+(WAL.withdrawable||0).toLocaleString()+" coins ≈ "+coinVal(WAL.withdrawable||0)));
+ var hw=card(b);hw.appendChild(el("b","","💸 How to withdraw"));["Creators earn 50% of eligible gifts received in LIVE.","Earnings become Withdrawable balance after review.","Enter the coins, your payout method and account below.","Tap Withdraw and confirm with your login password.","Your request goes to the GBLU team and you can download your receipt. It is reviewed, then paid."].forEach(function(x,i){hw.appendChild(el("div","",(i+1)+". "+x))});hw.appendChild(el("small","xs","Your withdrawable balance now: "+(WAL.withdrawable||0).toLocaleString()+" coins ≈ "+coinVal(WAL.withdrawable||0)));
  var wf=card(b);wf.appendChild(el("b","","📊 Where your coins come from"));wf.appendChild(el("small","xs","🪙 Purchased: coins you bought from GBLU_OFFICIAL or that the team added.\n🎁 Creator earnings: 50% of gifts people send you in LIVE.\n🏦 Withdrawable: earnings approved for cash out. Every change is listed in Transaction history below."));wf.lastChild.style.whiteSpace="pre-line"
  if(!EXX_API){var n=card(b);n.appendChild(el("b","","Payments are not connected"));n.appendChild(el("small","xs","Online checkout is not connected yet. To buy EXX Coins now, contact GBLU_OFFICIAL. Balances only change after the GBLU team or server confirms."))}
  var k=card(b);k.appendChild(el("b","","Buy EXX Coins"));var sel=el("select","xi");Object.keys(CT).sort(function(x,y){return CT[x][0]<CT[y][0]?-1:1}).forEach(function(cc){var o=el("option","",CT[cc][0]+" ("+CT[cc][1]+")");o.value=cc;if(cc===CTY)o.selected=true;sel.appendChild(o)});
@@ -1494,10 +1494,7 @@ function wallet(b){var c=card(b,"hero");c.appendChild(el("small","","EXX Coins w
  k.appendChild(el("small","xs",cur==="ETB"?"In Ethiopia, 1 EXX Coin = 1 birr. GBLU_OFFICIAL confirms the final amount with you.":fp?(cur!=="USD"?"Converted at live rates"+(RATE_TS?" updated "+ago(RATE_TS):"")+". The payment provider shows the exact final amount before you confirm.":"Final amount shown by the payment provider before you confirm."):(RATE_ERR?"Live exchange rates are unavailable, so the local price cannot be shown right now.":"Loading live exchange rates…")));
  var pay=xb("Pay securely",async function(){if(!fp)return;pay.disabled=true;try{var j=await exx("/checkout",{coins:PKGS[PKG][0],country:CTY,currency:cur,method:PMT,idem:rid("c")});if(j&&j.url)location.href=j.url;else throw 0}catch(e){toast(function(){},exxErr(e),"");pay.disabled=false}},1);pay.disabled=!EXX_API||!fp;if(EXX_API)k.appendChild(pay);else k.appendChild(xb("🛒 Buy on Telegram · GBLU_OFFICIAL",buyTg,1));
  k.appendChild(el("small","xs","Coins appear in your wallet only after the payment is confirmed."));
- var w=card(b);w.appendChild(el("b","","Withdraw earnings"));w.appendChild(el("small","xs","You earn 50% of eligible gift revenue. Payouts are reviewed and paid by the server."));var wi=xin("Coins to withdraw",9);wi.inputMode="numeric";w.appendChild(wi);
- var wb=xb("Request withdrawal",async function(){var n=parseInt(wi.value,10);if(!(n>0)||n>(WAL.withdrawable||0)){toast(function(){},"Enter an amount up to your withdrawable balance.","");return}wb.disabled=true;try{await exx("/payout",{coins:n,idem:rid("w")});toast(function(){},"Withdrawal requested","Waiting for review");wi.value=""}catch(e){toast(function(){},exxErr(e),"")}wb.disabled=!EXX_API},1);wb.disabled=!EXX_API;w.appendChild(wb);
- b.appendChild(el("div","xh","Transaction history"));if(!WTX.length)b.appendChild(el("div","empty","No transactions yet."));
- WTX.slice(0,40).forEach(function(x){var r=card(b),h=el("div","xsw");h.appendChild(el("span","",x.note||x.type||""));h.appendChild(el("b","",(x.coins>0?"+":"")+(x.coins||0).toLocaleString()));r.appendChild(h);r.appendChild(el("small","xs",ago(x.ts)))})}
+ wdCard(b);txInline(b)}
 /* ===== How to buy + coin info, and contact GBLU_OFFICIAL ===== */
 var TG_URL="https://t.me/GBLU_OFFICIAL";
 function goTg(){window.open(TG_URL,"_blank","noopener")}
@@ -1524,7 +1521,7 @@ function coinInfo(b){var cur=CT[CTY][1];
  var g=card(b);g.appendChild(el("b","","Gifts you can send"));GIFTS.forEach(function(x){var r=el("div","xsw");r.appendChild(el("span","",x.e+" "+x.n));r.appendChild(el("b","","🪙 "+x.c.toLocaleString()));g.appendChild(r)});
  var e=card(b);e.appendChild(el("b","","Creators"));e.appendChild(el("small","xs","Creators earn 50% of eligible gift revenue and can request a withdrawal from their Wallet."));
  var sf=card(b);sf.appendChild(el("b","","Stay safe"));sf.appendChild(el("small","xs","Only buy coins from the GBLU_OFFICIAL account. Never share your password or verification code with anyone."))}
-var _xc=xChips;xChips=function(){_xc();var B=$("xch");if(!B)return;B.appendChild(xb("↗ "+t("shApp"),function(){sharePost({name:"EPGEXX CONNECT",text:t("shAppTx")+"\n"+location.href})}));B.appendChild(xb("💰 Wallet",function(){xpOpen("Wallet",wallet)}))};xChips();
+var _xc=xChips;xChips=function(){_xc();var B=$("xch");if(!B)return;B.appendChild(xb("↗ "+t("shApp"),function(){sharePost({name:"EPGEXX CONNECT",text:t("shAppTx")+"\n"+location.href})}));B.appendChild(xb("💰 Wallet",function(){xpOpen("Wallet",wallet)}));B.appendChild(xb("📜 Transactions",function(){xpOpen("Transactions",txScreen)}))};xChips();
 /* gifts */
 function giftFx(e,big){var d=el("div","gfx"+(big?" big":""),e);$("lvv").appendChild(d);setTimeout(function(){d.remove()},3600)}
 var _lf=lvFloat;lvFloat=function(e){_lf(e);var g=GIFTS.filter(function(x){return x.e===e})[0];if(g)giftFx(e,g.big)};
@@ -1830,6 +1827,127 @@ async function grantCoins(u){if(!isOwner||!db)return;
 function wLookupRow(L,q){var d=String(q||"").replace(/\D/g,"");if(d.length!==10)return;var row=el("div","mr");row.appendChild(el("span","","🔎 Wallet "+fmtW(d)));
  row.appendChild(btn("🪙",async function(){try{var s=await db.doc("wnums/"+d).get();if(!s.exists){toast(function(){},"No wallet with that number.","");return}var uid=s.data().uid,nm=s.data().name||"?";
   try{var p=await db.doc("profiles/"+uid).get();if(p.exists&&p.data().name)nm=p.data().name}catch(e){}grantCoins({id:uid,name:nm,wno:d})}catch(e){toast(function(){},"Could not look that up.","")}}));L.appendChild(row)}
+
+/* ===== v10: withdraw by email + downloadable receipt, password check before money actions, transactions ===== */
+var WD_TO="gblu.global@gmail.com",WD_METHODS=["Telebirr","CBE Birr","Bank transfer","Mobile money","Other"],WREQ=[],WDL=null,WDD={coins:"",method:"",account:"",holder:""},TXF="all",PWBAD=0,PWLOCK=0,PWOKTS=0,WDBUSY=0;
+try{$("toast").style.zIndex=97}catch(e){}
+function wdKey(){return"epx_wd_"+(me||"x")}
+function wdLoad(){var a=ld(wdKey(),[]);WREQ=Array.isArray(a)?a:[]}
+function wdSave(){lsv(wdKey(),WREQ.slice(0,200))}
+function wdMerge(list){list.forEach(function(r){var i=WREQ.findIndex(function(x){return x.ref===r.ref});if(i>=0)WREQ[i]=Object.assign({},WREQ[i],r);else WREQ.push(r)});WREQ.sort(function(a,b){return b.ts-a.ts});wdSave()}
+function wdWatch(){if(!(db&&me))return;lis(db.collection("withdrawals").where("uid","==",me),function(s){wdMerge(s.docs.map(function(d){return d.data()}));xpRef()})}
+var _xl5=xLive;xLive=function(){_xl5();wdLoad();wdWatch()};if(db&&me){wdLoad();wdWatch()}
+/* coins already requested (last 3 days) are held back so the same coins are not requested twice */
+function wdPending(){var lim=Date.now()-3*864e5;return WREQ.filter(function(r){return r.status==="pending"&&r.ts>lim}).reduce(function(s,r){return s+(r.coins||0)},0)}
+function wdAvail(){return Math.max(0,(WAL.withdrawable||0)-wdPending())}
+function wdRef(ts){return"WD-"+new Date(ts).toISOString().slice(2,10).replace(/-/g,"")+"-"+Math.random().toString(36).slice(2,6).toUpperCase()}
+function wdDate(ts){var o={dateStyle:"medium",timeStyle:"short"};try{return new Date(ts).toLocaleString(LOC(),o)}catch(e){return new Date(ts).toLocaleString("en",o)}}
+function wdSt(r){return r.status==="paid"?"Paid":r.status==="rejected"?"Rejected":"Pending review"}
+
+/* ---- password check: the same password used to sign in ---- */
+async function pwOK(pw){if(!(db&&acct&&acct.h))return null;var x=await rd("accounts/"+acct.h);if(!x||!x.salt)return false;var dk=await derive(pw,x.salt);return dk.ver===x.ver}
+function askPw(title,msg,go,fresh){
+ if(!fresh&&Date.now()-PWOKTS<300000){go();return}
+ m2("🔐 "+title,t("pw"),[{l:"Confirm",p:1,f:async function(){
+  var v=$("m2i").value;if(!v)return;
+  if(Date.now()<PWLOCK){toast(function(){},"Too many wrong passwords.","Wait a minute and try again.");return}
+  var ok;try{ok=await pwOK(v)}catch(e){toast(function(){},"Could not check your password.","Check your internet and try again.");return}
+  if(ok===null){toast(function(){},"Sign in with your EPGEXX password account first.","");return}
+  if(!ok){PWBAD++;if(PWBAD>=5){PWBAD=0;PWLOCK=Date.now()+60000}$("m2i").value="";toast(function(){},"Wrong password.","");return}
+  PWBAD=0;PWOKTS=Date.now();$("m2i").value="";$("m2i").type="text";$("m2").style.display="none";go()}}],msg);
+ $("m2").style.zIndex=96;var i=$("m2i");i.type="password";i.autocomplete="current-password"}
+
+/* ---- email to the GBLU team ---- */
+async function wdMail(r){var E=CFG.ejs;if(!(E&&E.service&&E.key))throw new Error("mail");
+ var sum="WITHDRAWAL REQUEST "+r.ref+": "+r.coins.toLocaleString()+" EXX Coins ("+r.value+") via "+r.method+" → "+r.account+" ("+r.holder+"). Member: "+(r.name||"?")+(r.username?" @"+r.username:"")+" · "+(r.email||"no email")+" · wallet "+(r.wno?fmtW(r.wno):"?")+" · withdrawable before: "+(r.avail||0).toLocaleString();
+ var res=await fetch("https://api.emailjs.com/api/v1.0/email/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({service_id:E.service,template_id:E.wtemplate||E.template,user_id:E.key,template_params:{
+  to_email:WD_TO,email:WD_TO,to:WD_TO,reply_to:r.email||WD_TO,subject:"Withdrawal request "+r.ref,from_name:r.name||"EPGEXX member",
+  ref:r.ref,coins:String(r.coins),value:r.value,method:r.method,account:r.account,holder:r.holder,member_name:r.name,username:r.username,member_email:r.email,wallet_number:r.wno?fmtW(r.wno):"",withdrawable_before:String(r.avail||0),date:wdDate(r.ts),
+  message:sum,code:sum,passcode:sum,time:wdDate(r.ts),app:"EPGEXX CONNECT"}})});
+ if(!res.ok)throw new Error("mail")}
+
+/* ---- withdraw form ---- */
+function wdCard(b){
+ if(WDL!==me){WDL=me;wdLoad()}
+ var av=wdAvail(),pd=wdPending();if(!WDD.method)WDD.method=WD_METHODS[0];if(!WDD.holder)WDD.holder=prof.name||"";
+ var w=card(b);w.appendChild(el("b","","💸 Withdraw earnings"));
+ w.appendChild(el("small","xs","Available to withdraw: "+av.toLocaleString()+" coins ≈ "+coinVal(av)+(pd?" ("+pd.toLocaleString()+" already requested)":"")));
+ var sm=el("small","xs","");
+ function upd(){var n=parseInt(WDD.coins,10)||0;sm.textContent=n>0?"You will receive ≈ "+coinVal(n):""}
+ var ci=xin("Coins to withdraw",9);ci.inputMode="numeric";ci.value=WDD.coins;ci.oninput=function(){WDD.coins=ci.value.replace(/\D/g,"");if(ci.value!==WDD.coins)ci.value=WDD.coins;upd()};w.appendChild(ci);
+ w.appendChild(xb("Withdraw all",function(){WDD.coins=String(av);ci.value=WDD.coins;upd()}));w.appendChild(sm);
+ var mr=el("div","xrow");WD_METHODS.forEach(function(m){mr.appendChild(xb(m,function(){WDD.method=m;xpRef(1)},m===WDD.method))});w.appendChild(mr);
+ var ai=xin(WDD.method==="Bank transfer"?"Bank account number":"Phone number or account number",40);ai.value=WDD.account;ai.oninput=function(){WDD.account=ai.value};w.appendChild(ai);
+ var hi=xin("Account holder name",60);hi.value=WDD.holder;hi.oninput=function(){WDD.holder=hi.value};w.appendChild(hi);
+ upd();w.appendChild(xb("💸 Withdraw",wdGo,1));
+ w.appendChild(el("small","xs","Your request is emailed to the GBLU team and you get a receipt to download. You confirm with your login password first."))}
+function wdGo(){
+ var n=parseInt(WDD.coins,10),av=wdAvail(),acc=String(WDD.account||"").trim(),ho=String(WDD.holder||"").trim(),T=function(a,b2){toast(function(){},a,b2||"")};
+ if(!(db&&me)){T("Sign in first.");return}
+ if(!(n>0)){T("Enter how many coins to withdraw.");return}
+ if(n>av){T("Not enough withdrawable balance.","You can withdraw up to "+av.toLocaleString()+" coins.");return}
+ if(acc.length<5){T("Enter your phone or account number.");return}
+ if(ho.length<2){T("Enter the account holder name.");return}
+ var d={coins:n,method:WDD.method,account:acc,holder:ho};
+ askPw("Confirm withdrawal","Withdraw "+n.toLocaleString()+" coins (≈ "+coinVal(n)+") to "+d.method+" "+acc+". Enter your login password to continue.",function(){wdSend(d)},1)}
+async function wdSend(d){
+ if(WDBUSY)return;WDBUSY=1;toast(function(){},"Sending your request…","");
+ var ts=Date.now(),r={ref:wdRef(ts),uid:me,coins:d.coins,value:coinVal(d.coins),method:d.method,account:d.account,holder:d.holder,name:prof.name||"",username:prof.username||"",email:(acct&&acct.email)||"",wno:WNO?String(WNO):"",ts:ts,status:"pending",avail:WAL.withdrawable||0};
+ try{await wdMail(r)}catch(e){WDBUSY=0;toast(function(){},"Could not send the request.","Nothing was withdrawn. Check your internet and try again.");return}
+ WREQ.unshift(r);wdSave();WDD.coins="";
+ /* only non-private fields go to the database; the phone/account number stays on this device and in the email */
+ try{await db.collection("withdrawals").doc(r.ref).set({ref:r.ref,uid:me,coins:r.coins,value:r.value,method:r.method,wno:r.wno,ts:r.ts,status:"pending"})}catch(e){}
+ WDBUSY=0;toast(function(){},"Request sent ✅",r.ref);xpOpen("Withdrawal receipt",function(b){wdReceipt(b,r,1)})}
+
+/* ---- receipt (PNG) ---- */
+function fitTx(x,s,mw){if(x.measureText(s).width<=mw)return s;while(s.length>1&&x.measureText(s+"…").width>mw)s=s.slice(0,-1);return s+"…"}
+function wdCanvas(r){
+ var rows=[["Reference",r.ref],["Date",wdDate(r.ts)],["Status",wdSt(r)],["Member",r.name||prof.name||"—"],["Username",(r.username||prof.username)?"@"+(r.username||prof.username):"—"],["Wallet number",r.wno?fmtW(r.wno):"—"],["Method",r.method||"—"],["Account",r.account||"—"],["Account holder",r.holder||"—"],["Sent to","GBLU team · "+WD_TO]];
+ var W=540,top=214,rh=36,H=top+rows.length*rh+120,S=2,cv=document.createElement("canvas");cv.width=W*S;cv.height=H*S;
+ var x=cv.getContext("2d");x.scale(S,S);
+ var hd=(getComputedStyle(document.documentElement).getPropertyValue("--head")||"").trim()||"#0b2a6b",F='system-ui,-apple-system,"Segoe UI","Noto Sans Ethiopic","Noto Sans SC",sans-serif';
+ x.fillStyle="#ffffff";x.fillRect(0,0,W,H);
+ x.fillStyle=hd;x.fillRect(0,0,W,96);x.fillStyle="#ffffff";x.font="700 22px "+F;x.fillText("EPGEXX CONNECT",28,44);x.font="400 14px "+F;x.fillText("Withdrawal receipt · Global Business & Leadership Union",28,70);
+ x.textAlign="center";x.fillStyle="#0b1f44";x.font="700 40px "+F;x.fillText((r.coins||0).toLocaleString()+" EXX Coins",W/2,156);
+ x.fillStyle="#6b7a99";x.font="400 15px "+F;x.fillText("≈ "+(r.value||""),W/2,184);x.textAlign="left";
+ rows.forEach(function(p,i){var y=top+i*rh;x.fillStyle=i%2?"#ffffff":"#f1f5fb";x.fillRect(20,y,W-40,rh);x.fillStyle="#6b7a99";x.font="400 13px "+F;x.fillText(p[0],32,y+23);
+  x.fillStyle="#0b1f44";x.font="600 14px "+F;x.textAlign="right";x.fillText(fitTx(x,String(p[1]),W-200),W-32,y+23);x.textAlign="left"});
+ var fy=top+rows.length*rh+32;x.fillStyle="#6b7a99";x.font="400 12px "+F;
+ ["This receipt confirms your withdrawal request was sent to the GBLU team.","Coins are paid after review. Quote the reference if you contact GBLU_OFFICIAL.","Never share your password or verification code with anyone."].forEach(function(s,i){x.fillText(s,28,fy+i*20)});
+ return cv}
+function wdDownload(r){wdCanvas(r).toBlob(function(bl){if(!bl){toast(function(){},"Could not create the receipt.","");return}var u=URL.createObjectURL(bl),a=document.createElement("a");a.href=u;a.download="EPGEXX-receipt-"+r.ref+".png";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);toast(function(){},"Receipt downloaded",r.ref)},"image/png")}
+function wdShare(r){wdCanvas(r).toBlob(function(bl){try{var f=new File([bl],"EPGEXX-receipt-"+r.ref+".png",{type:"image/png"});if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],title:"Withdrawal receipt "+r.ref}).catch(function(){});else wdDownload(r)}catch(e){wdDownload(r)}},"image/png")}
+function wdReceipt(b,r,fresh){
+ var h=card(b,"hero");h.appendChild(el("b","",fresh?"✅ Request sent":"🧾 Withdrawal receipt"));h.appendChild(el("small","",fresh?"Your withdrawal request was emailed to the GBLU team. Download your receipt and keep it.":"Reference "+r.ref));
+ var c=card(b),cv=wdCanvas(r);cv.style.width="100%";cv.style.height="auto";cv.style.borderRadius="10px";c.appendChild(cv);
+ c.appendChild(xb("⬇️ Download receipt",function(){wdDownload(r)},1));
+ if(navigator.share)c.appendChild(xb("↗ Share receipt",function(){wdShare(r)}));
+ c.appendChild(xb("📜 All transactions",function(){xpOpen("Transactions",txScreen)}));
+ c.appendChild(xb("← Back to wallet",function(){xpOpen("Wallet",wallet)}));
+ c.appendChild(el("small","xs","Quote the reference "+r.ref+" if you contact GBLU_OFFICIAL about this withdrawal."))}
+
+/* ---- transactions ---- */
+function txItems(){var a=[];
+ WTX.forEach(function(x){var n=x.coins||0;a.push({ts:x.ts||0,label:x.note||x.type||"Transaction",coins:n,icon:n>0?"⬇️":"⬆️"})});
+ WREQ.forEach(function(r){a.push({ts:r.ts,label:"Withdrawal · "+r.ref,coins:-(r.coins||0),icon:"💸",wd:r})});
+ return a.sort(function(p,q){return q.ts-p.ts})}
+function txRow(b,x){var r=card(b),h=el("div","xsw");h.appendChild(el("span","",x.icon+" "+x.label));
+ var am=el("b","",(x.coins>0?"+":"")+x.coins.toLocaleString());am.style.color=x.coins>0?"#1a9d57":"#d64545";h.appendChild(am);r.appendChild(h);
+ r.appendChild(el("small","xs",wdDate(x.ts)+" · "+ago(x.ts)));
+ if(x.wd){r.appendChild(el("small","xs",(x.wd.status==="paid"?"✅ ":x.wd.status==="rejected"?"❌ ":"⏳ ")+wdSt(x.wd)+" · "+(x.wd.method||"")+" · ≈ "+(x.wd.value||"")));r.appendChild(xb("🧾 Receipt",function(){xpOpen("Withdrawal receipt",function(bb){wdReceipt(bb,x.wd,0)})}))}}
+function txInline(b){if(WDL!==me){WDL=me;wdLoad()}var a=txItems();b.appendChild(el("div","xh","📜 Transaction history"));
+ if(!a.length)b.appendChild(el("div","empty","No transactions yet."));
+ a.slice(0,5).forEach(function(x){txRow(b,x)});var c=card(b);c.appendChild(xb("Open all transactions",function(){xpOpen("Transactions",txScreen)}))}
+function txScreen(b){if(WDL!==me){WDL=me;wdLoad()}
+ var c=card(b),bar=el("div","xrow");bar.appendChild(xb("← Wallet",function(){xpOpen("Wallet",wallet)}));
+ [["all","All"],["in","Money in"],["out","Withdrawals"]].forEach(function(f){bar.appendChild(xb(f[1],function(){TXF=f[0];xpRef(1)},TXF===f[0]))});c.appendChild(bar);
+ var pd=wdPending();if(pd)c.appendChild(el("small","xs","⏳ Pending withdrawals: "+pd.toLocaleString()+" coins (≈ "+coinVal(pd)+")"));
+ var a=txItems().filter(function(x){return TXF==="all"||(TXF==="out"?!!x.wd:!x.wd&&x.coins>0)});
+ if(!a.length)b.appendChild(el("div","empty","No transactions yet."));
+ a.slice(0,200).forEach(function(x){txRow(b,x)})}
+
+/* ---- password before sending gifts (remembered for 5 minutes) ---- */
+var _sgp=sendGift;sendGift=function(g){if(!LV)return;askPw("Confirm gift","Enter your login password to send "+g.e+" "+g.n+" ("+g.c.toLocaleString()+" coins).",function(){_sgp(g)},0)};
 </script>
 </body>
 </html>
