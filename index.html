@@ -377,6 +377,7 @@ body{display:flex;flex-direction:column}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 </head>
 <body>
 <noscript><h1>EPGEXX CONNECT</h1><p>EPGEXX CONNECT is a free chat app for messaging friends, creating groups and channels, adding members by email or username, and calling. Sign up with email verification in English, Amharic or Chinese. Please turn on JavaScript to use the app.</p></noscript>
@@ -700,7 +701,7 @@ pm.textContent=t("saved");applyLang()};
 var chats={},nc={},unsubC=null;
 function eh(e){return crypto.subtle.digest("SHA-256",new TextEncoder().encode(e.trim().toLowerCase())).then(function(b){return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("")})}
 function dn0(){return prof.username||(acct&&acct.email?acct.email.split("@")[0]:"user")}
-function pubProf(){if(!(db&&me&&acct))return;(acct.h?Promise.resolve(acct.h):eh(acct.email||"")).then(function(h){return db.doc("profiles/"+me).set({name:prof.name||dn0(),username:prof.username||"",bio:prof.bio||"",photo:prof.photo||"",visible:!!acct.allow,priv:!!acct.priv,eh:h,ts:Date.now()})}).catch(function(){})}
+function pubProf(){if(!(db&&me&&acct))return;(acct.h?Promise.resolve(acct.h):eh(acct.email||"")).then(function(h){return db.doc("profiles/"+me).set({name:prof.name||dn0(),username:prof.username||"",bio:prof.bio||"",photo:prof.photo||"",visible:!!acct.allow,priv:!!acct.priv,eh:h,ts:Date.now()},{merge:true})}).catch(function(){})}
 function chatName(id){return chats[id]?chats[id].name:(contacts[id]||{}).name||""}
 function role(c,u){return c.owner===u?"owner":(c.admins||[]).indexOf(u)>=0?"admin":"member"}
 function canPost(c){return role(c,me)!=="member"||(c.type==="group"&&c.perms&&c.perms.send!==false)}
@@ -710,7 +711,7 @@ function hdr(id){$("att").style.display=id==="bot"?"none":"";var g=id.indexOf("c
 if(g&&c){if(!ok){$("note").style.display="block";$("note").textContent=t("ro")}var need=c.members.filter(function(x){return!nc[x]});if(need.length)Promise.all(need.map(pname)).then(function(){if(cur===id)open(id,true)})}}
 function btn(l,f){var b=el("button","",l);b.type="button";b.onclick=f;return b}
 function upd(c,o){return db.doc("chats/"+c.id).update(o)}
-function m2(title,inp,btns,msg){$("m2t").style.display="";document.querySelector("#m2 .c").style.maxWidth="";$("m2t").textContent=title;var i=$("m2i");i.oninput=null;admDraw=null;i.style.display=inp?"block":"none";i.value="";i.placeholder=inp||"";$("m2m").textContent=msg||"";$("m2l").textContent="";var b=$("m2b");b.textContent="";btns.forEach(function(x){var e=btn(x.l,x.f);if(x.p)e.className="pr";b.appendChild(e)});b.appendChild(btn(t("close"),function(){$("m2").style.display="none"}));$("m2").style.display="grid"}
+function m2(title,inp,btns,msg){$("m2t").style.display="";document.querySelector("#m2 .c").style.maxWidth="";$("m2t").textContent=title;var i=$("m2i");i.type="text";i.oninput=null;admDraw=null;i.style.display=inp?"block":"none";i.value="";i.placeholder=inp||"";$("m2m").textContent=msg||"";$("m2l").textContent="";var b=$("m2b");b.textContent="";btns.forEach(function(x){var e=btn(x.l,x.f);if(x.p)e.className="pr";b.appendChild(e)});b.appendChild(btn(t("close"),function(){$("m2").style.display="none"}));$("m2").style.display="grid"}
 async function findE(q){q=(q||"").trim().toLowerCase();if(!db||!q)return null;var u=null,s;
 if(q.indexOf("@")>0){if(!/^\S+@\S+\.\S+$/.test(q))return null;s=await db.collection("profiles").where("eh","==",await eh(q)).get()}
 else{q=q.replace(/^@/,"");if(!/^[a-z0-9_]{1,20}$/.test(q))return null;s=await db.collection("profiles").where("username","==",q).get()}
@@ -833,8 +834,8 @@ if(CL){if(CL.key!==x.key)db.doc("calls/"+me).update({status:"declined"}).catch(f
 incomingCall(x)},function(){})}catch(e){}}
 $("plus").onclick=function(){m2("EPGEXX CONNECT",null,[{l:t("nG"),f:function(){newChat("group")}},{l:t("nC"),f:function(){newChat("channel")}},{l:t("bE"),f:function(){byEmail()}}],"")};
 async function adminPanel(){if(!isOwner||!db)return;m2(t("gt"),t("gs"),[],"");var i=$("m2i"),L=$("m2l"),M=$("m2m"),all=[];
-try{var s=await db.collection("profiles").get();s.docs.forEach(function(d){var x=d.data()||{};if(x.visible===true)all.push({id:d.id,name:x.name||"?",username:x.username||""})})}catch(e){M.textContent="…"}
-function dr(){var q=i.value.trim().toLowerCase().replace("@","");L.textContent="";all.filter(function(u){return!q||(u.name+" "+u.username).toLowerCase().indexOf(q)>=0}).sort(function(a,b){return(vset[b.id]?1:0)-(vset[a.id]?1:0)}).slice(0,60).forEach(function(u){var row=el("div","mr"),sp=el("span","",u.name+(u.username?" @"+u.username:"")),v=vb(u.id);if(v)sp.appendChild(v);row.appendChild(sp);row.appendChild(btn(vset[u.id]?t("uv"):t("vf"),async function(){try{await db.doc("verified/"+u.id).set({v:!vset[u.id],by:me,ts:Date.now()})}catch(e){M.textContent="Could not save."}}));row.appendChild(btn("🪙",function(){grantCoins(u)}));L.appendChild(row)})}
+try{var s=await db.collection("profiles").get();s.docs.forEach(function(d){var x=d.data()||{};if(x.visible===true)all.push({id:d.id,name:x.name||"?",username:x.username||"",wno:x.wno||""})})}catch(e){M.textContent="…"}
+function dr(){var q=i.value.trim().toLowerCase().replace("@","");var qd=q.replace(/\D/g,"");L.textContent="";all.filter(function(u){return!q||(u.name+" "+u.username).toLowerCase().indexOf(q)>=0||(qd.length>=4&&String(u.wno||"").indexOf(qd)>=0)}).sort(function(a,b){return(vset[b.id]?1:0)-(vset[a.id]?1:0)}).slice(0,60).forEach(function(u){var row=el("div","mr"),sp=el("span","",u.name+(u.username?" @"+u.username:"")+(u.wno?" · "+fmtW(u.wno):"")),v=vb(u.id);if(v)sp.appendChild(v);row.appendChild(sp);row.appendChild(btn(vset[u.id]?t("uv"):t("vf"),async function(){try{await db.doc("verified/"+u.id).set({v:!vset[u.id],by:me,ts:Date.now()})}catch(e){M.textContent="Could not save."}}));row.appendChild(btn("🪙",function(){grantCoins(u)}));L.appendChild(row)});wLookupRow(L,q)}
 i.oninput=dr;admDraw=dr;dr()}
 $("adm").onclick=adminPanel;
 async function toggleFollow(id){if(!db||!me||id===me)return;var on=isF(id);
@@ -1479,6 +1480,7 @@ var _xr=xpRef;xpRef=function(f){var a=document.activeElement;if(!f&&a&&a.tagName
 $("xpx").addEventListener("click",function(){$("xpn").style.zIndex=""});
 /* wallet panel */
 function wallet(b){var c=card(b,"hero");c.appendChild(el("small","","EXX Coins wallet"));
+ var wn=el("div","xsw");wn.appendChild(el("span","","🔢 Wallet number"));wn.appendChild(el("b","",WNO?fmtW(WNO):"…"));c.appendChild(wn);if(WNO){c.appendChild(xb("Copy wallet number",function(){copyW()}));c.appendChild(el("small","xs",(prof.name||"")+" · give this number to the team to receive coins"))}
  [["🪙 Purchased EXX Coins",WAL.coins],["🎁 Creator earnings",WAL.earn],["🏦 Withdrawable balance",WAL.withdrawable]].forEach(function(x){var r=el("div","xsw");r.appendChild(el("span","",x[0]));r.appendChild(el("b","",(x[1]||0).toLocaleString()));c.appendChild(r)});
  if(!EXX_API){var n=card(b);n.appendChild(el("b","","Payments are not connected"));n.appendChild(el("small","xs","Buying coins, gifting and withdrawals stay off until a payment provider and wallet server are connected. Balances only change after the server confirms."))}
  var k=card(b);k.appendChild(el("b","","Buy EXX Coins"));var sel=el("select","xi");Object.keys(CT).sort(function(x,y){return CT[x][0]<CT[y][0]?-1:1}).forEach(function(cc){var o=el("option","",CT[cc][0]+" ("+CT[cc][1]+")");o.value=cc;if(cc===CTY)o.selected=true;sel.appendChild(o)});
@@ -1750,10 +1752,55 @@ function shPoll(p){sharePost({name:p.name||"?",text:"📊 "+p.q+"\n"+p.opts.map(
 function plAddOpt(p){m2(t("plAddT"),t("plO"),[{l:t("plAddB"),p:1,f:function(){var v=$("m2i").value.trim().slice(0,60);if(!v||p.opts.length>=6)return;$("m2").style.display="none";db.doc("polls/"+p.id).update({opts:p.opts.concat([v])}).catch(function(){})}}],"")}
 function plDelOpt(p,vs){m2(t("plDelT"),null,p.opts.map(function(o,ix){return{l:"✕ "+o,f:function(){if(p.opts.length<=2)return;$("m2").style.display="none";var no=p.opts.filter(function(x,j){return j!==ix});db.doc("polls/"+p.id).update({opts:no}).then(function(){vs.forEach(function(v){var d=db.doc("pvotes/"+p.id+"_"+v.by);if(v.opt===ix)d.delete().catch(function(){});else if(v.opt>ix)d.update({opt:v.opt-1}).catch(function(){})})}).catch(function(){})}}}),t("plDelNote"))}
 
-/* ===== owner only: add EXX Coins to any user (the SERVER checks the owner; this page never changes balances itself) ===== */
-function grantCoins(u){if(!isOwner)return;
- m2("🪙 Add coins to "+(u.name||"?"),"Number of coins (1 to 1,000,000)",[{l:"←",f:function(){adminPanel()}},{l:"Add coins",p:1,f:async function(){var n=parseInt($("m2i").value,10);if(!(n>=1&&n<=1000000)){toast(function(){},"Enter a number from 1 to 1,000,000.","");return}
-  try{await exx("/admin/grant",{uid:u.id,coins:n,idem:rid("g")});$("m2").style.display="none";toast(function(){},"Coins added",n.toLocaleString()+" 🪙 → "+(u.name||"?"))}catch(e){toast(function(){},exxErr(e),"")}}}],"The wallet server checks that you are the owner account before adding coins.");$("m2i").inputMode="numeric"}
+/* ===== wallet numbers: every member gets a unique 10-digit number (claimed once, never reused) ===== */
+var WNO=null,WLK2=null;
+function fmtW(n){n=String(n||"");return n.length===10?n.slice(0,3)+" "+n.slice(3,6)+" "+n.slice(6):n}
+function copyW(){var v=String(WNO||"");if(!v)return;var sh=function(){toast(function(){},"Your wallet number",fmtW(v))};try{navigator.clipboard.writeText(v).then(function(){toast(function(){},"Copied",fmtW(v))},sh)}catch(e){sh()}}
+async function ensureWno(){if(!(db&&me))return;
+ try{var c=ld("epx_wno_"+me,null);if(c){WNO=c;xpRef()}
+  var pd=await db.doc("profiles/"+me).get(),pw=pd.exists&&pd.data()&&pd.data().wno;
+  if(pw){WNO=pw;lsv("epx_wno_"+me,pw);xpRef();return}
+  if(c){await db.doc("profiles/"+me).set({wno:c},{merge:true});return}
+  var nm=prof.name||"?";
+  for(var k=0;k<12;k++){var num=String(1000000000+Math.floor(Math.random()*9000000000)),ref=db.doc("wnums/"+num),ok=false;
+   try{await db.runTransaction(async function(tx){var s=await tx.get(ref);if(s.exists)throw new Error("taken");tx.set(ref,{uid:me,name:nm,ts:Date.now()})});ok=true}catch(e){if(!(e&&e.message==="taken"))throw e}
+   if(ok){await db.doc("profiles/"+me).set({wno:num},{merge:true});WNO=num;lsv("epx_wno_"+me,num);xpRef();return}}
+ }catch(e){}}
+/* own balance + history (same as before; guarded so it never attaches twice) */
+function wLis(){if(!(db&&me)||WLK2===me)return;WLK2=me;
+ lis(db.doc("wallets/"+me),function(d){var x=d.data&&d.data()||{};WAL={coins:x.coins||0,earn:x.earn||0,withdrawable:x.withdrawable||0};xpRef()});
+ lis(db.collection("wtx").where("uid","==",me),function(s){WTX=s.docs.map(function(d){return d.data()}).sort(function(a,b){return b.ts-a.ts});xpRef()})}
+var _xl4=xLive;xLive=function(){_xl4();ensureWno();wLis()};
+if(db&&me){ensureWno();wLis()}
+
+/* ===== owner only: add EXX Coins by wallet number / name ===== */
+/* The owner signs in with Firebase Authentication; the database rules (or the wallet server) check it. This page never decides who is the owner. */
+function authErr(e){var c=e&&e.code||"";return c==="auth/wrong-password"||c==="auth/invalid-credential"||c==="auth/invalid-login-credentials"?"Wrong password.":c==="auth/user-not-found"?"The owner account is not created in Firebase Authentication yet.":c==="auth/operation-not-allowed"?"Email/Password sign-in is not turned on in Firebase.":c==="auth/too-many-requests"?"Too many tries. Wait a few minutes.":"Could not sign in."}
+function grantErr(e){return e&&e.code==="permission-denied"?"The database rules do not allow this yet. Add the wallet rules in Firebase.":exxErr(e)}
+function ownerSignedIn(){try{var u=firebase.auth().currentUser;return!!(u&&OWNER_EMAILS.indexOf(String(u.email||"").toLowerCase())>=0)}catch(e){return false}}
+function ownerSignIn(next,back){var em=(acct&&acct.email&&OWNER_EMAILS.indexOf(String(acct.email).toLowerCase())>=0)?acct.email:OWNER_EMAILS[0];
+ m2("🔐 Owner sign-in","Owner password",[{l:"←",f:back},{l:"Sign in",p:1,f:async function(){var pw=$("m2i").value;if(!pw)return;
+  try{await firebase.auth().signInWithEmailAndPassword(String(em).trim(),pw)}catch(e){toast(function(){},authErr(e),"");return}
+  $("m2i").type="text";next()}}],"Coins can only be added while you are signed in as the owner ("+em+").");$("m2i").type="password";$("m2m").style.whiteSpace=""}
+async function ownerGrant(uid,n,idem){
+ if(EXX_API){await exx("/admin/grant",{uid:uid,coins:n,idem:idem});return}
+ var au=firebase.auth().currentUser,FV=firebase.firestore.FieldValue,gr=db.doc("grants/"+idem),wr=db.doc("wallets/"+uid);
+ await db.runTransaction(async function(tx){var g=await tx.get(gr);if(g.exists)return;
+  tx.set(wr,{coins:FV.increment(n)},{merge:true});
+  tx.set(db.collection("wtx").doc(),{uid:uid,type:"grant",coins:n,note:"Added by EPGEXX team",ts:Date.now(),by:au.uid});
+  tx.set(gr,{uid:uid,coins:n,by:au.uid,email:au.email,ts:Date.now()})})}
+async function grantCoins(u){if(!isOwner||!db)return;
+ var w=u.wno;if(!w){try{var d=await db.doc("profiles/"+u.id).get();w=d.exists&&d.data()&&d.data().wno}catch(e){}}
+ var idem=rid("g"),nm=u.name||"?";
+ var run=async function(n){try{await ownerGrant(u.id,n,idem);$("m2").style.display="none";$("m2i").type="text";toast(function(){},"Coins added",n.toLocaleString()+" 🪙 → "+nm+(w?" · "+fmtW(w):""))}catch(e){toast(function(){},grantErr(e),"")}};
+ m2("🪙 Add coins to "+nm,"Number of coins (1 to 1,000,000)",[{l:"←",f:function(){adminPanel()}},{l:"Add coins",p:1,f:function(){var n=parseInt($("m2i").value,10);if(!(n>=1&&n<=1000000)){toast(function(){},"Enter a number from 1 to 1,000,000.","");return}
+  if(!ownerSignedIn()){ownerSignIn(function(){run(n)},function(){grantCoins(u)});return}run(n)}}],
+  "Wallet number: "+(w?fmtW(w):"not created yet (the member must open the app once)")+"\nOnly the owner account can add coins.");
+ $("m2i").inputMode="numeric";$("m2m").style.whiteSpace="pre-line"}
+/* type a 10-digit wallet number in the owner panel search box to find a member */
+function wLookupRow(L,q){var d=String(q||"").replace(/\D/g,"");if(d.length!==10)return;var row=el("div","mr");row.appendChild(el("span","","🔎 Wallet "+fmtW(d)));
+ row.appendChild(btn("🪙",async function(){try{var s=await db.doc("wnums/"+d).get();if(!s.exists){toast(function(){},"No wallet with that number.","");return}var uid=s.data().uid,nm=s.data().name||"?";
+  try{var p=await db.doc("profiles/"+uid).get();if(p.exists&&p.data().name)nm=p.data().name}catch(e){}grantCoins({id:uid,name:nm,wno:d})}catch(e){toast(function(){},"Could not look that up.","")}}));L.appendChild(row)}
 </script>
 </body>
 </html>
