@@ -1,0 +1,48 @@
+EPGEXX CONNECT - wallet setup (about 5 minutes, no Cloud Function needed)
+
+STEP 1 - Create the owner login in Firebase
+  Firebase console > Authentication > Sign-in method > turn ON "Email/Password".
+  Authentication > Users > Add user:
+     email    = gblu.global@gmail.com
+     password = (choose a strong one, only you know it)
+  Copy the "User UID" shown for that user.
+
+STEP 2 - Add these rules in Firestore > Rules
+  Put them INSIDE:  match /databases/{database}/documents { ... }
+  Replace PASTE_OWNER_UID_HERE with the UID from step 1.
+
+    function isOwner() {
+      return request.auth != null && request.auth.uid == "PASTE_OWNER_UID_HERE";
+    }
+
+    match /wallets/{u} { allow read: if true; allow write: if isOwner(); }
+    match /wtx/{t}     { allow read: if true; allow write: if isOwner(); }
+    match /grants/{g}  { allow read, write: if isOwner(); }
+
+    match /wnums/{n} {
+      allow read: if true;
+      allow create: if n.matches("[0-9]{10}")
+                    && request.resource.data.keys().hasOnly(["uid","name","ts"]);
+      allow update, delete: if false;
+    }
+
+  IMPORTANT: if your rules already contain a catch-all like
+     match /{document=**} { allow read, write: if true; }
+  it overrides everything above and ANYONE could change balances.
+  Remove it (or narrow it so it does not cover wallets, wtx, grants, wnums).
+
+STEP 3 - Use it
+  1. Upload the new index.html to GitHub Pages.
+  2. Every member opens the app once -> they get their own wallet number
+     (Extras > Wallet).
+  3. Owner: open the owner panel, search by name OR type the 10-digit wallet
+     number, tap the coin button, type the amount. First time it asks for the
+     owner password (Step 1); after that you stay signed in on that device.
+
+Notes
+  - Leave EXX_API empty for now. Adding coins works without it.
+    Buying coins with a payment provider, gifts and withdrawals still need
+    a wallet server later.
+  - Balances can be read by anyone who knows a member's internal ID, because
+    the app's own login is not a Firebase login. Nobody can change them
+    except the owner account.
