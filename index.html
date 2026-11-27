@@ -1634,9 +1634,9 @@ function lovDraw(){var l=curLive(),g=l.goal;lov.textContent="";if(l.pin)lov.appe
  if(g&&g.n>0){var cur=g.t==="likes"?likesTot():liveStats().coins,d=el("div","gl","🎯 "+(g.title||"Goal")+" · "+cur.toLocaleString()+" / "+g.n.toLocaleString()),i=el("i","");i.style.width=Math.min(100,Math.round(cur*100/g.n))+"%";d.appendChild(i);lov.appendChild(d)}}
 function shOpen(tab){SHT=tab||0;sh.style.display="flex";shRefresh(1)}
 function shRefresh(f){if(!LV)return;var v=lvViewers(LV.id).length;if(v>(LV.peak||0))LV.peak=v;syncGuests();lovDraw();if(sh.style.display!=="flex")return;var a=document.activeElement;if(!f&&sh.contains(a)&&/INPUT|TEXTAREA|SELECT/.test(a.tagName))return;var b0=sh.querySelector(".lsh-b"),y=b0?b0.scrollTop:0;shBuild();var n=sh.querySelector(".lsh-b");if(n)n.scrollTop=y}
-function shBuild(){var tabs=isHost()?["📊 Stats","💬 Chat","👥 Guests","🎯 Goal","🏆 Gifters"]:["🎁 Gifts","👁 Viewers","🏆 Gifters","⋯ More"].concat(isMod()?["🛡 Moderate"]:[]);if(SHT>=tabs.length)SHT=0;sh.textContent="";
+function shBuild(){var tabs=isHost()?["📊 Stats","💬 Chat","👥 Guests","🎯 Goal","🏆 Gifters","🚫 Blocked"]:["🎁 Gifts","👁 Viewers","🏆 Gifters","⋯ More"].concat(isMod()?["🛡 Moderate","🚫 Blocked"]:[]);if(SHT>=tabs.length)SHT=0;sh.textContent="";
  var hd=el("div","lsh-h");tabs.forEach(function(n,i){var b=el("button",i===SHT?"on":"",n);b.type="button";b.onclick=function(){SHT=i;shBuild()};hd.appendChild(b)});var x=el("button","lsh-x","✕");x.type="button";x.setAttribute("aria-label","Close");x.onclick=function(){sh.style.display="none"};hd.appendChild(x);sh.appendChild(hd);var b=el("div","lsh-b");sh.appendChild(b);var k=tabs[SHT];
- if(k==="📊 Stats")tStats(b);else if(k==="💬 Chat"||k==="🛡 Moderate")tChat(b);else if(k==="👥 Guests")tGuests(b);else if(k==="🎯 Goal")tGoal(b);else if(k==="🏆 Gifters")tTop(b);else if(k==="🎁 Gifts")tShop(b);else if(k==="👁 Viewers")tView(b);else tMore(b)}
+ if(k==="📊 Stats")tStats(b);else if(k==="💬 Chat"||k==="🛡 Moderate")tChat(b);else if(k==="👥 Guests")tGuests(b);else if(k==="🎯 Goal")tGoal(b);else if(k==="🏆 Gifters")tTop(b);else if(k==="🚫 Blocked")tBlocked(b);else if(k==="🎁 Gifts")tShop(b);else if(k==="👁 Viewers")tView(b);else tMore(b)}
 function tile(g,l,v){var d=el("div","st");d.appendChild(el("small","",l));d.appendChild(el("b","",String(v)));g.appendChild(d)}
 function trk(){return FX?FX.raw:LV.ls}
 function endAsk(){m2("End LIVE?",null,[{l:"⏹ End LIVE",p:1,f:function(){$("m2").style.display="none";closeLive()}}],"Your viewers will be disconnected and a summary will be shown.")}
@@ -1657,6 +1657,23 @@ function tChat(b){var h=isHost();if(h){var l=curLive(),i=xin("Blocked words, com
   if(h)bt("🛡",function(){db.doc("lives/"+LV.id).update({mods:(curLive().mods||[]).indexOf(c.by)>=0?FVal().arrayRemove(c.by):FVal().arrayUnion(c.by)})},"Moderator on/off");
   bt("⚑",function(){report(c.by,"user")},"Report");b.appendChild(r)});
  if(h&&curLive().pin)b.appendChild(xb("Unpin comment",function(){db.doc("lives/"+LV.id).update({pin:FVal().delete()})}))}
+function tBlocked(b){var h=isHost(),l=curLive();
+ function nm(u){var c=LVC.filter(function(x){return x.by===u&&x.name})[0];if(c)return c.name;var p=LVP.filter(function(x){return x.uid===u&&x.name})[0];return p?p.name:"User "+String(u).slice(0,5)}
+ function uq(ty){var o=[];LM.forEach(function(m){if(m.type===ty&&!m.key&&o.indexOf(m.uid)<0)o.push(m.uid)});return o}
+ function btn(r,lb,fn){var x=el("button","",lb);x.type="button";x.onclick=fn;r.appendChild(x)}
+ function sec(t0,list,lb,ty){b.appendChild(el("div","xh",t0+" · "+list.length));if(!list.length)b.appendChild(el("div","empty","Nobody."));list.forEach(function(u){var r=el("div","cr2");r.appendChild(el("span","",nm(u)));btn(r,lb,function(){mset(u,ty)});b.appendChild(r)})}
+ var bl=uq("block"),mu=uq("mute");
+ sec("🚫 Blocked (removed from LIVE)",bl,"Unblock","block");
+ sec("🔇 Muted (cannot comment)",mu,"Unmute","mute");
+ b.appendChild(el("div","xh","📌 Pinned comment"));
+ if(l.pin){var pr=el("div","cr2");pr.appendChild(el("span","",(l.pin.name||"")+": "+(l.pin.text||"")));if(h)btn(pr,"Unpin",function(){db.doc("lives/"+LV.id).update({pin:FVal().delete()})});b.appendChild(pr)}else b.appendChild(el("div","empty","No pinned comment. Pin one from the Chat tab (📌)."));
+ var ids=[];lvViewers(LV.id).forEach(function(p){if(ids.indexOf(p.uid)<0)ids.push(p.uid)});LVC.forEach(function(c){if(!c.g&&c.by&&ids.indexOf(c.by)<0)ids.push(c.by)});
+ ids=ids.filter(function(u){return u!==me&&u!==LV.host&&bl.indexOf(u)<0});
+ b.appendChild(el("div","xh","People in this LIVE · "+ids.length));if(!ids.length)b.appendChild(el("div","empty","Nobody else here yet."));
+ ids.forEach(function(u){var r=el("div","cr2");r.appendChild(el("span","",nm(u)));
+  if(mu.indexOf(u)<0)btn(r,"🔇 Mute",function(){mset(u,"mute")});
+  btn(r,"🚫 Block",function(){m2("Block "+nm(u)+"?",null,[{l:"🚫 Block",p:1,f:function(){$("m2").style.display="none";mset(u,"block")}}],"They will be removed from this LIVE and cannot come back to it.")});
+  b.appendChild(r)})}
 function syncGuests(){if(!LV)return;var gs=curLive().guests||[];
  if(LV.mine){LV.gd=LV.gd||{};gs.forEach(function(u){if(!LV.gd[u]){LV.gd[u]=1;var o=LV.pcs[u];if(o){try{o.pc.close()}catch(e){}delete LV.pcs[u]}}});
   Object.keys(LV.gd).forEach(function(u){var left=LR.some(function(r){return r.uid===u&&r.st==="left"});if(gs.indexOf(u)<0||left){if(left&&gs.indexOf(u)>=0)db.doc("lives/"+LV.id).update({guests:FVal().arrayRemove(u)}).catch(function(){});delete LV.gd[u];if(LV.gv&&LV.gv[u]){LV.gv[u].srcObject=null;delete LV.gv[u]}var o=LV.pcs[u];if(o){try{o.pc.close()}catch(e){}delete LV.pcs[u]}}})}
