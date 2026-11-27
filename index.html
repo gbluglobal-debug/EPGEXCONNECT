@@ -378,6 +378,12 @@ body{display:flex;flex-direction:column}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="EPGEXX">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
 <noscript><h1>EPGEXX CONNECT</h1><p>EPGEXX CONNECT is a free chat app for messaging friends, creating groups and channels, adding members by email or username, and calling. Sign up with email verification in English, Amharic or Chinese. Please turn on JavaScript to use the app.</p></noscript>
@@ -1948,6 +1954,9 @@ function txScreen(b){if(WDL!==me){WDL=me;wdLoad()}
 
 /* ---- password before sending gifts (remembered for 5 minutes) ---- */
 var _sgp=sendGift;sendGift=function(g){if(!LV)return;askPw("Confirm gift","Enter your login password to send "+g.e+" "+g.n+" ("+g.c.toLocaleString()+" coins).",function(){_sgp(g)},0)};
+</script>
+<script>
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 </script>
 </body>
 </html>
