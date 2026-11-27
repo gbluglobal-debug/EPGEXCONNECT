@@ -84,6 +84,30 @@ section{flex:1;display:flex;flex-direction:column;min-width:0}
 #toast{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);z-index:60;width:min(92vw,420px);display:none;background:var(--head);color:#fff;border-radius:12px;padding:10px 14px;box-shadow:0 6px 24px rgba(0,0,0,.3);cursor:pointer}
 #toast b,#toast span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #toast span{opacity:.85;font-size:.85rem}
+#cv{display:none;position:fixed;inset:0;z-index:80;background:#0a1430;color:#fff;flex-direction:column;align-items:center;justify-content:center;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+#cv video{background:#000}
+#rv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
+#lv{position:absolute;right:12px;top:calc(12px + env(safe-area-inset-top,0px));width:96px;height:132px;object-fit:cover;border-radius:12px;border:2px solid rgba(255,255,255,.4);display:none;z-index:2;transform:scaleX(-1)}
+#cv.vid #rv,#cv.vid #lv{display:block}
+#cvi{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+#cvav .av{width:96px;height:96px;font-size:2.8rem}
+#cvn{font-size:1.5rem;font-weight:700}#cvs{opacity:.85}
+#cv.vid.on #cvav{display:none}
+#cv.vid.on #cvi{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));left:14px;align-items:flex-start;text-align:left}
+#cvb{position:absolute;bottom:calc(28px + env(safe-area-inset-bottom,0px));display:flex;gap:16px;z-index:3}
+#cvb button{width:60px;height:60px;border-radius:50%;border:0;font-size:1.5rem;cursor:pointer;background:rgba(255,255,255,.22);color:#fff}
+#cvb #cva{background:#1db954}#cvb #cvd{background:#d93025;width:auto;border-radius:30px;padding:0 22px;font-size:1.1rem}
+.m small .mo{float:right;border:0;background:none;color:inherit;font-size:1rem;line-height:1;padding:0 2px 0 10px;cursor:pointer;opacity:.8}
+#eb{font-size:.8rem;color:var(--acc)}#eb button{border:0;background:none;color:inherit;cursor:pointer;font-size:1rem}
+#mnt,#emo{display:none;border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:6px}
+#mnt{max-height:200px;overflow:auto}#mnt .mi{display:flex;gap:10px;align-items:center;padding:7px 10px;cursor:pointer}#mnt .mi:hover{background:var(--key)}
+#emo .et{display:flex;border-bottom:1px solid var(--line)}#emo .et button{flex:1;border:0;background:none;font-size:1.2rem;padding:6px 0;cursor:pointer}#emo .et .on{background:var(--key)}
+#emo .eg{display:flex;flex-wrap:wrap;max-height:150px;overflow-y:auto;padding:4px}#emo .eg button{border:0;background:none;font-size:1.4rem;width:12.5%;min-width:38px;padding:4px 0;cursor:pointer}
+.tools{display:flex;gap:6px;align-items:center;margin-left:auto}.tools #emb,.tools #att{border:0;background:none;font-size:1.3rem;cursor:pointer;padding:0 4px}
+.m img.pic,.m video{display:block;width:min(320px,70vw);height:auto;max-height:340px;object-fit:contain;border-radius:10px;background:#000}.m img.pic{cursor:zoom-in}
+.m .vl{border:1px dashed currentColor;background:none;color:inherit;border-radius:10px;padding:18px 14px;cursor:pointer}
+.m a{color:inherit;text-decoration:underline;word-break:break-all}
+#lb{display:none;position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.9);place-items:center;cursor:zoom-out}#lb img{max-width:96vw;max-height:92vh}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -100,11 +124,12 @@ section{flex:1;display:flex;flex-direction:column;min-width:0}
 <div id="list"></div>
 </aside>
 <section>
-<div class="hd"><button id="back" type="button">←</button><b id="ttl" style="flex:1"></b><button id="call" type="button" style="display:none;border:0;background:none;font-size:1.3rem;cursor:pointer">📞</button><button id="info" type="button" style="display:none;border:0;background:none;font-size:1.3rem;cursor:pointer">ⓘ</button><button id="del" type="button" style="display:none;border:0;background:none;font-size:1.3rem;cursor:pointer">🗑</button></div>
+<div class="hd"><button id="back" type="button">←</button><b id="ttl" style="flex:1"></b><button id="call" type="button" style="display:none;border:0;background:none;font-size:1.3rem;cursor:pointer">📞</button><button id="vcall" type="button" title="Video call" style="display:none;border:0;background:none;font-size:1.3rem;cursor:pointer">🎥</button><button id="info" type="button" style="display:none;border:0;background:none;font-size:1.3rem;cursor:pointer">ⓘ</button><button id="del" type="button" style="display:none;border:0;background:none;font-size:1.3rem;cursor:pointer">🗑</button></div>
 <div id="msgs"></div>
 <div id="note" class="note"></div>
 <div class="comp">
-<div class="bar"><button id="md" type="button"></button></div>
+<div id="mnt"></div><div id="emo"></div>
+<div class="bar"><span id="eb" style="display:none">✏️ <span id="ebt"></span> <button id="ex" type="button">✕</button></span><span class="tools"><button id="emb" type="button" title="Emoji">😊</button><button id="att" type="button" title="Photo / video">📎</button><input id="fl" type="file" accept="image/*,video/*" style="display:none"><button id="md" type="button"></button></span></div>
 <div id="boxw"><div id="box" class="g"></div><div id="lat"></div><div id="kb"></div></div>
 <input id="abc" type="text" data-p="type" autocomplete="off">
 </div>
@@ -123,6 +148,8 @@ section{flex:1;display:flex;flex-direction:column;min-width:0}
 </div></div>
 <div id="m2"><div class="c"><b id="m2t"></b><input id="m2i" type="text"><div id="m2l"></div><div id="m2m" style="font-size:.8rem;color:var(--mute);min-height:1em"></div><div id="m2b" class="b"></div></div></div>
 <div id="toast"></div>
+<div id="lb"><img id="lbi" alt=""></div>
+<div id="cv"><video id="rv" autoplay playsinline></video><video id="lv" autoplay playsinline muted></video><div id="cvi"><div id="cvav"></div><div id="cvn"></div><div id="cvs"></div></div><div id="cvb"><button id="cvm" type="button">🎤</button><button id="cvc" type="button">🎥</button><button id="cva" type="button">✅</button><button id="cvd" type="button">📵</button></div></div>
 <script>
 /* ===== OWNER: put your claude.ai email here (lowercase). Only this account sees the GBLU verify button. ===== */
 var OWNER_EMAILS=["gblu.global@gmail.com"],isOwner=false,vset={},admDraw=null,FD=[];
@@ -131,12 +158,21 @@ function gl(c){c=String(c).toUpperCase();var i=LET.indexOf(c);if(i>=0&&c.length=
 function lat(s){return Array.from(s).map(function(ch){var c=ch.charCodeAt(0);return c>=57344&&c<57370?LET[c-57344]:(c>=57376&&c<57386?DIG[c-57376]:ch)}).join("").replace(/:::/g,".").replace(/:/g," ")}
 function toEpg(s){return Array.from(s).map(function(ch){return gl(ch)||ch}).join("")}
 var T={
-en:{search:"Search people or chats",bot:"EPGEXX Assistant (AI)",noRes:"No people found",add:"Add",added:"Added",type:"Write a message",profile:"My profile",name:"Name",username:"Username (letters, numbers, _)",bio:"About me",save:"Save",close:"Close",names:"Show names in EPGEXX",notice:"Test version: messages are kept in a shared test database and are not private. Do not send secrets.",signin:"Sign in to claude.ai to message people.",empty:"Select a chat to start",aiFail:"The assistant is not available here.",taken:"That username is taken.",fail:"Message could not be sent.",saved:"Saved",emailL:"Your email",allowq:"Let other users see you in their contacts?",allow:"Allow",deny:"Don't allow",cont:"Continue",signinT:"Sign in to EPGEXX CONNECT",people:"People on EPGEXX CONNECT",out:"Sign out",badEmail:"Enter a valid email and choose Allow or Don't allow.",nG:"New group",nC:"New channel",bE:"Add or call by email",cn:"Name",cr:"Create",em:"Their email",ac:"Add contact",cl:"Call",nf:"No user found. They must have signed in and chosen Allow.",ad:"Add",rm:"Remove",pr:"Make admin",dm:"Remove admin",lv:"Leave",dl:"Delete",mp:"Members can send messages",ma:"Members can add people",ro:"Only admins can post here.",ri:"is calling you",ac2:"Accept",dc:"Decline",rg:"Ringing…",cs:"Accepted (voice is not available yet)",cd:"Declined",hu:"Hang up",dgr:"Delete this group",dch:"Delete this channel",dq:"Delete for everyone? This cannot be undone.",dy:"Yes, delete",no:"Cancel",gt:"GBLU verification",gs:"Search name or @username",vf:"Verify",uv:"Remove verification",gm:"GBLU verified",fo:"Follow",fg:"Following",frs:"Followers",fgs:"Following",ms:"Message",nb:"Nobody yet",ep:"Edit profile",fby:"Followed by",and:"and",pw:"Password",si:"Sign in",su:"Create account",sw1:"No account? Create one",sw2:"Already have an account? Sign in",bc:"Wrong email or password.",ex:"This email already has an account. Sign in instead.",sh:"Password must be at least 6 characters.",nd:"Cannot reach the server. Open this page on claude.ai.",wk:"Please wait…",show:"Show",hide:"Hide",idL:"Email or username",usernameS:"Username (letters, numbers, _)",sendc:"Send code",codeL:"Verification code (6 digits)",codeSent:"We sent a 6-digit code to",ver:"Verify",resend:"Resend code",back:"Back",pw2:"Confirm password",mism:"Passwords do not match.",badU:"Username must be 3–20 letters, numbers or _.",badCode:"Wrong or expired code.",mailFail:"Could not send the email. Try again.",demoNote:"DEMO MODE: no email service is connected. Your code:",setpw:"Choose your password",em:"Their email or username",bE:"Add or call by email or username",nf:"No user found. They must have signed up and chosen Allow.",bc:"Wrong email/username or password."},
-am:{search:"ሰዎችን ወይም ውይይቶችን ፈልግ",bot:"EPGEXX ረዳት (AI)",noRes:"ማንም አልተገኘም",add:"አክል",added:"ታክሏል",type:"መልእክት ይጻፉ",profile:"መገለጫዬ",name:"ስም",username:"የተጠቃሚ ስም (ፊደል፣ ቁጥር፣ _)",bio:"ስለ እኔ",save:"አስቀምጥ",close:"ዝጋ",names:"ስሞችን በEPGEXX አሳይ",notice:"የሙከራ ስሪት፦ መልእክቶች በጋራ የሙከራ ዳታቤዝ ውስጥ ይቀመጣሉ፤ የግል አይደሉም። ሚስጥር አይላኩ።",signin:"ለሰዎች መልእክት ለመላክ claude.ai ላይ ይግቡ።",empty:"ለመጀመር ውይይት ይምረጡ",aiFail:"ረዳቱ እዚህ አይገኝም።",taken:"ይህ የተጠቃሚ ስም ተወስዷል።",fail:"መልእክቱ አልተላከም።",saved:"ተቀምጧል",emailL:"ኢሜይልዎ",allowq:"ሌሎች ተጠቃሚዎች በእውቂያዎቻቸው ውስጥ እንዲያዩዎት ይፈቅዳሉ?",allow:"ፍቀድ",deny:"አትፍቀድ",cont:"ቀጥል",signinT:"ወደ EPGEXX CONNECT ይግቡ",people:"በEPGEXX CONNECT ላይ ያሉ ሰዎች",out:"ውጣ",badEmail:"ትክክለኛ ኢሜይል ያስገቡ እና ፍቀድ ወይም አትፍቀድ ይምረጡ።",nG:"አዲስ ቡድን",nC:"አዲስ ቻናል",bE:"በኢሜይል ጨምር ወይም ደውል",cn:"ስም",cr:"ፍጠር",em:"ኢሜይላቸው",ac:"እውቂያ አክል",cl:"ደውል",nf:"ተጠቃሚ አልተገኘም። መግባትና ፍቀድ መምረጥ አለባቸው።",ad:"አክል",rm:"አስወግድ",pr:"አስተዳዳሪ አድርግ",dm:"አስተዳዳሪነትን አስወግድ",lv:"ውጣ",dl:"ሰርዝ",mp:"አባላት መልእክት መላክ ይችላሉ",ma:"አባላት ሰዎችን ማከል ይችላሉ",ro:"እዚህ አስተዳዳሪዎች ብቻ መለጠፍ ይችላሉ።",ri:"እየደወሉልዎ ነው",ac2:"ተቀበል",dc:"አልቀበል",rg:"እየጠራ ነው…",cs:"ተቀብሏል (ድምፅ ገና አይሰራም)",cd:"አልተቀበለም",hu:"ጥሪ ዝጋ",dgr:"ይህን ቡድን ሰርዝ",dch:"ይህን ቻናል ሰርዝ",dq:"ለሁሉም ይሰረዝ? ይህ ሊመለስ አይችልም።",dy:"አዎ፣ ሰርዝ",no:"ተው",gt:"የGBLU ማረጋገጫ",gs:"ስም ወይም @የተጠቃሚ ስም ፈልግ",vf:"አረጋግጥ",uv:"ማረጋገጫ አስወግድ",gm:"GBLU የተረጋገጠ",fo:"ተከተል",fg:"እየተከተሉ ነው",frs:"ተከታዮች",fgs:"የሚከተሏቸው",ms:"መልእክት",nb:"ገና ማንም የለም",ep:"መገለጫ አርትዕ",fby:"ተከታዮች፦",and:"እና",pw:"የይለፍ ቃል",si:"ግባ",su:"መለያ ፍጠር",sw1:"መለያ የለዎትም? ይፍጠሩ",sw2:"መለያ አለዎት? ይግቡ",bc:"ኢሜይሉ ወይም የይለፍ ቃሉ ትክክል አይደለም።",ex:"ይህ ኢሜይል መለያ አለው። ይልቁንስ ይግቡ።",sh:"የይለፍ ቃል ቢያንስ 6 ቁምፊ መሆን አለበት።",nd:"አገልጋዩን ማግኘት አልተቻለም። ይህን ገጽ በclaude.ai ላይ ይክፈቱ።",wk:"እባክዎ ይጠብቁ…",show:"አሳይ",hide:"ደብቅ",idL:"ኢሜይል ወይም የተጠቃሚ ስም",usernameS:"የተጠቃሚ ስም (ፊደል፣ ቁጥር፣ _)",sendc:"ኮድ ላክ",codeL:"የማረጋገጫ ኮድ (6 ቁጥሮች)",codeSent:"ባለ 6 አሃዝ ኮድ ወደዚህ ልከናል፦",ver:"አረጋግጥ",resend:"ኮዱን እንደገና ላክ",back:"ተመለስ",pw2:"የይለፍ ቃል አረጋግጥ",mism:"የይለፍ ቃላቱ አይመሳሰሉም።",badU:"የተጠቃሚ ስም 3–20 ፊደል፣ ቁጥር ወይም _ መሆን አለበት።",badCode:"ኮዱ የተሳሳተ ወይም ጊዜው ያለፈ ነው።",mailFail:"ኢሜይሉን መላክ አልተቻለም። እንደገና ይሞክሩ።",demoNote:"የሙከራ ሁነታ፦ የኢሜይል አገልግሎት አልተገናኘም። ኮድዎ፦",setpw:"የይለፍ ቃልዎን ይምረጡ",em:"ኢሜይላቸው ወይም የተጠቃሚ ስማቸው",bE:"በኢሜይል ወይም በተጠቃሚ ስም ጨምር ወይም ደውል",bc:"ኢሜይሉ/የተጠቃሚ ስሙ ወይም የይለፍ ቃሉ ትክክል አይደለም።"},
-zh:{search:"搜索联系人或聊天",bot:"EPGEXX 助手 (AI)",noRes:"未找到用户",add:"添加",added:"已添加",type:"输入消息",profile:"我的资料",name:"姓名",username:"用户名（字母、数字、_）",bio:"个人简介",save:"保存",close:"关闭",names:"用 EPGEXX 显示名字",notice:"测试版：消息保存在共享测试数据库中，并不私密。请勿发送机密信息。",signin:"请登录 claude.ai 以给他人发消息。",empty:"选择一个聊天开始",aiFail:"助手在此处不可用。",taken:"该用户名已被占用。",fail:"消息发送失败。",saved:"已保存",emailL:"你的邮箱",allowq:"是否允许其他用户在联系人中看到你？",allow:"允许",deny:"不允许",cont:"继续",signinT:"登录 EPGEXX CONNECT",people:"EPGEXX CONNECT 上的用户",out:"退出登录",badEmail:"请输入有效邮箱并选择允许或不允许。",nG:"新建群组",nC:"新建频道",bE:"通过邮箱添加或呼叫",cn:"名称",cr:"创建",em:"对方邮箱",ac:"添加联系人",cl:"呼叫",nf:"未找到用户。对方必须已登录并选择「允许」。",ad:"添加",rm:"移除",pr:"设为管理员",dm:"取消管理员",lv:"退出",dl:"删除",mp:"成员可以发送消息",ma:"成员可以添加人员",ro:"只有管理员可以在此发言。",ri:"正在呼叫你",ac2:"接听",dc:"拒绝",rg:"正在呼叫…",cs:"已接听（暂不支持语音）",cd:"已拒绝",hu:"挂断",dgr:"删除此群组",dch:"删除此频道",dq:"为所有人删除？此操作无法撤销。",dy:"是，删除",no:"取消",gt:"GBLU 认证",gs:"搜索姓名或 @用户名",vf:"认证",uv:"取消认证",gm:"GBLU 已认证",fo:"关注",fg:"已关注",frs:"粉丝",fgs:"关注中",ms:"发消息",nb:"暂无",ep:"编辑资料",fby:"关注者：",and:"和",pw:"密码",si:"登录",su:"创建账号",sw1:"没有账号？创建一个",sw2:"已有账号？登录",bc:"邮箱或密码错误。",ex:"该邮箱已注册，请直接登录。",sh:"密码至少需要 6 个字符。",nd:"无法连接服务器。请在 claude.ai 上打开此页面。",wk:"请稍候…",show:"显示",hide:"隐藏",idL:"邮箱或用户名",usernameS:"用户名（字母、数字、_）",sendc:"发送验证码",codeL:"验证码（6位数字）",codeSent:"我们已向以下邮箱发送6位验证码：",ver:"验证",resend:"重新发送验证码",back:"返回",pw2:"确认密码",mism:"两次密码不一致。",badU:"用户名需为3–20位字母、数字或下划线。",badCode:"验证码错误或已过期。",mailFail:"邮件发送失败，请重试。",demoNote:"演示模式：未连接邮件服务。你的验证码：",setpw:"设置密码",em:"对方邮箱或用户名",bE:"通过邮箱或用户名添加或呼叫",bc:"邮箱/用户名或密码错误。"}};
+en:{search:"Search people or chats",bot:"EPGEXX Assistant (AI)",noRes:"No people found",add:"Add",added:"Added",type:"Write a message",profile:"My profile",name:"Name",username:"Username (letters, numbers, _)",bio:"About me",save:"Save",close:"Close",names:"Show names in EPGEXX",signin:"Sign in to claude.ai to message people.",empty:"Select a chat to start",aiFail:"The assistant is not available here.",taken:"That username is taken.",fail:"Message could not be sent.",saved:"Saved",emailL:"Your email",allowq:"Let other users see you in their contacts?",allow:"Allow",deny:"Don't allow",cont:"Continue",signinT:"Sign in to EPGEXX CONNECT",people:"People on EPGEXX CONNECT",out:"Sign out",badEmail:"Enter a valid email and choose Allow or Don't allow.",nG:"New group",nC:"New channel",bE:"Add or call by email",cn:"Name",cr:"Create",em:"Their email",ac:"Add contact",cl:"Call",nf:"No user found. They must have signed in and chosen Allow.",ad:"Add",rm:"Remove",pr:"Make admin",dm:"Remove admin",lv:"Leave",dl:"Delete",mp:"Members can send messages",ma:"Members can add people",ro:"Only admins can post here.",ri:"is calling you",ac2:"Accept",dc:"Decline",rg:"Ringing…",cs:"Accepted (voice is not available yet)",cd:"Declined",hu:"Hang up",dgr:"Delete this group",dch:"Delete this channel",dq:"Delete for everyone? This cannot be undone.",dy:"Yes, delete",no:"Cancel",gt:"GBLU verification",gs:"Search name or @username",vf:"Verify",uv:"Remove verification",gm:"GBLU verified",fo:"Follow",fg:"Following",frs:"Followers",fgs:"Following",ms:"Message",nb:"Nobody yet",ep:"Edit profile",fby:"Followed by",and:"and",pw:"Password",si:"Sign in",su:"Create account",sw1:"No account? Create one",sw2:"Already have an account? Sign in",bc:"Wrong email or password.",ex:"This email already has an account. Sign in instead.",sh:"Password must be at least 6 characters.",nd:"Cannot reach the server. Open this page on claude.ai.",wk:"Please wait…",show:"Show",hide:"Hide",idL:"Email or username",usernameS:"Username (letters, numbers, _)",sendc:"Send code",codeL:"Verification code (6 digits)",codeSent:"We sent a 6-digit code to",ver:"Verify",resend:"Resend code",back:"Back",pw2:"Confirm password",mism:"Passwords do not match.",badU:"Username must be 3–20 letters, numbers or _.",badCode:"Wrong or expired code.",mailFail:"Could not send the email. Try again.",demoNote:"DEMO MODE: no email service is connected. Your code:",setpw:"Choose your password",em:"Their email or username",bE:"Add or call by email or username",nf:"No user found. They must have signed up and chosen Allow.",bc:"Wrong email/username or password."},
+am:{search:"ሰዎችን ወይም ውይይቶችን ፈልግ",bot:"EPGEXX ረዳት (AI)",noRes:"ማንም አልተገኘም",add:"አክል",added:"ታክሏል",type:"መልእክት ይጻፉ",profile:"መገለጫዬ",name:"ስም",username:"የተጠቃሚ ስም (ፊደል፣ ቁጥር፣ _)",bio:"ስለ እኔ",save:"አስቀምጥ",close:"ዝጋ",names:"ስሞችን በEPGEXX አሳይ",signin:"ለሰዎች መልእክት ለመላክ claude.ai ላይ ይግቡ።",empty:"ለመጀመር ውይይት ይምረጡ",aiFail:"ረዳቱ እዚህ አይገኝም።",taken:"ይህ የተጠቃሚ ስም ተወስዷል።",fail:"መልእክቱ አልተላከም።",saved:"ተቀምጧል",emailL:"ኢሜይልዎ",allowq:"ሌሎች ተጠቃሚዎች በእውቂያዎቻቸው ውስጥ እንዲያዩዎት ይፈቅዳሉ?",allow:"ፍቀድ",deny:"አትፍቀድ",cont:"ቀጥል",signinT:"ወደ EPGEXX CONNECT ይግቡ",people:"በEPGEXX CONNECT ላይ ያሉ ሰዎች",out:"ውጣ",badEmail:"ትክክለኛ ኢሜይል ያስገቡ እና ፍቀድ ወይም አትፍቀድ ይምረጡ።",nG:"አዲስ ቡድን",nC:"አዲስ ቻናል",bE:"በኢሜይል ጨምር ወይም ደውል",cn:"ስም",cr:"ፍጠር",em:"ኢሜይላቸው",ac:"እውቂያ አክል",cl:"ደውል",nf:"ተጠቃሚ አልተገኘም። መግባትና ፍቀድ መምረጥ አለባቸው።",ad:"አክል",rm:"አስወግድ",pr:"አስተዳዳሪ አድርግ",dm:"አስተዳዳሪነትን አስወግድ",lv:"ውጣ",dl:"ሰርዝ",mp:"አባላት መልእክት መላክ ይችላሉ",ma:"አባላት ሰዎችን ማከል ይችላሉ",ro:"እዚህ አስተዳዳሪዎች ብቻ መለጠፍ ይችላሉ።",ri:"እየደወሉልዎ ነው",ac2:"ተቀበል",dc:"አልቀበል",rg:"እየጠራ ነው…",cs:"ተቀብሏል (ድምፅ ገና አይሰራም)",cd:"አልተቀበለም",hu:"ጥሪ ዝጋ",dgr:"ይህን ቡድን ሰርዝ",dch:"ይህን ቻናል ሰርዝ",dq:"ለሁሉም ይሰረዝ? ይህ ሊመለስ አይችልም።",dy:"አዎ፣ ሰርዝ",no:"ተው",gt:"የGBLU ማረጋገጫ",gs:"ስም ወይም @የተጠቃሚ ስም ፈልግ",vf:"አረጋግጥ",uv:"ማረጋገጫ አስወግድ",gm:"GBLU የተረጋገጠ",fo:"ተከተል",fg:"እየተከተሉ ነው",frs:"ተከታዮች",fgs:"የሚከተሏቸው",ms:"መልእክት",nb:"ገና ማንም የለም",ep:"መገለጫ አርትዕ",fby:"ተከታዮች፦",and:"እና",pw:"የይለፍ ቃል",si:"ግባ",su:"መለያ ፍጠር",sw1:"መለያ የለዎትም? ይፍጠሩ",sw2:"መለያ አለዎት? ይግቡ",bc:"ኢሜይሉ ወይም የይለፍ ቃሉ ትክክል አይደለም።",ex:"ይህ ኢሜይል መለያ አለው። ይልቁንስ ይግቡ።",sh:"የይለፍ ቃል ቢያንስ 6 ቁምፊ መሆን አለበት።",nd:"አገልጋዩን ማግኘት አልተቻለም። ይህን ገጽ በclaude.ai ላይ ይክፈቱ።",wk:"እባክዎ ይጠብቁ…",show:"አሳይ",hide:"ደብቅ",idL:"ኢሜይል ወይም የተጠቃሚ ስም",usernameS:"የተጠቃሚ ስም (ፊደል፣ ቁጥር፣ _)",sendc:"ኮድ ላክ",codeL:"የማረጋገጫ ኮድ (6 ቁጥሮች)",codeSent:"ባለ 6 አሃዝ ኮድ ወደዚህ ልከናል፦",ver:"አረጋግጥ",resend:"ኮዱን እንደገና ላክ",back:"ተመለስ",pw2:"የይለፍ ቃል አረጋግጥ",mism:"የይለፍ ቃላቱ አይመሳሰሉም።",badU:"የተጠቃሚ ስም 3–20 ፊደል፣ ቁጥር ወይም _ መሆን አለበት።",badCode:"ኮዱ የተሳሳተ ወይም ጊዜው ያለፈ ነው።",mailFail:"ኢሜይሉን መላክ አልተቻለም። እንደገና ይሞክሩ።",demoNote:"የሙከራ ሁነታ፦ የኢሜይል አገልግሎት አልተገናኘም። ኮድዎ፦",setpw:"የይለፍ ቃልዎን ይምረጡ",em:"ኢሜይላቸው ወይም የተጠቃሚ ስማቸው",bE:"በኢሜይል ወይም በተጠቃሚ ስም ጨምር ወይም ደውል",bc:"ኢሜይሉ/የተጠቃሚ ስሙ ወይም የይለፍ ቃሉ ትክክል አይደለም።"},
+zh:{search:"搜索联系人或聊天",bot:"EPGEXX 助手 (AI)",noRes:"未找到用户",add:"添加",added:"已添加",type:"输入消息",profile:"我的资料",name:"姓名",username:"用户名（字母、数字、_）",bio:"个人简介",save:"保存",close:"关闭",names:"用 EPGEXX 显示名字",signin:"请登录 claude.ai 以给他人发消息。",empty:"选择一个聊天开始",aiFail:"助手在此处不可用。",taken:"该用户名已被占用。",fail:"消息发送失败。",saved:"已保存",emailL:"你的邮箱",allowq:"是否允许其他用户在联系人中看到你？",allow:"允许",deny:"不允许",cont:"继续",signinT:"登录 EPGEXX CONNECT",people:"EPGEXX CONNECT 上的用户",out:"退出登录",badEmail:"请输入有效邮箱并选择允许或不允许。",nG:"新建群组",nC:"新建频道",bE:"通过邮箱添加或呼叫",cn:"名称",cr:"创建",em:"对方邮箱",ac:"添加联系人",cl:"呼叫",nf:"未找到用户。对方必须已登录并选择「允许」。",ad:"添加",rm:"移除",pr:"设为管理员",dm:"取消管理员",lv:"退出",dl:"删除",mp:"成员可以发送消息",ma:"成员可以添加人员",ro:"只有管理员可以在此发言。",ri:"正在呼叫你",ac2:"接听",dc:"拒绝",rg:"正在呼叫…",cs:"已接听（暂不支持语音）",cd:"已拒绝",hu:"挂断",dgr:"删除此群组",dch:"删除此频道",dq:"为所有人删除？此操作无法撤销。",dy:"是，删除",no:"取消",gt:"GBLU 认证",gs:"搜索姓名或 @用户名",vf:"认证",uv:"取消认证",gm:"GBLU 已认证",fo:"关注",fg:"已关注",frs:"粉丝",fgs:"关注中",ms:"发消息",nb:"暂无",ep:"编辑资料",fby:"关注者：",and:"和",pw:"密码",si:"登录",su:"创建账号",sw1:"没有账号？创建一个",sw2:"已有账号？登录",bc:"邮箱或密码错误。",ex:"该邮箱已注册，请直接登录。",sh:"密码至少需要 6 个字符。",nd:"无法连接服务器。请在 claude.ai 上打开此页面。",wk:"请稍候…",show:"显示",hide:"隐藏",idL:"邮箱或用户名",usernameS:"用户名（字母、数字、_）",sendc:"发送验证码",codeL:"验证码（6位数字）",codeSent:"我们已向以下邮箱发送6位验证码：",ver:"验证",resend:"重新发送验证码",back:"返回",pw2:"确认密码",mism:"两次密码不一致。",badU:"用户名需为3–20位字母、数字或下划线。",badCode:"验证码错误或已过期。",mailFail:"邮件发送失败，请重试。",demoNote:"演示模式：未连接邮件服务。你的验证码：",setpw:"设置密码",em:"对方邮箱或用户名",bE:"通过邮箱或用户名添加或呼叫",bc:"邮箱/用户名或密码错误。"}};
 Object.assign(T.en,{search:"Search people, groups or channels",noRes:"No results",join:"Join",discG:"Groups and channels",yourG:"Your chats",crp:"Create public",crv:"Create private",pubT:"Public (can be found in search)"});
 Object.assign(T.am,{search:"ሰዎችን፣ ቡድኖችን ወይም ቻናሎችን ፈልግ",noRes:"ምንም አልተገኘም",join:"ግባ",discG:"ቡድኖች እና ቻናሎች",yourG:"የእርስዎ ውይይቶች",crp:"ይፋዊ ፍጠር",crv:"የግል ፍጠር",pubT:"ይፋዊ (በፍለጋ ይገኛል)"});
 Object.assign(T.zh,{search:"搜索联系人、群组或频道",noRes:"未找到结果",join:"加入",discG:"群组和频道",yourG:"你的聊天",crp:"创建公开",crv:"创建私密",pubT:"公开（可被搜索）"});
+Object.assign(T.en,{calling:"Calling…",ce:"Call ended",cm:"Could not use the microphone or camera. Allow access (the page must be opened over https).",na:"No answer"});
+Object.assign(T.am,{calling:"በመደወል ላይ…",ce:"ጥሪው አብቅቷል",cm:"ማይክሮፎን ወይም ካሜራ መጠቀም አልተቻለም። ፈቃድ ይስጡ (ገጹ በhttps መከፈት አለበት)።",na:"መልስ የለም"});
+Object.assign(T.zh,{calling:"正在呼叫…",ce:"通话已结束",cm:"无法使用麦克风或摄像头。请允许访问（页面须通过 https 打开）。",na:"无人接听"});
+Object.assign(T.en,{ed:"Edit",edited:"edited",editing:"Editing message",msgT:"Message"});
+Object.assign(T.am,{ed:"አስተካክል",edited:"ተስተካክሏል",editing:"መልእክት በማስተካከል ላይ",msgT:"መልእክት"});
+Object.assign(T.zh,{ed:"编辑",edited:"已编辑",editing:"正在编辑消息",msgT:"消息"});
+Object.assign(T.en,{invs:"Invitations",invBy:"Invited by",invT:"invited you to",invSent:"Invitation sent to",already:"Already in this group",joinq:"Do you want to join?",mem:"members",lk:"Group link",lkno:"This group or link no longer exists.",cpl:"Copy invite link",copied:"Link copied",mph:"Photo",mvd:"Video",sending:"Sending…",big:"Video is too large (max 6 MB).",mt:"Only pictures and videos can be sent.",pv:"Play video"});
+Object.assign(T.am,{invs:"ግብዣዎች",invBy:"የጋበዘው",invT:"ወደ ቡድን ጋበዘዎት",invSent:"ግብዣ ተልኳል ለ",already:"ቀድሞ በቡድኑ ውስጥ ነው",joinq:"ለመቀላቀል ይፈልጋሉ?",mem:"አባላት",lk:"የቡድን አገናኝ",lkno:"ይህ ቡድን ወይም አገናኝ የለም።",cpl:"የግብዣ አገናኝ ቅዳ",copied:"አገናኙ ተቀድቷል",mph:"ፎቶ",mvd:"ቪዲዮ",sending:"በመላክ ላይ…",big:"ቪዲዮው በጣም ትልቅ ነው (ከፍተኛ 6 MB)።",mt:"ፎቶዎችና ቪዲዮዎች ብቻ ይላካሉ።",pv:"ቪዲዮ አጫውት"});
+Object.assign(T.zh,{invs:"邀请",invBy:"邀请人",invT:"邀请你加入",invSent:"已发送邀请给",already:"已在群里",joinq:"要加入吗？",mem:"位成员",lk:"群链接",lkno:"该群或链接已不存在。",cpl:"复制邀请链接",copied:"链接已复制",mph:"图片",mvd:"视频",sending:"发送中…",big:"视频太大（最大 6 MB）。",mt:"只能发送图片和视频。",pv:"播放视频"});
 T.epg={};Object.keys(T.en).forEach(function(k){T.epg[k]=toEpg(T.en[k].toUpperCase())});
 function ld(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}if(/^epx_(prof|con|bot|nm|lang|mode)$/.test(k))schedCloud()}
@@ -160,7 +196,7 @@ function key(id){return id.indexOf("c_")===0?id:[me,id].sort().join("_")}
 function applyLang(){document.documentElement.lang=lang==="epg"?"en":lang;document.documentElement.classList.toggle("ep",lang==="epg");document.querySelectorAll("[data-i]").forEach(function(e){e.textContent=t(e.dataset.i)});document.querySelectorAll("[data-p]").forEach(function(e){e.placeholder=t(e.dataset.p)});document.querySelectorAll("[data-l]").forEach(function(b){b.classList.toggle("on",b.dataset.l===lang)});drawMe();updCounts();setLmode();renderList();open(cur,true)}
 function drawMe(){$("me").textContent=gl(String(prof.name||"?").charAt(0))||"•";if(me&&vset[me]){var b=vb(me);b.className="vb vbav";$("me").appendChild(b)}}
 function item(id,name,sub){var r=el("div","it"+(id===cur?" on":""));r.appendChild(av(name));var w=el("div","tx");var nb=nmEl("b",name),v1=vb(id);if(v1)nb.appendChild(v1);w.appendChild(nb);w.appendChild(el("small","",sub||""));r.appendChild(w);if(unread[id])r.appendChild(el("span","bdg",String(unread[id])));r.onclick=function(){open(id)};return r}
-function renderList(){var q=$("q").value.trim().toLowerCase(),L=$("list");if(q){searchPeople(q);return}L.textContent="";L.appendChild(item("bot",t("bot"),"AI"));Object.keys(contacts).forEach(function(id){var c=contacts[id];L.appendChild(item(id,c.name,c.username?"@"+c.username:""))});Object.keys(chats).forEach(function(id){var c=chats[id];L.appendChild(item(id,c.name,(c.type==="channel"?"📢 channel":"👥 group")+" · "+c.members.length))});searchPeople("",true)}
+function renderList(){var q=$("q").value.trim().toLowerCase(),L=$("list");if(q){searchPeople(q);return}L.textContent="";drawInvites(L);L.appendChild(item("bot",t("bot"),"AI"));Object.keys(contacts).forEach(function(id){var c=contacts[id];L.appendChild(item(id,c.name,c.username?"@"+c.username:""))});Object.keys(chats).forEach(function(id){var c=chats[id];L.appendChild(item(id,c.name,(c.type==="channel"?"📢 channel":"👥 group")+" · "+c.members.length))});searchPeople("",true)}
 async function searchPeople(q,app){var tok=++sTok,res={},L=$("list");
 try{if(db){var s=await db.collection("profiles").get();s.docs.forEach(function(d){var x=d.data()||{};if(d.id===me||x.visible!==true)return;var hay=((x.name||"")+" "+(x.username||"")).toLowerCase();if(!q||hay.indexOf(q.replace("@",""))>=0)res[d.id]={id:d.id,name:x.name||"?",username:x.username||""}})}}catch(e){}
 if(tok!==sTok)return;var ids=Object.keys(res);if(!app)L.textContent="";
@@ -168,23 +204,128 @@ var gn=drawGroups(q,app,L);if(!ids.length){if(!app&&!gn)L.appendChild(el("div","
 if(app)L.appendChild(el("div","hh",t("people")));
 ids.forEach(function(id){var r=res[id],row=el("div","it");row.appendChild(av(r.name));var w=el("div","tx");var nb2=nmEl("b",r.name),v2=vb(id);if(v2)nb2.appendChild(v2);w.appendChild(nb2);w.appendChild(el("small","",r.username?"@"+r.username:""));row.appendChild(w);
 var b=el("button","ad",contacts[id]?t("added"):t("add"));b.disabled=!!contacts[id];b.onclick=function(){contacts[id]={name:r.name,username:r.username};sv("epx_con",contacts);b.textContent=t("added");b.disabled=true};var fb=el("button","ad",isF(id)?t("fg"):t("fo"));fb.onclick=async function(){await toggleFollow(id);fb.textContent=isF(id)?t("fg"):t("fo")};w.style.cursor="pointer";w.onclick=function(){showProfile(id)};row.appendChild(fb);row.appendChild(b);L.appendChild(row)})}
-function open(id,keep){cur=id;if(unread[id]){unread[id]=0;updTitle()}if(!keep)$("app").classList.add("open");if(unsub){unsub();unsub=null}
+function open(id,keep){cur=id;if(editing&&!keep)stopEdit();if(unread[id]){unread[id]=0;updTitle()}if(!keep)$("app").classList.add("open");if(unsub){unsub();unsub=null}
 $("ttl").className=epgNames?"g":"";$("ttl").textContent=nm(id==="bot"?t("bot"):chatName(id));if(id!=="bot"&&id.indexOf("c_")!==0){var v0=vb(id);if(v0)$("ttl").appendChild(v0)}
 var n=$("note");
 if(id==="bot"){n.style.display="none";draw(bot)}
-else{n.style.display="block";n.textContent=(db&&me)?t("notice"):t("signin");draw([]);
-if(db&&me){try{unsub=db.collection("msgs").where("chat","==",key(id)).onSnapshot(function(s){var a=s.docs.map(function(d){return d.data()});a.sort(function(x,y){return x.ts-y.ts});draw(a)},function(){})}catch(e){}}}
+else{n.style.display=(db&&me)?"none":"block";n.textContent=(db&&me)?"":t("signin");draw([]);
+if(db&&me){try{unsub=db.collection("msgs").where("chat","==",key(id)).onSnapshot(function(s){var a=s.docs.map(function(d){var x=d.data();x.id=d.id;return x});a.sort(function(x,y){return x.ts-y.ts});draw(a)},function(){})}catch(e){}}}
 hdr(id);if(!keep)renderList()}
 function draw(a){var M=$("msgs");M.textContent="";if(!a.length&&cur==="bot"&&!bot.length){}
-a.forEach(function(m){var mine=m.from==="me"||m.from===me,b=el("div","m"+(mine?" me":""));
-if(!mine&&chats[cur]){var ss=el("small","",nc[m.from]||""),v3=vb(m.from);if(v3)ss.appendChild(v3);b.appendChild(ss)}if(m.kind==="e"){b.appendChild(el("div","g",m.text));b.appendChild(el("small","",lat(m.text)))}else b.appendChild(el("div","tt",m.text));
-b.appendChild(el("small","",new Date(m.ts).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})));M.appendChild(b)});
+a.forEach(function(m,ix){var mine=m.from==="me"||m.from===me,b=el("div","m"+(mine?" me":""));
+if(!mine&&chats[cur]){var ss=el("small","",nc[m.from]||""),v3=vb(m.from);if(v3)ss.appendChild(v3);b.appendChild(ss)}if(m.kind==="e"){b.appendChild(el("div","g",m.text));b.appendChild(el("small","",lat(m.text)))}else if(m.kind==="m"){b.appendChild(m.mt==="video"?vidEl(m):imgEl(m))}else{var td=el("div","tt");linkify(td,m.text||"");b.appendChild(td)}
+var tm=el("small","",(m.edited?t("edited")+" · ":"")+new Date(m.ts).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})),okM=cur==="bot"||(m.id&&(mine||(chats[cur]&&role(chats[cur],me)!=="member"))),canE=cur!=="bot"&&m.id&&mine;
+if(okM){var mb=el("button","mo","⋯");mb.type="button";mb.onclick=function(e){e.stopPropagation();msgMenu(m,ix)};tm.appendChild(mb);b.oncontextmenu=function(e){e.preventDefault();msgMenu(m,ix)}}
+b.appendChild(tm);M.appendChild(b)});
 M.scrollTop=M.scrollHeight}
 function showBuf(){$("box").textContent=buf;$("lat").textContent=buf?"Latin: "+lat(buf).replace(/\n/g," / "):""}
 function setMode(){var e=mode==="epg";$("boxw").style.display=e?"block":"none";$("abc").style.display=e?"none":"block";$("md").textContent=e?"EPGEXX ⇄ ABC":"ABC ⇄ EPGEXX"}
 function add(ch){buf+=ch;showBuf()}
 function back(){buf=Array.from(buf).slice(0,-1).join("");showBuf()}
-async function send(){var s=(mode==="epg"?buf:$("abc").value).trim();if(!s)return;var kind=mode==="epg"?"e":"t";buf="";$("abc").value="";showBuf();
+/* ===== INVITATIONS, LINKS, MENTIONS, MEDIA, EMOJI ===== */
+var invs={},mTok=0,pfCache={t:0,a:[]},VMAX=6*1048576,CH=700000;
+async function inviteUser(c,u){if((c.members||[]).indexOf(u.id)>=0)return false;
+await db.doc("invites/"+c.id+"__"+u.id).set({chat:c.id,chatName:c.name,type:c.type,to:u.id,from:me,fromName:prof.name||dn0(),ts:Date.now()});return true}
+function drawInvites(L){var ids=Object.keys(invs);if(!ids.length)return;L.appendChild(el("div","hh",t("invs")));
+ids.forEach(function(id){var v=invs[id],row=el("div","it");row.appendChild(av(v.chatName||"?"));var w=el("div","tx");w.appendChild(nmEl("b",v.chatName||"?"));
+w.appendChild(el("small","",(v.type==="channel"?"📢 ":"👥 ")+t("invBy")+" "+(v.fromName||"?")));row.appendChild(w);
+var no=el("button","ad","✕");no.onclick=function(){declineInvite(v)};var ok=el("button","ad",t("join"));ok.onclick=function(){ok.disabled=true;acceptInvite(v)};
+row.appendChild(no);row.appendChild(ok);L.appendChild(row)})}
+async function acceptInvite(v){try{var d=await db.doc("chats/"+v.chat).get(),c=d.data&&d.data();
+if(c){c.id=v.chat;await joinChat(c)}await db.doc("invites/"+v.id).delete()}catch(e){}}
+function declineInvite(v){db.doc("invites/"+v.id).delete().catch(function(){})}
+function watchInv(){try{db.collection("invites").where("to","==",me).onSnapshot(function(q){invs={};q.docs.forEach(function(d){var x=d.data();if(x){x.id=d.id;invs[d.id]=x}});
+q.docChanges().forEach(function(ch){if(ch.type!=="added")return;var x=ch.doc.data(),k="i"+ch.doc.id+(x&&x.ts);if(!x||x.ts<=startTs||seenN[k])return;seenN[k]=1;beep();
+var tt=(x.fromName||"?")+" "+t("invT"),bd=(x.type==="channel"?"📢 ":"👥 ")+(x.chatName||"");
+if(document.hidden&&"Notification" in window&&Notification.permission==="granted"){try{new Notification(tt,{body:bd,tag:"epx_inv"})}catch(e){}}
+else toast(function(){$("app").classList.remove("open");$("list").scrollTop=0},tt,bd)});
+renderList()},function(){})}catch(e){}}
+/* links */
+function chatLink(c){return location.href.split("#")[0]+"#join-"+c.id.replace(/^c_/,"")}
+async function copyLink(c){var u=chatLink(c);
+try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(u);toast(function(){},t("copied"),u);return}}catch(e){}
+try{if(navigator.share){await navigator.share({title:c.name,url:u});return}}catch(e){}
+window.prompt(t("cpl"),u)}
+async function showJoin(id){if(!db||!me)return;var c=null;try{var d=await db.doc("chats/"+id).get();c=d.data&&d.data()}catch(e){}
+if(!c){m2(t("lk"),null,[],t("lkno"));return}c.id=id;
+if((c.members||[]).indexOf(me)>=0){chats[id]=chats[id]||c;open(id);return}
+m2((c.type==="channel"?"📢 ":"👥 ")+c.name,null,[{l:t("join"),p:1,f:function(){joinChat(c)}}],t("joinq")+" · "+(c.members||[]).length+" "+t("mem"))}
+function capturePJ(){var j=/#join-([a-z0-9]+)/.exec(location.hash||"");if(j){try{localStorage.setItem("epx_pj",JSON.stringify(j[1]))}catch(e){}try{history.replaceState(null,"",location.href.split("#")[0])}catch(e){}}}
+function runPJ(){var j=ld("epx_pj",null);if(!j||!db||!me)return;try{localStorage.removeItem("epx_pj")}catch(e){}showJoin("c_"+j)}
+capturePJ();window.addEventListener("hashchange",function(){capturePJ();runPJ()});
+function linkify(par,text){text.split(/(https?:\/\/[^\s<]+)/).forEach(function(part,i){if(i%2===0){if(part)par.appendChild(document.createTextNode(part));return}
+var a=el("a","",part);a.href=part;a.target="_blank";a.rel="noopener noreferrer";var j=/#join-([a-z0-9]+)/.exec(part);
+if(j)a.onclick=function(e){e.preventDefault();showJoin("c_"+j[1])};par.appendChild(a)})}
+/* @mention: suggest people and send them an invitation */
+async function getProfs(){if(Date.now()-pfCache.t<30000&&pfCache.a.length)return pfCache.a;var s=await db.collection("profiles").get();
+pfCache.a=s.docs.map(function(d){var x=d.data()||{};return{id:d.id,name:x.name||"?",username:x.username||"",visible:x.visible===true}});pfCache.t=Date.now();return pfCache.a}
+$("abc").addEventListener("input",async function(){var inp=this,c=chats[cur],box=$("mnt");box.style.display="none";if(!c||!db||!canAdd(c))return;
+var m=/(^|\s)@([a-z0-9_]*)$/i.exec(inp.value);if(!m)return;var q=m[2].toLowerCase(),tok=++mTok,a;
+try{a=await getProfs()}catch(e){return}if(tok!==mTok)return;
+var r=a.filter(function(p){return p.visible&&p.username&&p.id!==me&&(c.members||[]).indexOf(p.id)<0&&(!q||p.username.toLowerCase().indexOf(q)>=0||p.name.toLowerCase().indexOf(q)>=0)}).slice(0,6);
+if(!r.length)return;box.textContent="";
+r.forEach(function(p){var row=el("div","mi");row.appendChild(av(p.name));var w=el("div","tx");w.appendChild(el("b","",p.name));w.appendChild(el("small","","@"+p.username));row.appendChild(w);
+row.onclick=async function(){inp.value=inp.value.replace(/(^|\s)@[a-z0-9_]*$/i,"$1");box.style.display="none";
+try{await inviteUser(c,p);toast(function(){},t("invSent")+" "+p.name,"@"+p.username)}catch(e){toast(function(){},t("fail"),"")}};box.appendChild(row)});
+box.style.display="block"});
+/* emoji */
+var EMOC=["😀 😃 😄 😁 😆 😅 😂 🤣 😊 😇 🙂 😉 😍 🥰 😘 😋 😛 😜 🤪 😎 🤩 🥳 😏 😒 😞 😔 😢 😭 😤 😡 😱 😨 😰 🤗 🤔 🤭 🙄 😴 🤯 🥺 😬 😶",
+"👍 👎 👌 🤞 🤟 🤘 👏 🙌 👐 🤝 🙏 💪 👋 🤚 ✋ 🖖 👈 👉 👆 👇 ✊ 👊 🤛 🤜",
+"❤️ 💙 💚 💛 🧡 💜 🖤 🤍 💔 💕 💖 💗 💘 💝 💯 🔥 ✨ ⭐ 🌟 💥 💫 🎉 🎊 ✅ ❌ ❓ ❗ 💤",
+"🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐸 🐵 🐔 🐧 🐦 🦅 🦉 🐴 🦄 🐝 🦋 🐢 🐍 🐙 🐬 🐳 🦈 🐘 🦒 🐑 🐐 🐪 🌸 🌹 🌻 🌴 🌍",
+"🍎 🍌 🍉 🍇 🍓 🍒 🍑 🍍 🥭 🥑 🍅 🌽 🥕 🍞 🧀 🍗 🍖 🍔 🍟 🍕 🌮 🍜 🍝 🍣 🍚 🍩 🍪 🎂 🍰 🍫 🍿 ☕ 🍵 🥤 🍺 🍷",
+"⚽ 🏀 🏈 ⚾ 🎾 🏐 🏓 🥊 🎮 🎯 🎲 🎵 🎶 🎤 🎧 🎸 📱 💻 📷 🎥 📞 💡 🔑 🎁 🚗 🚀 🏠 💰 📚 ⏰"];
+function insEmo(ch){if(mode==="epg"){add(ch);return}var i=$("abc"),a=i.selectionStart==null?i.value.length:i.selectionStart,b=i.selectionEnd==null?a:i.selectionEnd;
+i.value=i.value.slice(0,a)+ch+i.value.slice(b);var pp=a+ch.length;try{i.setSelectionRange(pp,pp)}catch(e){}i.focus()}
+function buildEmo(){var e=$("emo");e.textContent="";var tabs=el("div","et"),grid=el("div","eg");e.appendChild(tabs);e.appendChild(grid);
+function show(i){grid.textContent="";EMOC[i].split(" ").forEach(function(x){var b=el("button","",x);b.type="button";b.onclick=function(){insEmo(x)};grid.appendChild(b)});
+Array.from(tabs.children).forEach(function(c2,k){c2.className=k===i?"on":""})}
+EMOC.forEach(function(c,i){var b=el("button","",c.split(" ")[0]);b.type="button";b.onclick=function(){show(i)};tabs.appendChild(b)});show(0)}
+$("emb").onclick=function(){var e=$("emo"),on=e.style.display!=="block";e.style.display=on?"block":"none";if(on&&!e.firstChild)buildEmo()};
+/* pictures and videos (stored in the database; pictures are shrunk, videos are split into pieces) */
+function shrink(f){return new Promise(function(res,rej){var img=new Image(),u=URL.createObjectURL(f);
+img.onload=function(){URL.revokeObjectURL(u);var tr=[[1280,.72],[960,.6],[720,.5],[480,.45]];
+for(var k=0;k<tr.length;k++){var sc=Math.min(1,tr[k][0]/Math.max(img.width,img.height)),cn=document.createElement("canvas");cn.width=Math.max(1,Math.round(img.width*sc));cn.height=Math.max(1,Math.round(img.height*sc));
+cn.getContext("2d").drawImage(img,0,0,cn.width,cn.height);var out=cn.toDataURL("image/jpeg",tr[k][1]);if(out.length<700000)return res(out)}rej(new Error("big"))};
+img.onerror=function(){rej(new Error("img"))};img.src=u})}
+function fileB64(f){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){res(String(r.result).split(",")[1]||"")};r.onerror=function(){rej(new Error("read"))};r.readAsDataURL(f)})}
+async function sendMedia(f){if(!f||!db||!me||cur==="bot")return;var c=chats[cur];if(c&&!canPost(c))return;var N=$("note");
+var isV=/^video\//.test(f.type),isI=/^image\//.test(f.type);if(!isV&&!isI){N.style.display="block";N.textContent=t("mt");return}
+N.style.display="block";N.textContent=t("sending");
+try{if(isI){var d=await shrink(f);await db.collection("msgs").add({chat:key(cur),from:me,kind:"m",mt:"image",data:d,text:"",ts:Date.now()})}
+else{if(f.size>VMAX){N.textContent=t("big");return}var b=await fileB64(f),mid="m"+Date.now().toString(36)+Math.random().toString(36).slice(2,6),n=Math.ceil(b.length/CH);
+for(var i=0;i<n;i++){await db.collection("mchunks").add({mid:mid,i:i,d:b.slice(i*CH,(i+1)*CH)});N.textContent=t("sending")+" "+Math.round((i+1)/n*100)+"%"}
+await db.collection("msgs").add({chat:key(cur),from:me,kind:"m",mt:"video",mime:f.type||"video/mp4",mid:mid,n:n,size:f.size,text:"",ts:Date.now()})}
+N.style.display="none";N.textContent=""}catch(e){N.textContent=t("fail")}}
+function imgEl(m){var im=el("img","pic");im.alt="";im.src=m.data||"";im.onclick=function(){$("lbi").src=m.data;$("lb").style.display="grid"};return im}
+var vcache={};
+function vidEl(m){var w=el("div","vw");function mount(u){var v=document.createElement("video");v.controls=true;v.setAttribute("playsinline","");v.src=u;w.textContent="";w.appendChild(v)}
+if(vcache[m.mid]){mount(vcache[m.mid]);return w}
+var b=el("button","vl","▶ "+t("pv")+" ("+(Math.round((m.size||0)/104857.6)/10)+" MB)");b.type="button";
+b.onclick=async function(){b.disabled=true;b.textContent="…";
+try{var q=await db.collection("mchunks").where("mid","==",m.mid).get(),a=q.docs.map(function(d){return d.data()}).sort(function(x,y){return x.i-y.i});if(a.length<(m.n||1))throw new Error("part");
+var parts=a.map(function(x){var s2=atob(x.d),u8=new Uint8Array(s2.length);for(var i=0;i<s2.length;i++)u8[i]=s2.charCodeAt(i);return u8});
+vcache[m.mid]=URL.createObjectURL(new Blob(parts,{type:m.mime||"video/mp4"}));mount(vcache[m.mid])}catch(e){b.disabled=false;b.textContent=t("fail")}};
+w.appendChild(b);return w}
+function delChunks(m){if(!m||!m.mid||!db)return;db.collection("mchunks").where("mid","==",m.mid).get().then(function(q){q.docs.forEach(function(d){db.doc("mchunks/"+d.id).delete().catch(function(){})})}).catch(function(){})}
+$("att").onclick=function(){$("fl").click()};
+$("fl").onchange=function(){var f=this.files&&this.files[0];this.value="";if(f)sendMedia(f)};
+$("lb").onclick=function(){this.style.display="none"};
+var editing=null;
+function stopEdit(){editing=null;buf="";$("abc").value="";showBuf();$("eb").style.display="none"}
+function startEdit(m){editing=m;mode=m.kind==="e"?"epg":"abc";setMode();buf=m.kind==="e"?m.text:"";$("abc").value=m.kind==="e"?"":m.text;showBuf();$("ebt").textContent=t("editing");$("eb").style.display="";$("m2").style.display="none";if(m.kind!=="e")$("abc").focus()}
+async function saveEdit(s,kind){var m=editing;stopEdit();if(!db||!m||!m.id)return;if(s===m.text&&kind===m.kind)return;
+try{await db.doc("msgs/"+m.id).update({text:s,kind:kind,edited:true})}catch(e){$("note").style.display="block";$("note").textContent=t("fail")}}
+function msgMenu(m,ix){var bt=cur==="bot",mineM=m.from==="me"||m.from===me,g=chats[cur],mod=g&&role(g,me)!=="member",bs=[];
+if(!bt&&mineM&&m.id&&m.kind!=="m")bs.push({l:"✏️ "+t("ed"),p:1,f:function(){startEdit(m)}});
+if(bt||(m.id&&(mineM||mod)))bs.push({l:"🗑 "+t("dl"),f:function(){delMsg(m,ix)}});
+if(bs.length)m2(t("msgT"),null,bs,"")}
+function delMsg(m,ix){m2(t("dl"),null,[{l:t("dy"),p:1,f:async function(){$("m2").style.display="none";
+if(editing&&editing.id===m.id)stopEdit();
+if(cur==="bot"){bot.splice(ix,1);sv("epx_bot",bot);draw(bot)}
+else{try{await db.doc("msgs/"+m.id).delete();delChunks(m)}catch(e){$("note").style.display="block";$("note").textContent=t("fail")}}}}],cur==="bot"?"":t("dq"))}
+$("ex").onclick=stopEdit;
+async function send(){$("mnt").style.display="none";var s=(mode==="epg"?buf:$("abc").value).trim();if(!s)return;var kind=mode==="epg"?"e":"t";if(editing){await saveEdit(s,kind);return}buf="";$("abc").value="";showBuf();
 if(cur==="bot"){bot.push({from:"me",text:s,kind:kind,ts:Date.now()});draw(bot);askBot(kind);return}
 if(!db||!me)return;if(chats[cur]&&!canPost(chats[cur]))return;
 try{await db.collection("msgs").add({chat:key(cur),from:me,text:s,kind:kind,ts:Date.now()})}catch(e){$("note").textContent=t("fail")}}
@@ -228,7 +369,7 @@ function role(c,u){return c.owner===u?"owner":(c.admins||[]).indexOf(u)>=0?"admi
 function canPost(c){return role(c,me)!=="member"||(c.type==="group"&&c.perms&&c.perms.send!==false)}
 function canAdd(c){return role(c,me)!=="member"||(c.type==="group"&&c.perms&&c.perms.add===true)}
 function pname(id){if(nc[id])return Promise.resolve(nc[id]);return db.doc("profiles/"+id).get().then(function(d){var x=d.data&&d.data();nc[id]=(x&&x.name)||"?"},function(){nc[id]="?"})}
-function hdr(id){var g=id.indexOf("c_")===0,c=chats[id];$("call").style.display=(id!=="bot"&&!g)?"inline-block":"none";$("info").style.display=g?"inline-block":"none";$("del").style.display=(g&&c&&role(c,me)==="owner")?"inline-block":"none";var ok=!c||canPost(c);document.querySelector(".comp").style.display=ok?"":"none";
+function hdr(id){$("att").style.display=id==="bot"?"none":"";var g=id.indexOf("c_")===0,c=chats[id];$("call").style.display=$("vcall").style.display=(id!=="bot"&&!g)?"inline-block":"none";$("info").style.display=g?"inline-block":"none";$("del").style.display=(g&&c&&role(c,me)==="owner")?"inline-block":"none";var ok=!c||canPost(c);document.querySelector(".comp").style.display=ok?"":"none";
 if(g&&c){if(!ok){$("note").style.display="block";$("note").textContent=t("ro")}var need=c.members.filter(function(x){return!nc[x]});if(need.length)Promise.all(need.map(pname)).then(function(){if(cur===id)open(id,true)})}}
 function btn(l,f){var b=el("button","",l);b.type="button";b.onclick=f;return b}
 function upd(c,o){return db.doc("chats/"+c.id).update(o)}
@@ -239,9 +380,10 @@ else{q=q.replace(/^@/,"");if(!/^[a-z0-9_]{1,20}$/.test(q))return null;s=await db
 s.docs.forEach(function(d){var x=d.data()||{};if(d.id!==me&&x.visible===true)u={id:d.id,name:x.name||"?",username:x.username||""}});return u}
 async function mk(type,name,pub){name=(name||"").trim();if(!name||!db||!me)return;var id="c_"+Date.now().toString(36)+Math.random().toString(36).slice(2,6),c={type:type,name:name,owner:me,admins:[],members:[me],perms:{send:true,add:false},pub:!!pub,nl:name.toLowerCase(),ts:Date.now()};nc[me]=prof.name||"?";await db.doc("chats/"+id).set(c);c.id=id;chats[id]=c;$("m2").style.display="none";open(id)}
 function newChat(type){m2(t(type==="group"?"nG":"nC"),t("cn"),[{l:t("crp"),p:1,f:function(){mk(type,$("m2i").value,true)}},{l:t("crv"),f:function(){mk(type,$("m2i").value,false)}}],"")}
-function byEmail(msg){m2(t("bE"),t("em"),[{l:t("ac"),p:1,f:async function(){var u=await findE($("m2i").value);if(!u)return byEmail(t("nf"));contacts[u.id]={name:u.name,username:u.username};sv("epx_con",contacts);nc[u.id]=u.name;$("m2").style.display="none";renderList();open(u.id)}},{l:t("cl"),f:async function(){var u=await findE($("m2i").value);if(!u)return byEmail(t("nf"));callUser(u)}}],msg)}
+function byEmail(msg){m2(t("bE"),t("em"),[{l:t("ac"),p:1,f:async function(){var u=await findE($("m2i").value);if(!u)return byEmail(t("nf"));contacts[u.id]={name:u.name,username:u.username};sv("epx_con",contacts);nc[u.id]=u.name;$("m2").style.display="none";renderList();open(u.id)}},{l:t("cl"),f:async function(){var u=await findE($("m2i").value);if(!u)return byEmail(t("nf"));callUser(u,false)}},{l:"🎥",f:async function(){var u=await findE($("m2i").value);if(!u)return byEmail(t("nf"));callUser(u,true)}}],msg)}
 async function showInfo(msg){var c=chats[cur];if(!c)return;var r=role(c,me),mg=r!=="member";
-m2(c.name+" ("+c.type+")",canAdd(c)?t("em"):null,canAdd(c)?[{l:t("ad"),p:1,f:async function(){var u=await findE($("m2i").value);if(!u)return showInfo(t("nf"));if(c.members.indexOf(u.id)<0){c.members.push(u.id);await upd(c,{members:c.members})}nc[u.id]=u.name;showInfo()}}]:[],msg);
+m2(c.name+" ("+c.type+")",canAdd(c)?t("em"):null,canAdd(c)?[{l:t("ad"),p:1,f:async function(){var u=await findE($("m2i").value);if(!u)return showInfo(t("nf"));if(c.members.indexOf(u.id)>=0)return showInfo(t("already"));await inviteUser(c,u);showInfo(t("invSent")+" "+u.name)}}]:[],msg);
+if(r!=="member"||c.pub===true){var lb0=btn("🔗 "+t("cpl"),function(){copyLink(c)});$("m2b").insertBefore(lb0,$("m2b").firstChild);if(!msg){$("m2m").textContent=chatLink(c);$("m2m").style.wordBreak="break-all"}}
 var L=$("m2l");c.members.forEach(function(id){var tr=role(c,id),row=el("div","mr");row.appendChild(el("span","",(nc[id]||"?")+" · "+tr));
 if(id!==me&&tr!=="owner"&&(r==="owner"||(mg&&tr==="member")))row.appendChild(btn(t("rm"),async function(){c.members=c.members.filter(function(x){return x!==id});c.admins=(c.admins||[]).filter(function(x){return x!==id});await upd(c,{members:c.members,admins:c.admins});showInfo()}));
 if(r==="owner"&&tr!=="owner")row.appendChild(btn(tr==="admin"?t("dm"):t("pr"),async function(){c.admins=tr==="admin"?c.admins.filter(function(x){return x!==id}):(c.admins||[]).concat(id);await upd(c,{admins:c.admins});showInfo()}));
@@ -254,45 +396,103 @@ function delAsk(c){if(role(c,me)!=="owner")return;m2(t("dq"),null,[{l:t("dy"),p:
 try{await db.doc("chats/"+c.id).delete();M.textContent="Deleted."}catch(e){M.textContent="Delete failed ("+((e&&(e.code||e.message))||"?")+"). Trying to hide it…";try{await upd(c,{members:[],admins:[],deleted:true})}catch(e2){M.textContent="Could not delete: "+String((e2&&(e2.code||e2.message))||"unknown");return}}
 delete chats[c.id];$("m2").style.display="none";open("bot");
 try{db.collection("msgs").where("chat","==",c.id).get().then(function(q){q.docs.forEach(function(d){db.doc("msgs/"+d.id).delete().catch(function(){})})}).catch(function(){})}catch(e){}}},{l:t("no"),f:function(){showInfo()}}],c.name);$("m2b").firstChild.style.background="#d93025"}
-async function callUser(u){if(!db||!me)return;var ts=Date.now(),nm0=prof.name||dn0();await db.doc("calls/"+u.id).set({from:me,fromName:nm0,ts:ts,status:"ringing"});
-m2(u.name,null,[{l:t("hu"),f:function(){db.doc("calls/"+u.id).set({from:me,fromName:nm0,ts:ts,status:"ended"}).catch(function(){});$("m2").style.display="none"}}],t("rg"));
-if(unsubC)unsubC();unsubC=db.doc("calls/"+u.id).onSnapshot(function(d){var x=d.data&&d.data();if(x&&x.ts===ts&&(x.status==="accepted"||x.status==="declined"))$("m2m").textContent=t(x.status==="accepted"?"cs":"cd")},function(){})}
+/* ===== VOICE + VIDEO CALLS (WebRTC, signalling through Firestore) =====
+   ICE: STUN finds a direct path; TURN relays the call when a direct path is blocked (mobile networks, strict Wi-Fi).
+   The free open-relay TURN below is shared and best-effort: for real use, get your own TURN credentials and put them here. */
+var ICE={iceServers:[{urls:["stun:stun.l.google.com:19302","stun:stun1.l.google.com:19302"]},{urls:["turn:openrelay.metered.ca:80","turn:openrelay.metered.ca:443","turn:openrelay.metered.ca:443?transport=tcp"],username:"openrelayproject",credential:"openrelayproject"}]};
+var CL=null,ringI=null,CTMR=null;
+function ringOn(on){clearInterval(ringI);ringI=null;if(on){beep();ringI=setInterval(beep,1800)}}
+function cvSet(name,status,mode){var c=CL;$("cv").style.display="flex";$("cv").classList.remove("on");$("cv").classList.toggle("vid",!!(c&&c.video));
+$("cvav").textContent="";$("cvav").appendChild(av(name));$("cvn").textContent=name;$("cvs").textContent=status;
+$("cva").style.display=mode==="in"?"":"none";$("cvm").style.display=mode==="in"?"none":"";$("cvc").style.display=(mode!=="in"&&c&&c.video)?"":"none";
+$("cvm").textContent="🎤";$("cvc").textContent="🎥";$("cvd").textContent=mode==="in"?"✖ "+t("dc"):"📵"}
+function getMedia(video){if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)||!window.RTCPeerConnection)return Promise.reject(new Error("nomedia"));
+return navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true},video:video?{facingMode:"user",width:{ideal:640},height:{ideal:480}}:false})}
+function tick(){clearInterval(CTMR);CTMR=setInterval(function(){if(!CL||!CL.t0)return;var s=Math.floor((Date.now()-CL.t0)/1000);$("cvs").textContent=("0"+Math.floor(s/60)).slice(-2)+":"+("0"+s%60).slice(-2)},1000)}
+function flush(c){c.pend.splice(0).forEach(function(cd){c.pc.addIceCandidate(cd).catch(function(){})})}
+function makePC(c,side){var pc=new RTCPeerConnection(ICE);c.pc=pc;c.pend=[];
+c.ls.getTracks().forEach(function(tr){pc.addTrack(tr,c.ls)});
+pc.ontrack=function(e){var r=$("rv");if(e.streams&&e.streams[0]&&r.srcObject!==e.streams[0])r.srcObject=e.streams[0];try{var pp=r.play();if(pp&&pp.catch)pp.catch(function(){})}catch(x){}};
+pc.onicecandidate=function(e){if(e.candidate)db.collection("callice").add({call:c.key,side:side,c:JSON.stringify(e.candidate.toJSON()),ts:Date.now()}).catch(function(){})};
+pc.onconnectionstatechange=function(){var st=pc.connectionState;if(CL!==c)return;if(st==="connected"){c.t0=c.t0||Date.now();ringOn(false);$("cv").classList.add("on");tick()}else if(st==="failed")endCall(true,t("ce"));else if(st==="disconnected")$("cvs").textContent="…"};
+var other=side==="a"?"b":"a";
+c.unsubs.push(db.collection("callice").where("call","==",c.key).onSnapshot(function(sn){sn.docChanges().forEach(function(ch){if(ch.type!=="added")return;var x=ch.doc.data(),cd;if(!x||x.side!==other)return;try{cd=JSON.parse(x.c)}catch(e){return}if(pc.remoteDescription)pc.addIceCandidate(cd).catch(function(){});else c.pend.push(cd)})},function(){}));
+return pc}
+function endCall(send,msg){var c=CL;if(!c||c.done)return;c.done=true;ringOn(false);clearInterval(CTMR);clearTimeout(c.to);
+c.unsubs.forEach(function(u){try{u()}catch(e){}});
+try{if(c.ls)c.ls.getTracks().forEach(function(tr){tr.stop()})}catch(e){}
+try{if(c.pc)c.pc.close()}catch(e){}
+if(send&&db)db.doc("calls/"+c.callee).update({status:"ended"}).catch(function(){});
+if(db)db.collection("callice").where("call","==",c.key).get().then(function(q){q.docs.forEach(function(d){db.doc("callice/"+d.id).delete().catch(function(){})})}).catch(function(){});
+$("rv").srcObject=null;$("lv").srcObject=null;CL=null;
+if(msg){$("cvs").textContent=msg;$("cva").style.display="none";$("cvm").style.display="none";$("cvc").style.display="none";setTimeout(function(){if(!CL)$("cv").style.display="none"},1600)}else $("cv").style.display="none"}
+async function callUser(u,video){if(!db||!me||CL)return;$("m2").style.display="none";
+var ts=Date.now(),c=CL={callee:u.id,peer:u.name,out:true,video:!!video,unsubs:[],key:u.id+"_"+ts,done:false};
+cvSet(u.name,t("calling"),"out");
+try{c.ls=await getMedia(!!video)}catch(e){CL=null;$("cv").style.display="none";m2(u.name,null,[],t("cm"));return}
+if(c.done)return;$("lv").srcObject=c.ls;
+try{var pc=makePC(c,"a"),off=await pc.createOffer();await pc.setLocalDescription(off);
+await db.doc("calls/"+u.id).set({from:me,fromName:prof.name||dn0(),ts:ts,status:"ringing",video:!!video,key:c.key,offer:{type:off.type,sdp:off.sdp}});
+if(c.done)return;ringOn(true);$("cvs").textContent=t("rg");
+c.unsubs.push(db.doc("calls/"+u.id).onSnapshot(function(d){var x=d.data&&d.data();if(!x||x.ts!==ts||c.done)return;
+if(x.answer&&!c.gotAns){c.gotAns=true;pc.setRemoteDescription(x.answer).then(function(){flush(c)}).catch(function(){endCall(true,t("fail"))})}
+if(x.status==="accepted"){ringOn(false);if(!c.t0)$("cvs").textContent="…"}
+if(x.status==="declined")endCall(false,t("cd"));
+if(x.status==="ended")endCall(false,t("ce"))},function(){}));
+c.to=setTimeout(function(){if(CL===c&&!c.t0)endCall(true,t("na"))},45000)}catch(e){endCall(false,t("fail"))}}
+function incomingCall(x){var c=CL={callee:me,peer:x.fromName||"?",out:false,video:!!x.video,unsubs:[],key:x.key,done:false,offer:x.offer};
+cvSet(c.peer,(x.video?"🎥 ":"📞 ")+t("ri"),"in");ringOn(true);
+c.to=setTimeout(function(){if(CL===c&&!c.t0&&!c.acc)endCall(true,"")},60000)}
+$("cva").onclick=async function(){var c=CL;if(!c||c.out||c.acc||c.done)return;c.acc=true;ringOn(false);$("cvs").textContent="…";
+try{c.ls=await getMedia(c.video)}catch(e){db.doc("calls/"+me).update({status:"declined"}).catch(function(){});endCall(false,t("cm"));return}
+if(c.done){c.ls.getTracks().forEach(function(tr){tr.stop()});return}
+$("lv").srcObject=c.ls;
+try{var pc=makePC(c,"b");await pc.setRemoteDescription(c.offer);flush(c);var an=await pc.createAnswer();await pc.setLocalDescription(an);
+await db.doc("calls/"+me).update({status:"accepted",answer:{type:an.type,sdp:an.sdp}});
+cvSet(c.peer,"…","out");$("cv").classList.toggle("on",!!c.t0)}catch(e){endCall(true,t("fail"))}};
+$("cvd").onclick=function(){var c=CL;if(!c)return;if(!c.out&&!c.acc){db.doc("calls/"+me).update({status:"declined"}).catch(function(){});endCall(false,"")}else endCall(true,t("ce"))};
+$("cvm").onclick=function(){var c=CL;if(!c||!c.ls)return;c.mute=!c.mute;c.ls.getAudioTracks().forEach(function(tr){tr.enabled=!c.mute});$("cvm").textContent=c.mute?"🔇":"🎤"};
+$("cvc").onclick=function(){var c=CL;if(!c||!c.ls)return;c.cam=!c.cam;c.ls.getVideoTracks().forEach(function(tr){tr.enabled=!c.cam});$("cvc").textContent=c.cam?"🚫":"🎥"};
+window.addEventListener("beforeunload",function(){if(CL)endCall(true)});
 function drawGroups(q,app,L){var n=0,qq=q.replace(/^@/,""),mm=[];
 if(q&&!app)Object.keys(chats).forEach(function(id){var c=chats[id];if((c.name||"").toLowerCase().indexOf(qq)>=0)mm.push(c)});
 var dd=pubChats.filter(function(c){return !qq||(c.name||"").toLowerCase().indexOf(qq)>=0}).slice(0,30);
 if(mm.length){L.appendChild(el("div","hh",t("yourG")));mm.forEach(function(c){L.appendChild(item(c.id,c.name,(c.type==="channel"?"📢 channel":"👥 group")+" · "+(c.members||[]).length))});n+=mm.length}
 if(dd.length){L.appendChild(el("div","hh",t("discG")));dd.forEach(function(c){var row=el("div","it");row.appendChild(av(c.name));var w=el("div","tx");w.appendChild(nmEl("b",c.name));w.appendChild(el("small","",(c.type==="channel"?"📢 channel":"👥 group")+" · "+(c.members||[]).length));row.appendChild(w);var b=el("button","ad",t("join"));b.onclick=function(){joinChat(c,b)};row.appendChild(b);L.appendChild(row)});n+=dd.length}
 return n}
-async function joinChat(c,b){if(!db||!me)return;b.disabled=true;
+async function joinChat(c,b){if(!db||!me)return;if(b)b.disabled=true;
 try{var FV=window.firebase&&firebase.firestore&&firebase.firestore.FieldValue;
 if(FV&&FV.arrayUnion)await db.doc("chats/"+c.id).update({members:FV.arrayUnion(me)});
 else{var ms=(c.members||[]).slice();if(ms.indexOf(me)<0)ms.push(me);await db.doc("chats/"+c.id).update({members:ms})}
-if((c.members||[]).indexOf(me)<0)c.members=(c.members||[]).concat(me);chats[c.id]=c;nc[me]=prof.name||"?";$("q").value="";open(c.id)}
-catch(e){b.disabled=false;b.textContent=t("fail")}}
+if((c.members||[]).indexOf(me)<0)c.members=(c.members||[]).concat(me);chats[c.id]=c;nc[me]=prof.name||"?";$("q").value="";$("m2").style.display="none";open(c.id)}
+catch(e){if(b){b.disabled=false;b.textContent=t("fail")}else m2(c.name,null,[],t("fail"))}}
 /* ===== NOTIFICATIONS ===== */
 var actx=null,toastT=null;
 function otherOf(k){var p=k.split("_");for(var i=0;i<p.length;i++)if(p[i]&&p[i]!==me)return p[i];return ""}
 function isMine(k){return k.indexOf("c_")===0?!!chats[k]:k.split("_").indexOf(me)>=0}
 function updTitle(){var n=0;Object.keys(unread).forEach(function(k){n+=unread[k]||0});document.title=(n?"("+n+") ":"")+BASE_TITLE}
 function beep(){try{actx=actx||new(window.AudioContext||window.webkitAudioContext)();var o=actx.createOscillator(),g=actx.createGain();o.connect(g);g.connect(actx.destination);o.frequency.value=880;g.gain.setValueAtTime(.12,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.25);o.start();o.stop(actx.currentTime+.26)}catch(e){}try{navigator.vibrate&&navigator.vibrate(120)}catch(e){}}
-function toast(id,title,body){var T0=$("toast");T0.textContent="";T0.appendChild(el("b","",title));T0.appendChild(el("span","",body));T0.style.display="block";T0.onclick=function(){T0.style.display="none";open(id)};clearTimeout(toastT);toastT=setTimeout(function(){T0.style.display="none"},5000)}
+function toast(id,title,body){var T0=$("toast");T0.textContent="";T0.appendChild(el("b","",title));T0.appendChild(el("span","",body));T0.style.display="block";T0.onclick=function(){T0.style.display="none";if(typeof id==="function")id();else open(id)};clearTimeout(toastT);toastT=setTimeout(function(){T0.style.display="none"},5000)}
 function notify(m){var g=m.chat.indexOf("c_")===0,id=g?m.chat:otherOf(m.chat);if(!id)return;
 if(!g&&!contacts[id]){contacts[id]={name:nc[id]||"?",username:""};sv("epx_con",contacts);db.doc("profiles/"+id).get().then(function(d){var x=d.data&&d.data();if(x){contacts[id]={name:x.name||"?",username:x.username||""};nc[id]=x.name||"?";sv("epx_con",contacts);renderList()}}).catch(function(){})}
 if(cur===id&&!document.hidden)return;
 unread[id]=(unread[id]||0)+1;updTitle();renderList();
-pname(m.from).then(function(){var who=nc[m.from]||"?",title=g?((chats[id]&&chats[id].name)||"")+" · "+who:who,body=(m.kind==="e"?lat(m.text):m.text||"").slice(0,100);
+pname(m.from).then(function(){var who=nc[m.from]||"?",title=g?((chats[id]&&chats[id].name)||"")+" · "+who:who,body=(m.kind==="m"?(m.mt==="video"?"🎥 "+t("mvd"):"📷 "+t("mph")):(m.kind==="e"?lat(m.text):m.text||"")).slice(0,100);
 beep();
 if(document.hidden&&"Notification" in window&&Notification.permission==="granted"){try{var n=new Notification(title,{body:body,tag:"epx_"+id});n.onclick=function(){window.focus();open(id);n.close()}}catch(e){}}
 else toast(id,title,body)})}
 function watchMsgs(){try{db.collection("msgs").where("ts",">",startTs).onSnapshot(function(s){s.docChanges().forEach(function(ch){if(ch.type!=="added")return;var m=ch.doc.data(),did=ch.doc.id;if(!m||!m.chat||m.from===me||m.from==="me"||seenN[did]||!isMine(m.chat))return;seenN[did]=1;notify(m)})},function(){})}catch(e){}}
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&unread[cur]){unread[cur]=0;updTitle();renderList()}});
 document.addEventListener("click",function ask(){if(!acct||!("Notification" in window))return;if(Notification.permission==="default"){try{Notification.requestPermission()}catch(e){}}document.removeEventListener("click",ask)});
-function startLive(){if(!(db&&me))return;nc[me]=prof.name||"?";watchMsgs();
+function startLive(){if(!(db&&me))return;nc[me]=prof.name||"?";watchMsgs();watchInv();
 try{db.collection("follows").onSnapshot(function(q){FD=q.docs.map(function(d){return d.data()}).filter(function(x){return x&&x.a&&x.b});updCounts();if(admDraw)admDraw()},function(){})}catch(e){}
 try{db.collection("verified").onSnapshot(function(q){vset={};q.docs.forEach(function(d){var x=d.data();if(x&&x.v===true)vset[d.id]=1});drawMe();renderList();open(cur,true);if(admDraw)admDraw()},function(){})}catch(e){}
 try{db.collection("chats").onSnapshot(function(q){chats={};pubChats=[];q.docs.forEach(function(d){var x=d.data();if(x&&(x.members||[]).indexOf(me)>=0){x.id=d.id;chats[d.id]=x}else if(x&&x.pub===true&&x.name){x.id=d.id;pubChats.push(x)}});if(cur.indexOf("c_")===0&&!chats[cur])cur="bot";renderList();hdr(cur)},function(){})}catch(e){}
-try{db.doc("calls/"+me).onSnapshot(function(d){var x=d.data&&d.data();if(!x||x.status!=="ringing"||Date.now()-x.ts>45000)return;function st(v){db.doc("calls/"+me).set({from:x.from,fromName:x.fromName,ts:x.ts,status:v}).catch(function(){});$("m2").style.display="none"}
-m2((x.fromName||"?")+" "+t("ri"),null,[{l:t("ac2"),p:1,f:function(){st("accepted")}},{l:t("dc"),f:function(){st("declined")}}],"📞")},function(){})}catch(e){}}
+try{db.doc("calls/"+me).onSnapshot(function(d){var x=d.data&&d.data();if(!x)return;
+if(x.status==="ended"&&CL&&CL.key===x.key&&!CL.out){endCall(false,t("ce"));return}
+if(x.status!=="ringing"||Date.now()-x.ts>60000||!x.offer||!x.key)return;
+if(CL){if(CL.key!==x.key)db.doc("calls/"+me).update({status:"declined"}).catch(function(){});return}
+incomingCall(x)},function(){})}catch(e){}}
 $("plus").onclick=function(){m2("EPGEXX CONNECT",null,[{l:t("nG"),f:function(){newChat("group")}},{l:t("nC"),f:function(){newChat("channel")}},{l:t("bE"),f:function(){byEmail()}}],"")};
 async function adminPanel(){if(!isOwner||!db)return;m2(t("gt"),t("gs"),[],"");var i=$("m2i"),L=$("m2l"),M=$("m2m"),all=[];
 try{var s=await db.collection("profiles").get();s.docs.forEach(function(d){var x=d.data()||{};if(x.visible===true)all.push({id:d.id,name:x.name||"?",username:x.username||""})})}catch(e){M.textContent="…"}
@@ -342,7 +542,7 @@ if(isOwner){var vr=el("div","");vr.style.cssText="margin-top:8px;display:flex";v
 dr()}
 $("ttl").onclick=function(){if(cur!=="bot"&&cur.indexOf("c_")!==0)showProfile(cur)};
 $("pfr").onclick=function(){showFollowList(me||"_me","b")};$("pfg").onclick=function(){showFollowList(me||"_me","a")};
-$("call").onclick=function(){var c=contacts[cur];if(c)callUser({id:cur,name:c.name})};
+$("call").onclick=function(){var c=contacts[cur];if(c)callUser({id:cur,name:c.name},false)};$("vcall").onclick=function(){var c=contacts[cur];if(c)callUser({id:cur,name:c.name},true)};
 $("info").onclick=function(){showInfo()};$("del").onclick=function(){var c=chats[cur];if(c)delAsk(c)};
 function choose(v){pick=v;["la","pa2"].forEach(function(i){$(i).classList.toggle("on",v===true)});["ld","pd2"].forEach(function(i){$(i).classList.toggle("on",v===false)})}
 ["la","pa2"].forEach(function(i){$(i).onclick=function(){choose(true)}});["ld","pd2"].forEach(function(i){$(i).onclick=function(){choose(false)}});
@@ -434,7 +634,7 @@ if(fb){try{firebase.initializeApp(CFG.fb);db=firebase.firestore()}catch(e){}}
 if(typeof claude!=="undefined"){try{usr=await claude.use("user")}catch(e){}try{if(usr&&await usr.isOwner()){isOwner=true;$("adm").style.display=""}}catch(e){}if(!fb){try{db=await claude.use("db")}catch(e){}}}
 if(usr){try{if(!(acct&&acct.aid))me=await usr.id();var p=await usr.me();if(!prof.name)prof.name=(p&&p.name)||"";if(p&&p.email&&OWNER_EMAILS.indexOf(String(p.email).toLowerCase())>=0){isOwner=true;$("adm").style.display=""}}catch(e){}}
 if(fb&&acct&&OWNER_EMAILS.indexOf(String(acct.email||"").toLowerCase())>=0){isOwner=true;$("adm").style.display=""}
-if(acct)pubProf();startLive();
+if(acct)pubProf();startLive();runPJ();
 applyLang()})();
 </script>
 </body>
