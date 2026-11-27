@@ -358,6 +358,14 @@ body{display:flex;flex-direction:column}
 #lov{position:absolute;left:10px;right:10px;top:104px;z-index:3;display:flex;flex-direction:column;gap:6px;pointer-events:none}
 #lov .pn2{background:rgba(0,0,0,.55);border-radius:10px;padding:5px 10px;font-size:.82rem}
 #lov .gl{background:rgba(0,0,0,.55);border-radius:10px;padding:5px 10px;font-size:.8rem}#lov .gl i{display:block;height:5px;border-radius:3px;margin-top:4px;background:linear-gradient(90deg,#ffd43b,#ff922b)}
+
+/* scroll arrows for top chips row */
+#xchw{display:flex;align-items:center;gap:4px;max-width:640px;margin:0 auto;padding:0 6px;position:sticky;top:0;z-index:3;background:var(--bg)}
+#xchw #xch{flex:1;min-width:0;max-width:none;margin:0;scroll-behavior:smooth}
+#xchw>button{flex:none;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--acc);color:#fff;font-size:1.3rem;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+#xchw>button.off{visibility:hidden}
+/* LIVE sheet: keep the X always visible */
+#lsh .lsh-h button.lsh-x{position:sticky;right:0;margin-left:auto;background:var(--card);color:var(--ink);font-weight:700;font-size:1.05rem;box-shadow:-8px 0 8px var(--card)}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -392,7 +400,7 @@ body{display:flex;flex-direction:column}
 <div class="r"><button id="meH" class="av g" type="button" aria-label="Profile" style="position:relative"></button><b data-i="xHome" style="flex:1;font-size:1.1rem"></b><button id="plusH" class="av" type="button" aria-label="New post" style="width:36px;height:36px;font-size:1.3rem">＋</button></div>
 <div class="lg"><button type="button" data-l="en">EN</button><button type="button" data-l="am">አማ</button><button type="button" data-l="zh">中文</button><button type="button" data-l="epg" class="g"></button><button id="abtH" type="button" data-i="about"></button></div>
 </div>
-<div id="xch"></div>
+<div id="xchw"><button id="xchl" type="button" aria-label="Scroll left">‹</button><div id="xch"></div><button id="xchr" type="button" aria-label="Scroll right">›</button></div>
 <div id="stbar"></div>
 <div id="feed"></div>
 </div>
@@ -1627,7 +1635,7 @@ function lovDraw(){var l=curLive(),g=l.goal;lov.textContent="";if(l.pin)lov.appe
 function shOpen(tab){SHT=tab||0;sh.style.display="flex";shRefresh(1)}
 function shRefresh(f){if(!LV)return;var v=lvViewers(LV.id).length;if(v>(LV.peak||0))LV.peak=v;syncGuests();lovDraw();if(sh.style.display!=="flex")return;var a=document.activeElement;if(!f&&sh.contains(a)&&/INPUT|TEXTAREA|SELECT/.test(a.tagName))return;var b0=sh.querySelector(".lsh-b"),y=b0?b0.scrollTop:0;shBuild();var n=sh.querySelector(".lsh-b");if(n)n.scrollTop=y}
 function shBuild(){var tabs=isHost()?["📊 Stats","💬 Chat","👥 Guests","🎯 Goal","🏆 Gifters"]:["🎁 Gifts","👁 Viewers","🏆 Gifters","⋯ More"].concat(isMod()?["🛡 Moderate"]:[]);if(SHT>=tabs.length)SHT=0;sh.textContent="";
- var hd=el("div","lsh-h");tabs.forEach(function(n,i){var b=el("button",i===SHT?"on":"",n);b.type="button";b.onclick=function(){SHT=i;shBuild()};hd.appendChild(b)});var x=el("button","","✕");x.type="button";x.onclick=function(){sh.style.display="none"};hd.appendChild(x);sh.appendChild(hd);var b=el("div","lsh-b");sh.appendChild(b);var k=tabs[SHT];
+ var hd=el("div","lsh-h");tabs.forEach(function(n,i){var b=el("button",i===SHT?"on":"",n);b.type="button";b.onclick=function(){SHT=i;shBuild()};hd.appendChild(b)});var x=el("button","lsh-x","✕");x.type="button";x.setAttribute("aria-label","Close");x.onclick=function(){sh.style.display="none"};hd.appendChild(x);sh.appendChild(hd);var b=el("div","lsh-b");sh.appendChild(b);var k=tabs[SHT];
  if(k==="📊 Stats")tStats(b);else if(k==="💬 Chat"||k==="🛡 Moderate")tChat(b);else if(k==="👥 Guests")tGuests(b);else if(k==="🎯 Goal")tGoal(b);else if(k==="🏆 Gifters")tTop(b);else if(k==="🎁 Gifts")tShop(b);else if(k==="👁 Viewers")tView(b);else tMore(b)}
 function tile(g,l,v){var d=el("div","st");d.appendChild(el("small","",l));d.appendChild(el("b","",String(v)));g.appendChild(d)}
 function trk(){return FX?FX.raw:LV.ls}
@@ -1693,6 +1701,14 @@ $("lvx").onclick=function(){if(LV&&LV.mine)endAsk();else closeLive()};
 var _cl3=closeLive;closeLive=function(m){var sm=LV&&LV.mine?liveStats():null,ac=FX&&FX.ac;if(LV&&LV.gs){LV.gs.getTracks().forEach(function(x){x.stop()})}if(LV&&LV.gv)Object.keys(LV.gv).forEach(function(u){LV.gv[u].srcObject=null});sh.style.display="none";lov.textContent="";_cl3(m);try{if(ac)ac.close()}catch(e){}
  if(sm)setTimeout(function(){m2("LIVE summary",null,[],"⏱ Duration: "+dur(sm.dur)+"\n📈 Peak viewers: "+sm.peak+"\n♥ Likes: "+sm.likes.toLocaleString()+"\n💬 Comments: "+sm.com+"\n🪙 Coins received: "+sm.coins.toLocaleString()+"\n💰 Estimated earnings (50%): "+sm.earn.toLocaleString()+"\n\nTop gifters:\n"+(sm.top.length?sm.top.map(function(x,i){return(i+1)+". "+x.n+" — "+x.c.toLocaleString()}).join("\n"):"—")+"\n\nEstimates only. Final earnings are confirmed by the wallet server.");$("m2m").style.whiteSpace="pre-line"},400)};
 
+
+/* scroll arrows for the top chips row */
+(function(){var B=document.getElementById("xch"),L=document.getElementById("xchl"),R=document.getElementById("xchr");if(!B||!L||!R)return;
+ function upd(){var max=B.scrollWidth-B.clientWidth;L.classList.toggle("off",B.scrollLeft<4);R.classList.toggle("off",B.scrollLeft>=max-4)}
+ L.onclick=function(){B.scrollBy({left:-Math.max(120,B.clientWidth*.7),behavior:"smooth"})};
+ R.onclick=function(){B.scrollBy({left:Math.max(120,B.clientWidth*.7),behavior:"smooth"})};
+ B.addEventListener("scroll",upd,{passive:true});window.addEventListener("resize",upd);
+ new MutationObserver(function(){setTimeout(upd,0)}).observe(B,{childList:true});upd()})();
 </script>
 </body>
 </html>
