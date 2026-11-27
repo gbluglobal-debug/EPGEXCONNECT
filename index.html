@@ -323,16 +323,10 @@ body{display:flex;flex-direction:column}
 @keyframes lvp{50%{box-shadow:0 0 0 4px rgba(139,69,19,.35)}}
 @media (prefers-reduced-motion:reduce){.sw.sl{animation:none}}
 
-/* ===== v8: filters, gifts, wallet, battles ===== */
+/* ===== v8: live filters ===== */
 #fxp{display:none;position:absolute;left:0;right:0;bottom:64px;z-index:4;background:rgba(0,0,0,.55);padding:8px 6px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
 #fxp button{border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.12);color:#fff;border-radius:16px;padding:6px 12px;margin:0 3px;cursor:pointer;font-size:.8rem}
 #fxp button.on{background:var(--acc);border-color:var(--acc)}
-#btb{display:none;position:absolute;top:58px;left:10px;right:10px;z-index:3;background:rgba(0,0,0,.6);border-radius:12px;padding:6px 10px;font-size:.85rem;text-align:center}
-#btb i{display:block;height:6px;border-radius:3px;margin-top:4px;background:linear-gradient(90deg,#2f7bff var(--p,50%),#e0457b var(--p,50%))}
-.gfx{position:absolute;left:50%;top:42%;font-size:6rem;z-index:6;pointer-events:none;transform:translate(-50%,-50%);animation:gfa 2.8s ease-out forwards}
-.gfx.big{font-size:9rem;animation:gfb 3.4s ease-out forwards}
-@keyframes gfa{0%{transform:translate(-50%,-30%) scale(.2);opacity:0}25%{transform:translate(-50%,-50%) scale(1.2);opacity:1}80%{opacity:1}100%{transform:translate(-50%,-90%) scale(1);opacity:0}}
-@keyframes gfb{0%{transform:translate(-160%,-50%) scale(.6);opacity:0}25%{transform:translate(-50%,-50%) scale(1.3);opacity:1}75%{transform:translate(-50%,-50%) scale(1.5) rotate(6deg);opacity:1}100%{transform:translate(80%,-50%) scale(2);opacity:0}}
 
 #fxp{overflow:visible;white-space:normal;padding:6px 8px;bottom:64px}
 #fxp .ft,#fxp .fr{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:3px 0}
@@ -378,12 +372,6 @@ body{display:flex;flex-direction:column}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="EPGEXX">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
 <noscript><h1>EPGEXX CONNECT</h1><p>EPGEXX CONNECT is a free chat app for messaging friends, creating groups and channels, adding members by email or username, and calling. Sign up with email verification in English, Amharic or Chinese. Please turn on JavaScript to use the app.</p></noscript>
@@ -450,7 +438,7 @@ body{display:flex;flex-direction:column}
 <div id="pvm"><div class="pfh2"><button id="pvback" type="button" aria-label="Back">←</button><b data-i="xPost" style="flex:1"></b></div><div id="pvbody"><div class="pfw" id="pvc"></div></div></div>
 <div id="stv"><div id="stp"></div><div id="sth"><div id="sta"></div><div class="nm"><b id="stn"></b><small id="stt"></small></div><button id="std" type="button" aria-label="Delete" style="display:none">🗑</button><button id="stx" type="button" aria-label="Close">✕</button></div><div id="stm"></div><div id="stc"></div><div id="stbt"><input id="strp" type="text" maxlength="300" autocomplete="off"><button id="stsd" type="button">➤</button><button id="stlk" type="button">♡</button><button id="stcm" type="button">💬</button><button id="stsh" type="button">↗</button></div><div id="stcp"><div class="cph"><b data-i="stCm"></b><button id="stcpx" type="button">✕</button></div><div id="stcpb"></div></div><div id="stl"></div><div id="str"></div></div>
 <input id="skf" type="file" accept="image/*" style="display:none"><div id="xpn"><div class="pfh2"><button id="xpx" type="button" aria-label="Back">←</button><b id="xpt" style="flex:1;font-size:1.05rem"></b></div><div id="xpb"></div></div><div id="rbar"></div>
-<div id="lvv"><video id="lvid" autoplay playsinline></video><div id="lvt"><b id="lvn"></b><span id="lvw"></span><button id="lvx" type="button" aria-label="Close">✕</button></div><div id="lvfx"></div><div id="lvc"></div><div id="lvb"><input id="lvi" type="text" maxlength="200" autocomplete="off"><button id="lvs" type="button">➤</button><button id="lvl" type="button">♥</button><button id="lvg" type="button">🎁</button><button id="lvh" type="button">↗</button></div></div>
+<div id="lvv"><video id="lvid" autoplay playsinline></video><div id="lvt"><b id="lvn"></b><span id="lvw"></span><button id="lvx" type="button" aria-label="Close">✕</button></div><div id="lvfx"></div><div id="lvc"></div><div id="lvb"><input id="lvi" type="text" maxlength="200" autocomplete="off"><button id="lvs" type="button">➤</button><button id="lvl" type="button">♥</button><button id="lvh" type="button">↗</button></div></div>
 <div id="fpw"><div class="c"><button id="fpx" class="xb" type="button" aria-label="Close">✕</button><b id="fpt"></b><input id="fpe" class="xi" autocomplete="off"><input id="fpc" class="xi" inputmode="numeric" maxlength="6" placeholder="000000"><input id="fp1" class="xi" type="password" autocomplete="new-password"><input id="fp2" class="xi" type="password" autocomplete="new-password"><div id="fpm"></div><button id="fpg" class="xbt pr" type="button"></button></div></div>
 <div id="toast"></div>
 <div id="lb"><button id="lbx" class="xb" type="button" aria-label="Close">✕</button><img id="lbi" alt=""></div>
@@ -509,9 +497,9 @@ Object.assign(T.zh,{stAll:"所有联系人",stSel:"指定好友",stWho:"谁可�
 Object.assign(T.en,{fRooms:"Live Audio Rooms",fBadges:"EPGEXX BADGES",fDaily:"Daily Question",fStick:"EPGEXX STICKERS",fPolls:"EPGEXX POLLS",thm:"Add chat themes",stkd:"day streak",stkMsg:"Text a friend every day to grow your streak.",flNew:"New EPGEXX FLASH",flShare:"Share FLASH",flNeed:"EPGEXX FLASH needs at least one photo.",stT:"⚡ Share as EPGEXX FLASH (photos only, disappears after 24 hours)",stY:"Your FLASH",stRe:"Replied to your FLASH",stPick:"Choose who can see your EPGEXX FLASH",rmStart:"Start a room",rmName:"Room name",rmGo:"Start talking",rmJoin:"Join",rmLeave:"Leave",rmMute:"Mute",rmUn:"Unmute",rmFull:"This room is full (6 people).",rmEnded:"The room has ended.",rmNone:"No friends are in a room right now. Start one!",rmBy:"hosted by",rmIn:"in the room",you:"you",plNew:"Create a poll",plQ:"Ask a question, e.g. Which country would you love to visit?",plO:"Option",plGo:"Create poll",plV:"votes",plNone:"No polls yet. Create one and let your friends vote.",dqYour:"Write your answer…",dqAns:"Answer",dqUp:"Update answer",dqAll:"Answers",dqRep:"Reply…",bdA:"Achievements",bdC:"Community",bdR:"Creative",bdNew:"Badge unlocked",stAn:"Animated",stNew:"New sticker pack",stPn:"Pack name",stPh:"Photo sticker",stTx:"Text sticker",stTp:"Sticker text (up to 12 letters)",stAnim:"Choose an animation",stkr:"Sticker",rxn:"React"});
 Object.assign(T.am,{fRooms:"ቀጥታ የድምጽ ክፍሎች",fBadges:"EPGEXX ባጆች",fDaily:"የዕለቱ ጥያቄ",fStick:"EPGEXX ስቲከሮች",fPolls:"EPGEXX ምርጫዎች",thm:"የውይይት ገጽታዎችን ጨምር",stkd:"ቀን ተከታታይ",flNew:"አዲስ EPGEXX FLASH",flShare:"FLASH አጋራ",flNeed:"EPGEXX FLASH ቢያንስ አንድ ፎቶ ያስፈልገዋል።",stT:"⚡ እንደ EPGEXX FLASH አጋራ (ፎቶ ብቻ፣ ከ24 ሰዓት በኋላ ይጠፋል)",stY:"የእርስዎ FLASH",stRe:"ለFLASH መልስ ሰጥቷል",stPick:"EPGEXX FLASH ማን ማየት እንደሚችል ይምረጡ",rmStart:"ክፍል ጀምር",rmJoin:"ግባ",rmLeave:"ውጣ",rmMute:"ድምጽ አጥፋ",rmUn:"ድምጽ አብራ",plNew:"ምርጫ ፍጠር",plV:"ድምጾች",dqAns:"መልስ",bdA:"ስኬቶች",bdC:"ማኅበረሰብ",bdR:"ፈጠራ"});
 Object.assign(T.zh,{fRooms:"实时语音房间",fBadges:"EPGEXX 徽章",fDaily:"每日一问",fStick:"EPGEXX 贴纸",fPolls:"EPGEXX 投票",thm:"添加聊天主题",stkd:"天连续",flNew:"新建 EPGEXX FLASH",flShare:"分享 FLASH",flNeed:"EPGEXX FLASH 至少需要一张照片。",stT:"⚡ 作为 EPGEXX FLASH 分享（仅限照片，24小时后消失）",stY:"我的 FLASH",stRe:"回复了你的 FLASH",stPick:"选择谁可以看到你的 EPGEXX FLASH",rmStart:"创建房间",rmJoin:"加入",rmLeave:"离开",rmMute:"静音",rmUn:"取消静音",plNew:"创建投票",plV:"票",dqAns:"回答",bdA:"成就",bdC:"社区",bdR:"创意"});
-Object.assign(T.en,{sPrivAcc:"Private account (only connected people see my posts)",fLive:"Go LIVE",fSet:"Settings",lvTitle:"What is your live about?",lvGo:"Go LIVE",lvWatch:"Watch",lvNone:"No friends are live right now.",lvEnd:"The live has ended.",lvC:"Say something…",lvGift:"Send a gift",lvSent:"sent",lvShare:"LIVE now",sAcc:"Account",sEp:"Edit profile",sApp:"Appearance",sLight:"Light",sDark:"Dark",sAuto:"Auto",sLang:"Language",sPriv:"Privacy",sVis:"Appear in search and contacts",sNtf:"Notifications and sounds",sSnd:"Sounds",sAl:"Enable alerts",sSec:"Security",sOn:"ON",sOff:"OFF",fpL:"Forgot password?",fpT:"Reset your password",fpNo:"No account found for that email.",fpSet:"Set new password",fpOk:"Password changed. Sign in with your new password.",cpT:"Change password",cpOld:"Current password",cpNew:"New password",cpNew2:"Repeat new password",cpGo:"Change password",cpBad:"Current password is wrong.",cpOk:"Password changed."});
-Object.assign(T.am,{fLive:"ቀጥታ ስርጭት ጀምር",fSet:"ቅንብሮች",lvWatch:"ተመልከት",lvGift:"ስጦታ ላክ",sAcc:"መለያ",sApp:"መልክ",sLang:"ቋንቋ",sPriv:"ግላዊነት",sSec:"ደህንነት",fpL:"የይለፍ ቃል ረስተዋል?",fpT:"የይለፍ ቃልዎን ዳግም ያስጀምሩ",cpT:"የይለፍ ቃል ቀይር",cpOld:"አሁን ያለው የይለፍ ቃል",cpNew:"አዲስ የይለፍ ቃል",cpNew2:"አዲሱን ይድገሙ"});
-Object.assign(T.zh,{fLive:"开始直播",fSet:"设置",lvWatch:"观看",lvGift:"送礼物",sAcc:"账号",sApp:"外观",sLang:"语言",sPriv:"隐私",sSec:"安全",fpL:"忘记密码？",fpT:"重置密码",cpT:"修改密码",cpOld:"当前密码",cpNew:"新密码",cpNew2:"重复新密码"});
+Object.assign(T.en,{sPrivAcc:"Private account (only connected people see my posts)",fLive:"Go LIVE",fSet:"Settings",lvTitle:"What is your live about?",lvGo:"Go LIVE",lvWatch:"Watch",lvNone:"Nobody is live right now.",lvEnd:"The live has ended.",lvC:"Say something…",lvShare:"LIVE now",sAcc:"Account",sEp:"Edit profile",sApp:"Appearance",sLight:"Light",sDark:"Dark",sAuto:"Auto",sLang:"Language",sPriv:"Privacy",sVis:"Appear in search and contacts",sNtf:"Notifications and sounds",sSnd:"Sounds",sAl:"Enable alerts",sSec:"Security",sOn:"ON",sOff:"OFF",fpL:"Forgot password?",fpT:"Reset your password",fpNo:"No account found for that email.",fpSet:"Set new password",fpOk:"Password changed. Sign in with your new password.",cpT:"Change password",cpOld:"Current password",cpNew:"New password",cpNew2:"Repeat new password",cpGo:"Change password",cpBad:"Current password is wrong.",cpOk:"Password changed."});
+Object.assign(T.am,{fLive:"ቀጥታ ስርጭት ጀምር",fSet:"ቅንብሮች",lvWatch:"ተመልከት",sAcc:"መለያ",sApp:"መልክ",sLang:"ቋንቋ",sPriv:"ግላዊነት",sSec:"ደህንነት",fpL:"የይለፍ ቃል ረስተዋል?",fpT:"የይለፍ ቃልዎን ዳግም ያስጀምሩ",cpT:"የይለፍ ቃል ቀይር",cpOld:"አሁን ያለው የይለፍ ቃል",cpNew:"አዲስ የይለፍ ቃል",cpNew2:"አዲሱን ይድገሙ"});
+Object.assign(T.zh,{fLive:"开始直播",fSet:"设置",lvWatch:"观看",sAcc:"账号",sApp:"外观",sLang:"语言",sPriv:"隐私",sSec:"安全",fpL:"忘记密码？",fpT:"重置密码",cpT:"修改密码",cpOld:"当前密码",cpNew:"新密码",cpNew2:"重复新密码"});
 T.epg={};Object.keys(T.en).forEach(function(k){T.epg[k]=toEpg(T.en[k].toUpperCase())});
 function ld(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}if(/^epx_(prof|con|bot|nm|lang|mode)$/.test(k))schedCloud();if(k==="epx_con")drawFeed()}
@@ -841,7 +829,7 @@ incomingCall(x)},function(){})}catch(e){}}
 $("plus").onclick=function(){m2("EPGEXX CONNECT",null,[{l:t("nG"),f:function(){newChat("group")}},{l:t("nC"),f:function(){newChat("channel")}},{l:t("bE"),f:function(){byEmail()}}],"")};
 async function adminPanel(){if(!isOwner||!db)return;m2(t("gt"),t("gs"),[],"");var i=$("m2i"),L=$("m2l"),M=$("m2m"),all=[];
 try{var s=await db.collection("profiles").get();s.docs.forEach(function(d){var x=d.data()||{};if(x.visible===true)all.push({id:d.id,name:x.name||"?",username:x.username||"",wno:x.wno||""})})}catch(e){M.textContent="…"}
-function dr(){var q=i.value.trim().toLowerCase().replace("@","");var qd=q.replace(/\D/g,"");L.textContent="";all.filter(function(u){return!q||(u.name+" "+u.username).toLowerCase().indexOf(q)>=0||(qd.length>=4&&String(u.wno||"").indexOf(qd)>=0)}).sort(function(a,b){return(vset[b.id]?1:0)-(vset[a.id]?1:0)}).slice(0,60).forEach(function(u){var row=el("div","mr"),sp=el("span","",u.name+(u.username?" @"+u.username:"")+(u.wno?" · "+fmtW(u.wno):"")),v=vb(u.id);if(v)sp.appendChild(v);row.appendChild(sp);row.appendChild(btn(vset[u.id]?t("uv"):t("vf"),async function(){try{await db.doc("verified/"+u.id).set({v:!vset[u.id],by:me,ts:Date.now()})}catch(e){M.textContent="Could not save."}}));row.appendChild(btn("🪙",function(){grantCoins(u)}));L.appendChild(row)});wLookupRow(L,q)}
+function dr(){var q=i.value.trim().toLowerCase().replace("@","");var qd=q.replace(/\D/g,"");L.textContent="";all.filter(function(u){return!q||(u.name+" "+u.username).toLowerCase().indexOf(q)>=0}).sort(function(a,b){return(vset[b.id]?1:0)-(vset[a.id]?1:0)}).slice(0,60).forEach(function(u){var row=el("div","mr"),sp=el("span","",u.name+(u.username?" @"+u.username:"")),v=vb(u.id);if(v)sp.appendChild(v);row.appendChild(sp);row.appendChild(btn(vset[u.id]?t("uv"):t("vf"),async function(){try{await db.doc("verified/"+u.id).set({v:!vset[u.id],by:me,ts:Date.now()})}catch(e){M.textContent="Could not save."}}));L.appendChild(row)})}
 i.oninput=dr;admDraw=dr;dr()}
 $("adm").onclick=adminPanel;
 async function toggleFollow(id){if(!db||!me||id===me)return;var on=isF(id);
@@ -967,7 +955,7 @@ else{bar.appendChild(pill(isF(id)?t("fg")+" ✓":t("fo"),function(){toggleFollow
 bar.appendChild(pill(t("ms"),function(){contacts[id]=contacts[id]||{name:x.name,username:x.username};sv("epx_con",contacts);pfClose();renderList();open(id)}));
 var ab=el("button","",contacts[id]?"✓":"👤＋");ab.type="button";ab.title=t("add");ab.style.cssText="flex:none;border:0;border-radius:10px;padding:10px 14px;cursor:pointer;background:var(--key);color:var(--ink)";ab.onclick=function(){if(!contacts[id]){contacts[id]={name:x.name,username:x.username};sv("epx_con",contacts);renderList()}ab.textContent="✓"};bar.appendChild(ab)}
 H.appendChild(bar);
-if(isOwner){var vr=el("div","");vr.style.cssText="margin-top:8px;display:flex;gap:8px";vr.appendChild(pill((vset[id]?t("uv"):t("vf"))+" ✓",function(){toggleVerify(id)},false));vr.appendChild(pill("🪙 Add coins",function(){grantCoins({id:id,name:x.name||"?"})},false));H.appendChild(vr)}
+if(isOwner){var vr=el("div","");vr.style.cssText="margin-top:8px;display:flex;gap:8px";vr.appendChild(pill((vset[id]?t("uv"):t("vf"))+" ✓",function(){toggleVerify(id)},false));H.appendChild(vr)}
 pfGrid(id)}
 function pfGrid(uid){var G=$("pfgrid"),mp=POSTS.filter(function(p){return p.by===uid&&!p.story}),sig=uid+"|"+mp.map(function(p){return p.id}).join(",");
 if(sig===PFSIG&&G.firstChild)return;PFSIG=sig;G.textContent="";G.appendChild(el("div","pgh",t("pfPosts")+" · "+mp.length));
@@ -1341,7 +1329,7 @@ function appT(){if(TH==="auto")document.documentElement.removeAttribute("data-th
 var _bp=beep;beep=function(){if(SND)_bp()};
 function lvViewers(id){return LVP.filter(function(p){return p.live===id&&Date.now()-p.ts<40000})}
 function liveList(b){if(!LV){var c=card(b),i=xin(t("lvTitle"),60);c.appendChild(el("b","","🔴 "+t("fLive")));c.appendChild(i);c.appendChild(xb("🔴 "+t("lvGo"),function(){goLive(i.value)},1))}
-var n=0;LVS.forEach(function(l){if(Date.now()-l.ts>45000||!(l.host===me||conn(l.host)))return;n++;var k=card(b);k.appendChild(row1(l.hostName||"?",l.host));k.appendChild(el("b","","🔴 "+l.title));k.appendChild(el("small","xs","👁 "+lvViewers(l.id).length));if(!LV)k.appendChild(xb("▶ "+t("lvWatch"),function(){watchLive(l)},1))});if(!n)b.appendChild(el("div","empty",t("lvNone")))}
+var n=0;LVS.forEach(function(l){if(Date.now()-l.ts>45000)return;n++;var k=card(b);k.appendChild(row1(l.hostName||"?",l.host));k.appendChild(el("b","","🔴 "+l.title));k.appendChild(el("small","xs","👁 "+lvViewers(l.id).length));if(!LV&&l.host!==me)k.appendChild(xb("▶ "+t("lvWatch"),function(){watchLive(l)},1))});if(!n)b.appendChild(el("div","empty",t("lvNone")))}
 async function goLive(title){if(!db||!me||LV)return;var ls;try{ls=await navigator.mediaDevices.getUserMedia({audio:true,video:{facingMode:"user",width:{ideal:640},height:{ideal:480}}})}catch(e){toast(function(){},t("cm"),"");return}
 var l={id:rid("l"),host:me,hostName:who(),title:(title||"").trim()||(who()+" LIVE"),ts:Date.now()};try{await db.doc("lives/"+l.id).set(l)}catch(e){ls.getTracks().forEach(function(x){x.stop()});return}
 lvStart(l,true,ls);LV.hb=setInterval(function(){db.doc("lives/"+l.id).update({ts:Date.now()}).catch(function(){})},15000);bump("live")}
@@ -1349,16 +1337,15 @@ function watchLive(l){if(!db||!me||LV)return;lvStart(l,false,null);var hb=functi
 function lvStart(l,mine,ls){$("xpn").style.display="none";XPF=null;LV={id:l.id,host:l.host,hn:l.hostName,title:l.title,mine:mine,ls:ls,pcs:{},pend:{},jt:Date.now(),pid:l.id+"_"+me,pk:0,un:[],pl:0};LVC=[];LVL=[];
 var v=$("lvid");v.srcObject=mine?ls:null;v.muted=mine;$("lvn").textContent="🔴 "+l.title;$("lvv").style.display="flex";$("lvc").textContent="";$("lvfx").textContent="";lvStat();
 var Q=function(c){return db.collection(c).where("live","==",l.id)};
-LV.un.push(lis(Q("livecom"),function(s){LVC=s.docs.map(function(d){return d.data()}).sort(function(a,b){return a.ts-b.ts});lvDraw();s.docChanges().forEach(function(c){var x=c.doc.data();if(c.type==="added"&&x.g&&x.ts>LV.jt-2000&&x.by!==me)lvFloat(x.g)})}));
+LV.un.push(lis(Q("livecom"),function(s){LVC=s.docs.map(function(d){return d.data()}).sort(function(a,b){return a.ts-b.ts});lvDraw()}));
 LV.un.push(lis(Q("livelk"),function(s){LVL=s.docs.map(function(d){return d.data()});var tot=LVL.reduce(function(a,x){return a+(x.n||0)},0);if(tot>LV.pl&&LV.pl)for(var i=0;i<Math.min(5,tot-LV.pl);i++)lvFloat("❤️");LV.pl=tot;lvStat()}))}
-function lvStat(){if(!LV)return;var lk=LVL.reduce(function(a,x){return a+(x.n||0)},0)+LV.pk;$("lvw").textContent="👁 "+lvViewers(LV.id).length+"  ♥ "+lk+"  🎁 "+LVC.filter(function(c){return c.g}).length}
-function lvDraw(){var C=$("lvc");C.textContent="";LVC.slice(-40).forEach(function(c){var d=el("div","");d.appendChild(el("b","",(c.name||"?")+" "));d.appendChild(document.createTextNode(c.g?"🎁 "+t("lvSent")+" "+c.g:c.text||""));C.appendChild(d)});C.scrollTop=C.scrollHeight;lvStat()}
+function lvStat(){if(!LV)return;var lk=LVL.reduce(function(a,x){return a+(x.n||0)},0)+LV.pk;$("lvw").textContent="👁 "+lvViewers(LV.id).length+"  ♥ "+lk}
+function lvDraw(){var C=$("lvc");C.textContent="";LVC.slice(-40).forEach(function(c){var d=el("div","");d.appendChild(el("b","",(c.name||"?")+" "));d.appendChild(document.createTextNode(c.text||""));C.appendChild(d)});C.scrollTop=C.scrollHeight;lvStat()}
 function lvFloat(e){var f=$("lvfx");if(!f)return;var s=el("span","lvf",e);s.style.left=Math.floor(Math.random()*50)+"px";f.appendChild(s);setTimeout(function(){s.remove()},2000)}
 function lvFlush(){if(!LV||!LV.pk)return;var n=LV.pk;LV.pk=0;db.doc("livelk/"+LV.id+"_"+me).set({live:LV.id,by:me,n:firebase.firestore.FieldValue.increment(n)},{merge:true}).catch(function(){LV&&(LV.pk+=n)})}
 $("lvl").onclick=function(){if(!LV)return;LV.pk++;lvFloat("❤️");lvStat();clearTimeout(LV.ft);LV.ft=setTimeout(lvFlush,1200)};
-function lvSay(g){if(!LV||!db)return;var v=$("lvi").value.trim();if(!g&&!v)return;var d={live:LV.id,by:me,name:who(),ts:Date.now()};if(g)d.g=g;else d.text=v;$("lvi").value="";db.collection("livecom").add(d).catch(function(){});if(g){lvFloat(g);bump("gift")}}
+function lvSay(g){if(!LV||!db)return;var v=$("lvi").value.trim();if(!v)return;var d={live:LV.id,by:me,name:who(),ts:Date.now()};d.text=v;$("lvi").value="";db.collection("livecom").add(d).catch(function(){});}
 $("lvs").onclick=function(){lvSay()};$("lvi").onkeydown=function(e){if(e.key==="Enter"){e.preventDefault();lvSay()}};
-$("lvg").onclick=function(){m2(t("lvGift"),null,["🌹","💎","🚀","🦁","👑","🎁"].map(function(g){return{l:g,f:function(){$("m2").style.display="none";lvSay(g)}}}),"")};
 $("lvh").onclick=function(){if(LV)sharePost({name:LV.hn||"?",text:"🔴 "+t("lvShare")+": "+LV.title,loc:""})};
 $("lvx").onclick=function(){closeLive()};
 function lvSig(to,k,d){db.collection("livesig").add({live:LV.id,from:me,to:to,k:k,d:d,ts:Date.now()}).catch(function(){})}
@@ -1417,7 +1404,7 @@ Object.assign(T.am,{lvTag:"ቀጥታ",lvNow:"አሁን በቀጥታ ስርጭት
 Object.assign(T.zh,{lvTag:"直播",lvNow:"正在直播",nwPost:"发布了新帖子",nwSt:"发布了新动态"});
 /* people who follow each other get the alerts */
 function isMutual(id){return !!id&&id!==me&&isF(id)&&FD.some(function(x){return x.a===id&&x.b===me})}
-function liveOf(uid){if(!uid||uid===me||!conn(uid))return null;var now=Date.now(),r=null;LVS.forEach(function(l){if(l&&l.host===uid&&now-l.ts<=45000&&(!r||l.ts>r.ts))r=l});return r}
+function liveOf(uid){if(!uid||uid===me)return null;var now=Date.now(),r=null;LVS.forEach(function(l){if(l&&l.host===uid&&now-l.ts<=45000&&(!r||l.ts>r.ts))r=l});return r}
 function lvHosts(){var o={},a=[];LVS.slice().sort(function(x,y){return y.ts-x.ts}).forEach(function(l){if(l&&!o[l.host]&&liveOf(l.host)){o[l.host]=1;a.push(liveOf(l.host))}});return a}
 function lvApply(w){var uid=w.dataset.uid,l=liveOf(uid),tg=w.querySelector(".lvtag");
  if(l){w.className="sw sl";if(!tg)w.appendChild(el("span","lvtag",lang==="epg"?"LIVE":t("lvTag")));
@@ -1459,80 +1446,9 @@ function pNotify(s){var first=!PN0;PN0=true;if(first)return;
   ntf("p"+id,(x.story?"⚡ ":"📝 ")+(x.name||"?")+" "+t(x.story?"nwSt":"nwPost"),body,function(){showTab("home");
    if(x.story){openStory(x.by)}else{var p=POSTS.filter(function(q){return q.id===id})[0];if(p)openPost(p)}})})}
 
-/* ===== v8: LIVE filters, EXX Coins wallet, gifts, battles =====
- BACKEND CONTRACT (you must host this; the page never changes balances itself). Set EXX_API below.
- POST /checkout {coins,country,currency,method,idem} -> {url}   (payment provider hosted checkout; coins are added ONLY by the provider webhook)
- POST /gift {live,gift,idem} -> {ok}   server checks balance, deducts coins, credits creator 50% (earn), writes livecom + wtx
- POST /payout {coins,method,idem} -> {ok}   server checks identity/KYC, limits, fraud rules, then pays out
- POST /battle/start {opponent} , /battle/accept {id}
- Firestore (written by server only; client rules must deny writes): wallets/{uid}={coins,earn,withdrawable}, wtx (uid,type,coins,ts,note), battles.
- Requests send a Firebase Auth ID token; the server must verify it (your current custom login cannot be verified by a server). */
-var EXX_API="";                                   /* e.g. https://us-central1-YOURPROJECT.cloudfunctions.net/exx */
-var RATES_URL="https://open.er-api.com/v6/latest/USD"; /* live rate source: rates are fetched at runtime, never stored in this file */
-var GIFTS=[{id:"flower",e:"🌸",n:"Flower",c:100},{id:"rose",e:"🌹",n:"Rose",c:500},{id:"heart",e:"💖",n:"Heart",c:1000},{id:"crown",e:"👑",n:"Crown",c:5000},{id:"car",e:"🏎️",n:"Luxury Car",c:10000,big:1},{id:"universe",e:"🌌",n:"Universe",c:50000,big:1}];
-var PKGS=[[100,.99],[500,4.49],[1000,8.49],[5000,39.99],[10000,74.99]];  /* USD list prices */
-var CT={ET:["Ethiopia","ETB"],US:["United States","USD"],GB:["United Kingdom","GBP"],DE:["Germany","EUR"],FR:["France","EUR"],CA:["Canada","CAD"],AU:["Australia","AUD"],KE:["Kenya","KES"],NG:["Nigeria","NGN"],GH:["Ghana","GHS"],ZA:["South Africa","ZAR"],EG:["Egypt","EGP"],TZ:["Tanzania","TZS"],UG:["Uganda","UGX"],IN:["India","INR"],PK:["Pakistan","PKR"],BD:["Bangladesh","BDT"],ID:["Indonesia","IDR"],PH:["Philippines","PHP"],CN:["China","CNY"],JP:["Japan","JPY"],BR:["Brazil","BRL"],MX:["Mexico","MXN"],AE:["UAE","AED"],SA:["Saudi Arabia","SAR"],TR:["Turkey","TRY"]};
-/* methods your payment provider is configured for, per country (edit to match your provider; shown only as choices, the provider decides what is really available) */
-var PAYM={ET:["Telebirr","CBE Birr","Card"],KE:["M-Pesa","Card"],TZ:["M-Pesa","Tigo Pesa","Card"],UG:["MTN Mobile Money","Card"],GH:["MTN Mobile Money","Card"],NG:["Bank transfer","Card"],IN:["UPI","Card"],BR:["Pix","Card"],CN:["Alipay","WeChat Pay"],ID:["GoPay","Card"],PH:["GCash","Card"],default:["Card","Apple Pay / Google Pay"]};
-var WAL={coins:0,earn:0,withdrawable:0},WTX=[],RATES=null,RATE_TS=0,RATE_ERR=false,PKG=1,PMT="",BT=[];
-var CTY=ld("epx_cty",null)||((navigator.language||"").split("-")[1]||"US").toUpperCase();if(!CT[CTY])CTY="US";
-function loadRates(){fetch(RATES_URL).then(function(r){return r.json()}).then(function(j){if(!j||!j.rates)throw 0;RATES=j.rates;RATE_TS=Date.now();RATE_ERR=false;xpRef()}).catch(function(){RATE_ERR=true;xpRef()})}
-loadRates();setInterval(loadRates,3600000);
-function money(usd,cur){var r=cur==="USD"?1:(RATES&&RATES[cur]);if(!r)return null;try{var nf=new Intl.NumberFormat(undefined,{style:"currency",currency:cur}),m=Math.pow(10,nf.resolvedOptions().maximumFractionDigits);return nf.format(Math.ceil(usd*r*m)/m)}catch(e){return null}}
-async function exx(p,b){if(!EXX_API)throw new Error("noapi");var tk="";try{if(window.firebase&&firebase.auth&&firebase.auth().currentUser)tk=await firebase.auth().currentUser.getIdToken()}catch(e){}
- var r=await fetch(EXX_API+p,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+tk},body:JSON.stringify(b||{})}),j=await r.json().catch(function(){return{}});if(!r.ok)throw new Error(j.error||"fail");return j}
-function exxErr(e){var m=e&&e.message;return m==="noapi"?"The wallet service is not connected yet.":m==="insufficient"?"Not enough EXX Coins.":m==="forbidden"?"Only the owner account can add coins.":"Something went wrong. Nothing was charged."}
 var _xr=xpRef;xpRef=function(f){var a=document.activeElement;if(!f&&a&&a.tagName==="SELECT")return;_xr(f)};
 $("xpx").addEventListener("click",function(){$("xpn").style.zIndex=""});
-/* wallet panel */
-function wallet(b){var c=card(b,"hero");c.appendChild(el("small","","EXX Coins wallet"));
- var wn=el("div","xsw");wn.appendChild(el("span","","🔢 Wallet number"));wn.appendChild(el("b","",WNO?fmtW(WNO):"…"));c.appendChild(wn);if(WNO){c.appendChild(xb("Copy wallet number",function(){copyW()}));c.appendChild(el("small","xs",(prof.name||"")+" · give this number to the team to receive coins"))}
- [["🪙 Purchased EXX Coins",WAL.coins],["🎁 Creator earnings",WAL.earn],["🏦 Withdrawable balance",WAL.withdrawable]].forEach(function(x){var r=el("div","xsw");r.appendChild(el("span","",x[0]));r.appendChild(el("b","",(x[1]||0).toLocaleString()+" · "+coinVal(x[1]||0)));c.appendChild(r)});c.appendChild(el("small","",CT[CTY][1]==="ETB"?"Value: 1 EXX Coin = 1 birr":"Value shown in "+CT[CTY][1]+" at live rates"));
- var hb=card(b);hb.appendChild(el("b","","🛒 Buy EXX Coins"));hb.appendChild(el("small","xs","Tap Buy, choose your country and coins, and we take you to GBLU_OFFICIAL on Telegram."));hb.appendChild(xb("🛒 Buy on Telegram · GBLU_OFFICIAL",buyTg,1));hb.appendChild(xb("ℹ️ How to buy & about EXX Coins",function(){xpOpen("EXX Coins",coinInfo);$("xpn").style.zIndex=95}));
- var hw=card(b);hw.appendChild(el("b","","💸 How to withdraw"));["Creators earn 50% of eligible gifts received in LIVE.","Earnings become Withdrawable balance after review.","Enter the coins, your payout method and account below.","Tap Withdraw and confirm with your login password.","Your request goes to the GBLU team and you can download your receipt. It is reviewed, then paid."].forEach(function(x,i){hw.appendChild(el("div","",(i+1)+". "+x))});hw.appendChild(el("small","xs","Your withdrawable balance now: "+(WAL.withdrawable||0).toLocaleString()+" coins ≈ "+coinVal(WAL.withdrawable||0)));
- var wf=card(b);wf.appendChild(el("b","","📊 Where your coins come from"));wf.appendChild(el("small","xs","🪙 Purchased: coins you bought from GBLU_OFFICIAL or that the team added.\n🎁 Creator earnings: 50% of gifts people send you in LIVE.\n🏦 Withdrawable: earnings approved for cash out. Every change is listed in Transaction history below."));wf.lastChild.style.whiteSpace="pre-line"
- if(!EXX_API){var n=card(b);n.appendChild(el("b","","Payments are not connected"));n.appendChild(el("small","xs","Online checkout is not connected yet. To buy EXX Coins now, contact GBLU_OFFICIAL. Balances only change after the GBLU team or server confirms."))}
- var k=card(b);k.appendChild(el("b","","Buy EXX Coins"));var sel=el("select","xi");Object.keys(CT).sort(function(x,y){return CT[x][0]<CT[y][0]?-1:1}).forEach(function(cc){var o=el("option","",CT[cc][0]+" ("+CT[cc][1]+")");o.value=cc;if(cc===CTY)o.selected=true;sel.appendChild(o)});
- sel.onchange=function(){CTY=sel.value;lsv("epx_cty",CTY);PMT="";xpRef(1)};k.appendChild(sel);var cur=CT[CTY][1];
- PKGS.forEach(function(p,i){var lp=pkgPrice(p,cur),x=el("button","xo"+(i===PKG?" on":""));x.type="button";x.appendChild(el("span","","🪙 "+p[0].toLocaleString()));x.appendChild(el("i","",lp||("$"+p[1].toFixed(2)+" USD")));x.onclick=function(){PKG=i;xpRef(1)};k.appendChild(x)});
- var ms=PAYM[CTY]||PAYM.default;if(ms.indexOf(PMT)<0)PMT=ms[0];var mr=el("div","xrow");ms.forEach(function(m){mr.appendChild(xb(m,function(){PMT=m;xpRef(1)},m===PMT))});k.appendChild(mr);
- var fp=pkgPrice(PKGS[PKG],cur);k.appendChild(el("b","","Total: "+(fp?fp:"$"+PKGS[PKG][1].toFixed(2)+" USD")));
- k.appendChild(el("small","xs",cur==="ETB"?"In Ethiopia, 1 EXX Coin = 1 birr. GBLU_OFFICIAL confirms the final amount with you.":fp?(cur!=="USD"?"Converted at live rates"+(RATE_TS?" updated "+ago(RATE_TS):"")+". The payment provider shows the exact final amount before you confirm.":"Final amount shown by the payment provider before you confirm."):(RATE_ERR?"Live exchange rates are unavailable, so the local price cannot be shown right now.":"Loading live exchange rates…")));
- var pay=xb("Pay securely",async function(){if(!fp)return;pay.disabled=true;try{var j=await exx("/checkout",{coins:PKGS[PKG][0],country:CTY,currency:cur,method:PMT,idem:rid("c")});if(j&&j.url)location.href=j.url;else throw 0}catch(e){toast(function(){},exxErr(e),"");pay.disabled=false}},1);pay.disabled=!EXX_API||!fp;if(EXX_API)k.appendChild(pay);else k.appendChild(xb("🛒 Buy on Telegram · GBLU_OFFICIAL",buyTg,1));
- k.appendChild(el("small","xs","Coins appear in your wallet only after the payment is confirmed."));
- wdCard(b);txInline(b)}
-/* ===== How to buy + coin info, and contact GBLU_OFFICIAL ===== */
-var TG_URL="https://t.me/GBLU_OFFICIAL";
-function goTg(){window.open(TG_URL,"_blank","noopener")}
-function buyTg(){xpOpen("Buy EXX Coins",buyFlow);$("xpn").style.zIndex=95}
-function buyFlow(b){var cur=CT[CTY][1],pk=PKGS[PKG],price=pkgPrice(pk,cur)||("$"+pk[1].toFixed(2)+" USD");
- var h=card(b,"hero");h.appendChild(el("b","","🛒 Buy EXX Coins"));h.appendChild(el("small","","Choose your country and coins, then continue to GBLU_OFFICIAL on Telegram."));
- var c1=card(b);c1.appendChild(el("b","","1. Your country"));var sel=el("select","xi");Object.keys(CT).sort(function(x,y){return CT[x][0]<CT[y][0]?-1:1}).forEach(function(cc){var o=el("option","",CT[cc][0]+" ("+CT[cc][1]+")");o.value=cc;if(cc===CTY)o.selected=true;sel.appendChild(o)});sel.onchange=function(){CTY=sel.value;lsv("epx_cty",CTY);xpRef(1)};c1.appendChild(sel);
- var c2=card(b);c2.appendChild(el("b","","2. How many coins ("+cur+")"));PKGS.forEach(function(p,i){var x=el("button","xo"+(i===PKG?" on":""));x.type="button";x.appendChild(el("span","","🪙 "+p[0].toLocaleString()));x.appendChild(el("i","",pkgPrice(p,cur)||("$"+p[1].toFixed(2)+" USD")));x.onclick=function(){PKG=i;xpRef(1)};c2.appendChild(x)});
- c2.appendChild(el("b","","Total: "+price));c2.appendChild(el("small","xs",cur==="ETB"?"In Ethiopia, 1 EXX Coin = 1 birr.":"Converted from USD at live rates. GBLU_OFFICIAL confirms the final amount."));
- var msg="Hello GBLU_OFFICIAL, I want to buy "+pk[0].toLocaleString()+" EXX Coins ("+price+"). Country: "+CT[CTY][0]+(WNO?". Wallet number: "+fmtW(WNO):"")+".";
- var c3=card(b);c3.appendChild(el("b","","3. Message for GBLU_OFFICIAL"));c3.appendChild(el("small","xs",msg));
- c3.appendChild(xb("➡️ Continue to Telegram · GBLU_OFFICIAL",function(){try{navigator.clipboard.writeText(msg)}catch(e){}goTg();toast(function(){},"Message copied","Paste it in the GBLU_OFFICIAL chat on Telegram.")},1));
- c3.appendChild(el("small","xs","The message is copied when you tap Continue. Paste it in the chat."))}
-function pkgPrice(p,cur){return cur==="ETB"?p[0].toLocaleString()+" birr":money(p[1],cur)}
-function coinVal(c){var cur=CT[CTY][1];c=c||0;if(cur==="ETB")return c.toLocaleString()+" birr";var usd=c*PKGS[0][1]/PKGS[0][0];return money(usd,cur)||("$"+usd.toFixed(2)+" USD")}
-function coinInfo(b){var cur=CT[CTY][1];
- var h=card(b,"hero");h.appendChild(el("b","","🪙 EXX Coins"));h.appendChild(el("small","","EXX Coins are the in-app coins of EPGEXX CONNECT. Use them to send gifts to creators during LIVE."));
- var st=card(b);st.appendChild(el("b","","How to buy"));
- ["Tap Buy, choose your country and coins, then continue to the GBLU_OFFICIAL Telegram account.","Tell them how many EXX Coins you want and your country.","Send your wallet number so they know where to add the coins.","Pay the way GBLU_OFFICIAL tells you.","After they confirm, the coins are added to your wallet and you see them on your Home dashboard."].forEach(function(x,i){st.appendChild(el("div","",(i+1)+". "+x))});
- st.appendChild(xb("🛒 Buy on Telegram · GBLU_OFFICIAL",buyTg,1));
- if(WNO){var wn=el("div","xsw");wn.appendChild(el("span","","🔢 Your wallet number"));wn.appendChild(el("b","",fmtW(WNO)));st.appendChild(wn);st.appendChild(xb("Copy wallet number",function(){copyW()}))}
- var pk=card(b);pk.appendChild(el("b","","Coin packages"));PKGS.forEach(function(p){var r=el("div","xsw"),lp=pkgPrice(p,cur);r.appendChild(el("span","","🪙 "+p[0].toLocaleString()));r.appendChild(el("b","",lp||("$"+p[1].toFixed(2)+" USD")));pk.appendChild(r)});
- pk.appendChild(el("small","xs",cur==="ETB"?"In Ethiopia, 1 EXX Coin = 1 birr.":"List prices in USD"+(cur!=="USD"?", converted at live rates":"")+". GBLU_OFFICIAL confirms the final amount with you."));
- var g=card(b);g.appendChild(el("b","","Gifts you can send"));GIFTS.forEach(function(x){var r=el("div","xsw");r.appendChild(el("span","",x.e+" "+x.n));r.appendChild(el("b","","🪙 "+x.c.toLocaleString()));g.appendChild(r)});
- var e=card(b);e.appendChild(el("b","","Creators"));e.appendChild(el("small","xs","Creators earn 50% of eligible gift revenue and can request a withdrawal from their Wallet."));
- var sf=card(b);sf.appendChild(el("b","","Stay safe"));sf.appendChild(el("small","xs","Only buy coins from the GBLU_OFFICIAL account. Never share your password or verification code with anyone."))}
-var _xc=xChips;xChips=function(){_xc();var B=$("xch");if(!B)return;B.appendChild(xb("↗ "+t("shApp"),function(){sharePost({name:"EPGEXX CONNECT",text:t("shAppTx")+"\n"+location.href})}));B.appendChild(xb("💰 Wallet",function(){xpOpen("Wallet",wallet)}));B.appendChild(xb("📜 Transactions",function(){xpOpen("Transactions",txScreen)}))};xChips();
-/* gifts */
-function giftFx(e,big){var d=el("div","gfx"+(big?" big":""),e);$("lvv").appendChild(d);setTimeout(function(){d.remove()},3600)}
-var _lf=lvFloat;lvFloat=function(e){_lf(e);var g=GIFTS.filter(function(x){return x.e===e})[0];if(g)giftFx(e,g.big)};
-async function sendGift(g){if(!LV)return;$("m2").style.display="none";try{await exx("/gift",{live:LV.id,gift:g.id,idem:rid("g")});giftFx(g.e,g.big)}catch(e){toast(function(){},exxErr(e),"")}}
-$("lvg").onclick=function(){if(!LV||LV.mine)return;var bal=WAL.coins||0;m2("🎁 Send a gift",null,GIFTS.map(function(g){return{l:g.e+" "+g.n+" · "+g.c.toLocaleString(),p:bal>=g.c,f:function(){sendGift(g)}}}).concat([{l:"💰 Buy coins",f:function(){$("m2").style.display="none";xpOpen("Wallet",wallet);$("xpn").style.zIndex=95}}]),"Balance: "+bal.toLocaleString()+" EXX Coins")};
+var _xc=xChips;xChips=function(){_xc();var B=$("xch");if(!B)return;B.appendChild(xb("↗ "+t("shApp"),function(){sharePost({name:"EPGEXX CONNECT",text:t("shAppTx")+"\n"+location.href})}))};xChips();
 /* 39 live filters, drawn on a canvas so viewers see them too */
 var FXL=[["None",""],["Warm","saturate(1.3) sepia(.3) hue-rotate(-10deg)"],["Cool","saturate(1.2) hue-rotate(20deg) brightness(1.05)"],["Vintage","sepia(.8) contrast(1.1)"],["B&W","grayscale(1)"],["Vivid","saturate(2) contrast(1.1)"],["Dream","blur(1.5px) brightness(1.15) saturate(1.3)"],["Neon","hue-rotate(90deg) saturate(2.5) contrast(1.2)"],["Noir","grayscale(1) contrast(1.6) brightness(.9)"],["Fade","contrast(.8) brightness(1.15) saturate(.8)"],["Sunset","sepia(.4) hue-rotate(-30deg) saturate(1.8)"],["Ocean","hue-rotate(160deg) saturate(1.4)"],
 ["Wide face","",{sx:1.35}],["Tall face","",{sy:1.35}],["Squish","",{sx:1.2,sy:.8}],["Big zoom","",{sx:1.45,sy:1.45}],["Tiny","",{sx:.75,sy:.75}],["Mirror","",{fl:1}],["Upside down","",{fv:1}],["Wobble","",{wb:1}],
@@ -1548,21 +1464,14 @@ function fxWrap(raw){var v=document.createElement("video");v.srcObject=raw;v.mut
  var out=new MediaStream(c.captureStream(30).getVideoTracks().concat(raw.getAudioTracks()));return out}
 var fxp=el("div","");fxp.id="fxp";$("lvv").appendChild(fxp);
 function fxBuild(){fxp.textContent="";FXL.forEach(function(f,i){var b=el("button",i===FXI?"on":"",f[0]);b.type="button";b.onclick=function(){FXI=i;fxBuild()};fxp.appendChild(b)})}
-var btb=el("div","");btb.id="btb";$("lvv").appendChild(btb);
+
 var _ls=lvStart;lvStart=function(l,mine,ls){if(mine&&ls&&window.MediaStream&&HTMLCanvasElement.prototype.captureStream){try{ls=fxWrap(ls)}catch(e){FX=null}}
  _ls(l,mine,ls);fxp.style.display="none";var old=document.getElementById("fxb"),ob=document.getElementById("btn2");if(old)old.remove();if(ob)ob.remove();
  if(mine){var x=$("lvx");if(FX){var fb=el("button","","🎭");fb.id="fxb";fb.type="button";fb.title="Filters";fb.onclick=function(){fxBuild();fxp.style.display=fxp.style.display==="block"?"none":"block"};$("lvt").insertBefore(fb,x)}
-  var bb=el("button","","⚔");bb.id="btn2";bb.type="button";bb.title="Battle";bb.onclick=function(){var h=lvHosts();if(!h.length){toast(function(){},"No friends are live right now.","");return}m2("⚔ Start a LIVE battle",null,h.map(function(l){return{l:"🔴 "+(l.hostName||"?"),f:async function(){$("m2").style.display="none";try{await exx("/battle/start",{opponent:l.host});toast(function(){},"Battle invitation sent","")}catch(e){toast(function(){},exxErr(e),"")}}}}),"")};$("lvt").insertBefore(bb,x)}
- LV.un.push(lis(db.collection("battles").where("hosts","array-contains",l.host),function(s){BT=s.docs.map(function(d){return Object.assign({id:d.id},d.data())});btDraw()}))};
-var _cl2=closeLive;closeLive=function(m){if(FX){clearInterval(FX.t);try{FX.raw.getTracks().forEach(function(t0){t0.stop()})}catch(e){}FX=null}fxp.style.display="none";btb.style.display="none";_cl2(m)};
-function btDraw(){var b=LV&&BT.filter(function(x){return x.status==="active"&&x.end>Date.now()})[0];if(!b){btb.style.display="none";return}var tot=(b.sa||0)+(b.sb||0),p=tot?Math.round((b.sa||0)*100/tot):50,s=Math.max(0,Math.round((b.end-Date.now())/1000));
- btb.style.display="block";btb.style.setProperty("--p",p+"%");btb.textContent="⚔ "+(b.an||"?")+" "+(b.sa||0).toLocaleString()+"  vs  "+(b.sb||0).toLocaleString()+" "+(b.bn||"?")+" · "+Math.floor(s/60)+":"+("0"+s%60).slice(-2);btb.appendChild(el("i",""))}
-setInterval(btDraw,1000);
-/* wallet + battle invitations (read-only from the client) */
-var _xl3=xLive;xLive=function(){_xl3();if(!(db&&me))return;
- lis(db.doc("wallets/"+me),function(d){var x=d.data&&d.data()||{};WAL={coins:x.coins||0,earn:x.earn||0,withdrawable:x.withdrawable||0};xpRef()});
- lis(db.collection("wtx").where("uid","==",me),function(s){WTX=s.docs.map(function(d){return d.data()}).sort(function(a,b){return b.ts-a.ts});xpRef()});
- lis(db.collection("battles").where("hosts","array-contains",me),function(s){s.docChanges().forEach(function(c){var b=c.doc.data(),k="bt"+c.doc.id;if(c.type==="added"&&b.status==="invited"&&b.b===me&&!seenN[k]&&b.ts>startTs-60000){seenN[k]=1;ntf(k,"⚔ "+(b.an||"?")+" challenged you to a LIVE battle","Tap to accept",function(){exx("/battle/accept",{id:c.doc.id}).catch(function(e){toast(function(){},exxErr(e),"")})})}})})};
+  }
+ };
+var _cl2=closeLive;closeLive=function(m){if(FX){clearInterval(FX.t);try{FX.raw.getTracks().forEach(function(t0){t0.stop()})}catch(e){}FX=null}fxp.style.display="none";_cl2(m)};
+
 
 /* ===== v9: real-time beauty, makeup, AR (face tracking), transformations, background blur/replace ===== */
 /* Face + person segmentation run in the browser with MediaPipe Tasks Vision (loaded from jsDelivr / Google model storage the first time you use them). Nothing is recorded or uploaded. */
@@ -1656,35 +1565,32 @@ fxBuild=function(){var r0=fxp.querySelector(".fr"),sx=r0?r0.scrollLeft:0;fxp.tex
  row.scrollLeft=sx;setTimeout(fxThumbs,60)};
 
 /* ===== v10: STREAMER DASHBOARD + AUDIENCE DASHBOARD =====
- Extra server rules you must enforce (the page only hides/blocks on the client): livecom docs containing g/coins and fanclub/* are server-written only;
- livemod/*, lives.pin|goal|filt|mods|guests may be written only by the host (mods: livemod only); lvreq create only by the requesting user; reports create-only.
- Extra endpoint: POST /fanclub/join {host,idem}. Coins shown here come only from server-written gift records (livecom.coins). */
-var LM=[],LR=[],FC={},SHT=0,GL=0,GP={};
+ Rules to enforce in Firebase: livemod/* and lives.pin|goal|filt|mods|guests|inv may be written only by the host (mods: livemod only);
+ lvreq create only by the requesting user; reports create-only. */
+var LM=[],LR=[],SHT=0;
 var FVal=function(){return firebase.firestore.FieldValue};
 function curLive(){return LV?(LVS.filter(function(l){return l.id===LV.id})[0]||{}):{}}
 function isHost(){return !!(LV&&LV.mine)}
 function isMod(){return !!(LV&&!LV.mine&&(curLive().mods||[]).indexOf(me)>=0)}
-function gifters(){var m={};LVC.forEach(function(c){if(c.g&&c.coins>0){var q=m[c.by]=m[c.by]||{id:c.by,n:c.name||"?",c:0};q.c+=c.coins}});return Object.keys(m).map(function(k){return m[k]}).sort(function(a,b){return b.c-a.c})}
 function likesTot(){return LVL.reduce(function(a,x){return a+(x.n||0)},0)+(LV.pk||0)}
 function dur(ms){var s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor(s%3600/60);return(h?h+":":"")+("0"+m).slice(-2)+":"+("0"+s%60).slice(-2)}
-function liveStats(){var coins=LVC.reduce(function(a,c){return a+(c.g&&c.coins>0?c.coins:0)},0),v=lvViewers(LV.id).length;return{dur:Date.now()-LV.jt,peak:Math.max(LV.peak||0,v),likes:likesTot(),com:LVC.filter(function(c){return!c.g}).length,coins:coins,earn:Math.floor(coins*.5),top:gifters().slice(0,5),v:v}}
+function liveStats(){var v=lvViewers(LV.id).length;return{dur:Date.now()-LV.jt,peak:Math.max(LV.peak||0,v),likes:likesTot(),com:LVC.filter(function(c){return!c.g}).length,v:v}}
 function modOf(u,ty){return LM.some(function(m){return m.uid===u&&m.type===ty})}
 function hidden(c){var t=(c.text||"").toLowerCase();return modOf(c.by,"mute")||modOf(c.by,"block")||LM.some(function(m){return m.type==="hide"&&m.key===c.by+"_"+c.ts})||(curLive().filt||[]).some(function(w){return w&&t.indexOf(w)>=0})}
 var sh=el("div","");sh.id="lsh";$("lvv").appendChild(sh);var lov=el("div","");lov.id="lov";$("lvv").appendChild(lov);
-lvDraw=function(){var C=$("lvc");C.textContent="";var gm={};gifters().forEach(function(x){gm[x.id]=x.c});
- LVC.filter(function(c){return c.g||!hidden(c)}).slice(-40).forEach(function(c){var d=el("div","");d.appendChild(el("b","",(FC[c.by]?"💎":"")+(gm[c.by]>=1000?"⭐":"")+(c.name||"?")+" "));d.appendChild(document.createTextNode(c.g?"🎁 "+t("lvSent")+" "+c.g:c.text||""));C.appendChild(d)});C.scrollTop=C.scrollHeight;lvStat();shRefresh()};
+lvDraw=function(){var C=$("lvc");C.textContent="";
+ LVC.filter(function(c){return !c.g&&!hidden(c)}).slice(-40).forEach(function(c){var d=el("div","");d.appendChild(el("b","",(c.name||"?")+" "));d.appendChild(document.createTextNode(c.text||""));C.appendChild(d)});C.scrollTop=C.scrollHeight;lvStat();shRefresh()};
 function lovDraw(){var l=curLive(),g=l.goal;lov.textContent="";if(l.pin)lov.appendChild(el("div","pn2","📌 "+(l.pin.name||"")+": "+l.pin.text));
- if(g&&g.n>0){var cur=g.t==="likes"?likesTot():liveStats().coins,d=el("div","gl","🎯 "+(g.title||"Goal")+" · "+cur.toLocaleString()+" / "+g.n.toLocaleString()),i=el("i","");i.style.width=Math.min(100,Math.round(cur*100/g.n))+"%";d.appendChild(i);lov.appendChild(d)}}
+ if(g&&g.n>0){var cur=likesTot(),d=el("div","gl","🎯 "+(g.title||"Goal")+" · "+cur.toLocaleString()+" / "+g.n.toLocaleString()),i=el("i","");i.style.width=Math.min(100,Math.round(cur*100/g.n))+"%";d.appendChild(i);lov.appendChild(d)}}
 function shOpen(tab){SHT=tab||0;sh.style.display="flex";shRefresh(1)}
 function shRefresh(f){if(!LV)return;var v=lvViewers(LV.id).length;if(v>(LV.peak||0))LV.peak=v;syncGuests();lovDraw();if(sh.style.display!=="flex")return;var a=document.activeElement;if(!f&&sh.contains(a)&&/INPUT|TEXTAREA|SELECT/.test(a.tagName))return;var b0=sh.querySelector(".lsh-b"),y=b0?b0.scrollTop:0;shBuild();var n=sh.querySelector(".lsh-b");if(n)n.scrollTop=y}
-function shBuild(){var tabs=isHost()?["📊 Stats","💬 Chat","👥 Guests","🎯 Goal","🏆 Gifters","🚫 Blocked"]:["🎁 Gifts","👁 Viewers","🏆 Gifters","⋯ More"].concat(isMod()?["🛡 Moderate","🚫 Blocked"]:[]);if(SHT>=tabs.length)SHT=0;sh.textContent="";
+function shBuild(){var tabs=isHost()?["📊 Stats","💬 Chat","👥 Guests","🎯 Goal","🚫 Blocked"]:["👁 Viewers","⋯ More"].concat(isMod()?["🛡 Moderate","🚫 Blocked"]:[]);if(SHT>=tabs.length)SHT=0;sh.textContent="";
  var hd=el("div","lsh-h");tabs.forEach(function(n,i){var b=el("button",i===SHT?"on":"",n);b.type="button";b.onclick=function(){SHT=i;shBuild()};hd.appendChild(b)});var x=el("button","lsh-x","✕");x.type="button";x.setAttribute("aria-label","Close");x.onclick=function(){sh.style.display="none"};hd.appendChild(x);sh.appendChild(hd);var b=el("div","lsh-b");sh.appendChild(b);var k=tabs[SHT];
- if(k==="📊 Stats")tStats(b);else if(k==="💬 Chat"||k==="🛡 Moderate")tChat(b);else if(k==="👥 Guests")tGuests(b);else if(k==="🎯 Goal")tGoal(b);else if(k==="🏆 Gifters")tTop(b);else if(k==="🚫 Blocked")tBlocked(b);else if(k==="🎁 Gifts")tShop(b);else if(k==="👁 Viewers")tView(b);else tMore(b)}
+ if(k==="📊 Stats")tStats(b);else if(k==="💬 Chat"||k==="🛡 Moderate")tChat(b);else if(k==="👥 Guests")tGuests(b);else if(k==="🎯 Goal")tGoal(b);else if(k==="🚫 Blocked")tBlocked(b);else if(k==="👁 Viewers")tView(b);else tMore(b)}
 function tile(g,l,v){var d=el("div","st");d.appendChild(el("small","",l));d.appendChild(el("b","",String(v)));g.appendChild(d)}
 function trk(){return FX?FX.raw:LV.ls}
 function endAsk(){m2("End LIVE?",null,[{l:"⏹ End LIVE",p:1,f:function(){$("m2").style.display="none";closeLive()}}],"Your viewers will be disconnected and a summary will be shown.")}
-function tStats(b){var s=liveStats(),g=el("div","sg");b.appendChild(g);tile(g,"👁 Viewers now",s.v);tile(g,"📈 Peak viewers",s.peak);tile(g,"⏱ Duration",dur(s.dur));tile(g,"♥ Likes",s.likes.toLocaleString());tile(g,"💬 Comments",s.com);tile(g,"🪙 Coins received",s.coins.toLocaleString());tile(g,"💰 Est. earnings (50%)",s.earn.toLocaleString());
- b.appendChild(el("small","xs","Estimated from server-confirmed gifts. Final earnings are settled by the wallet server."));
+function tStats(b){var s=liveStats(),g=el("div","sg");b.appendChild(g);tile(g,"👁 Viewers now",s.v);tile(g,"📈 Peak viewers",s.peak);tile(g,"⏱ Duration",dur(s.dur));tile(g,"♥ Likes",s.likes.toLocaleString());tile(g,"💬 Comments",s.com);
  var r=el("div","xrow");r.style.marginTop="10px";var mic=LV.mic!==false,cam=LV.cam!==false;
  r.appendChild(xb(mic?"🎤 Mic on":"🔇 Mic off",function(){LV.mic=!mic;trk().getAudioTracks().forEach(function(x){x.enabled=LV.mic});shRefresh(1)},mic));
  r.appendChild(xb(cam?"🎥 Camera on":"🚫 Camera off",function(){LV.cam=!cam;trk().getVideoTracks().forEach(function(x){x.enabled=LV.cam});shRefresh(1)},cam));
@@ -1726,27 +1632,22 @@ async function startGuest(){LV.gb=1;try{LV.gs=await navigator.mediaDevices.getUs
 function stopGuest(){if(!LV||!LV.gs)return;LV.gs.getTracks().forEach(function(x){x.stop()});LV.gs=null;LV.gb=0;var o=LV.pcs[LV.host];if(o){try{o.pc.close()}catch(e){}delete LV.pcs[LV.host]}}
 function tGuests(b){var l=curLive(),gs=l.guests||[],w=LR.filter(function(r){return r.st==="wait"});b.appendChild(el("div","xh","Requests to join · "+w.length));if(!w.length)b.appendChild(el("div","empty","No requests."));
  w.forEach(function(r){var x=el("div","cr2");x.appendChild(el("span","",r.name||"?"));var a=el("button","","✔"),d=el("button","","✖");a.type=d.type="button";a.onclick=function(){if(gs.length>=3){toast(function(){},"Up to 3 guests at once.","");return}db.doc("lives/"+LV.id).update({guests:FVal().arrayUnion(r.uid)});db.doc("lvreq/"+LV.id+"_"+r.uid).update({st:"ok"})};d.onclick=function(){db.doc("lvreq/"+LV.id+"_"+r.uid).update({st:"no"})};x.appendChild(a);x.appendChild(d);b.appendChild(x)});
- b.appendChild(el("div","xh","On stage · "+gs.length+"/3"));gs.forEach(function(u){var x=el("div","cr2"),n=(LVC.filter(function(c){return c.by===u})[0]||{}).name||(LR.filter(function(r){return r.uid===u})[0]||{}).name||u.slice(0,6),d=el("button","","Remove");d.type="button";d.onclick=function(){db.doc("lives/"+LV.id).update({guests:FVal().arrayRemove(u)})};x.appendChild(el("span","",n));x.appendChild(d);b.appendChild(x)})}
-function tGoal(b){var g=curLive().goal||{},ti=xin("Goal title (e.g. 1000 hearts)",40),se=el("select","xi"),n=xin("Target number",9);ti.value=g.title||"";n.inputMode="numeric";n.value=g.n||"";[["coins","EXX Coins received"],["likes","Likes"]].forEach(function(o){var op=el("option","",o[1]);op.value=o[0];if(g.t===o[0])op.selected=true;se.appendChild(op)});
+ b.appendChild(el("div","xh","On stage · "+gs.length+"/3"));gs.forEach(function(u){var x=el("div","cr2"),n=(LVC.filter(function(c){return c.by===u})[0]||{}).name||(LR.filter(function(r){return r.uid===u})[0]||{}).name||u.slice(0,6),d=el("button","","Remove");d.type="button";d.onclick=function(){db.doc("lives/"+LV.id).update({guests:FVal().arrayRemove(u),inv:FVal().arrayRemove(u)})};x.appendChild(el("span","",n));x.appendChild(d);b.appendChild(x)})}
+function tGoal(b){var g=curLive().goal||{},ti=xin("Goal title (e.g. 1000 hearts)",40),se=el("select","xi"),n=xin("Target number",9);ti.value=g.title||"";n.inputMode="numeric";n.value=g.n||"";[["likes","Likes"]].forEach(function(o){var op=el("option","",o[1]);op.value=o[0];if(g.t===o[0])op.selected=true;se.appendChild(op)});
  b.appendChild(ti);b.appendChild(se);b.appendChild(n);var r=el("div","xrow");r.style.marginTop="8px";r.appendChild(xb("Set goal",function(){var v=parseInt(n.value,10);if(v>0)db.doc("lives/"+LV.id).update({goal:{title:ti.value.trim(),t:se.value,n:v}})},1));if(g.n)r.appendChild(xb("Remove",function(){db.doc("lives/"+LV.id).update({goal:FVal().delete()})}));b.appendChild(r)}
-function tTop(b){var a=gifters();b.appendChild(el("div","xh","Top gifters"));if(!a.length)b.appendChild(el("div","empty","No gifts yet."));a.slice(0,20).forEach(function(x,i){var r=el("div","cr2");r.appendChild(el("span","",(["🥇","🥈","🥉"][i]||(i+1)+".")+" "+(FC[x.id]?"💎":"")+x.n));r.appendChild(el("b","",x.c.toLocaleString()+" 🪙"));b.appendChild(r)})}
-function tShop(b){var bal=WAL.coins||0,c=card(b,"hero");c.appendChild(el("b","","🪙 "+bal.toLocaleString()+" EXX Coins"));c.appendChild(xb("💰 Buy coins",function(){xpOpen("Wallet",wallet);$("xpn").style.zIndex=95},1));
- var g=el("div","gg");b.appendChild(g);GIFTS.forEach(function(x){var y=el("button","");y.type="button";y.disabled=bal<x.c;y.appendChild(el("span","e",x.e));y.appendChild(el("small","",x.n));y.appendChild(el("b","",x.c.toLocaleString()));y.onclick=function(){sendGift(x)};g.appendChild(y)});
- if(!EXX_API)b.appendChild(el("small","xs","Gifting is off until the wallet server is connected."))}
-sendGift=async function(g){if(!LV||GL)return;GL=1;setTimeout(function(){GL=0},900);try{GP[g.id]=GP[g.id]||rid("g");await exx("/gift",{live:LV.id,gift:g.id,idem:GP[g.id]});delete GP[g.id];giftFx(g.e,g.big)}catch(e){if(e&&e.message==="insufficient")delete GP[g.id];toast(function(){},exxErr(e),"")}};
 function tView(b){var vs=lvViewers(LV.id),h=isHost(),mods=curLive().mods||[];b.appendChild(el("div","xh","Viewers · "+vs.length));if(!vs.length)b.appendChild(el("div","empty","No viewers yet."));
- vs.forEach(function(p){var r=el("div","cr2");r.appendChild(av(p.name||"?",p.uid));r.lastChild.style.cssText+=";width:30px;height:30px;font-size:1rem";r.appendChild(el("span","",(FC[p.uid]?"💎 ":"")+(mods.indexOf(p.uid)>=0?"🛡 ":"")+(p.name||"?")));
+ vs.forEach(function(p){var r=el("div","cr2");r.appendChild(av(p.name||"?",p.uid));r.lastChild.style.cssText+=";width:30px;height:30px;font-size:1rem";r.appendChild(el("span","",(mods.indexOf(p.uid)>=0?"🛡 ":"")+(p.name||"?")));
   if(h&&p.uid!==me){var m=el("button","","🛡"),k=el("button","","🚫");m.type=k.type="button";m.onclick=function(){db.doc("lives/"+LV.id).update({mods:mods.indexOf(p.uid)>=0?FVal().arrayRemove(p.uid):FVal().arrayUnion(p.uid)})};k.onclick=function(){mset(p.uid,"block")};r.appendChild(m);r.appendChild(k)}b.appendChild(r)})}
 function tMore(b){var f=isF(LV.host),c=card(b);c.appendChild(el("b","","🎥 "+(LV.hn||"?")));
  c.appendChild(xb(f?"✓ Following":"＋ Follow",function(){toggleFollow(LV.host);setTimeout(function(){shRefresh(1)},200)},!f));c.appendChild(xb("↗ Share LIVE",function(){$("lvh").onclick()}));
  var mine=LR.filter(function(r){return r.uid===me})[0],gs=(curLive().guests||[]).indexOf(me)>=0;
  c.appendChild(xb(gs?"🚪 Leave stage":(mine&&mine.st==="wait"?"⏳ Request sent (cancel)":"🙋 Request to join"),function(){if(gs){db.doc("lvreq/"+LV.id+"_"+me).set({live:LV.id,uid:me,name:who(),st:"left",ts:Date.now()});stopGuest()}else if(mine&&mine.st==="wait")db.doc("lvreq/"+LV.id+"_"+me).delete();else db.doc("lvreq/"+LV.id+"_"+me).set({live:LV.id,uid:me,name:who(),st:"wait",ts:Date.now()}).then(function(){toast(function(){},"Request sent","")})}));
- var fcm=FC[me];c.appendChild(xb(fcm?"💎 Fan club member":"💎 Join fan club",async function(){if(fcm)return;try{await exx("/fanclub/join",{host:LV.host,idem:rid("f")});toast(function(){},"Welcome to the fan club!","")}catch(e){toast(function(){},exxErr(e),"")}}));
- c.appendChild(xb("⚑ Report this LIVE",function(){report(LV.host,"live")}));c.appendChild(el("small","xs","⭐ VIP = 1,000+ coins gifted in this LIVE · 💎 = fan club member"))}
+ 
+ c.appendChild(xb("⚑ Report this LIVE",function(){report(LV.host,"live")}))}
 /* wiring */
-var _ls2=lvStart;lvStart=function(l,mine,ls){LM=[];LR=[];FC={};sh.style.display="none";var ob=document.getElementById("shb");if(ob)ob.remove();_ls2(l,mine,ls);LV.peak=0;
+var _ls2=lvStart;lvStart=function(l,mine,ls){LM=[];LR=[];sh.style.display="none";var ob=document.getElementById("shb");if(ob)ob.remove();_ls2(l,mine,ls);LV.peak=0;
  LV.un.push(lis(db.collection("livemod").where("live","==",l.id),function(s){LM=s.docs.map(function(d){return d.data()});if(!mine&&LM.some(function(m){return m.uid===me&&m.type==="block"})){closeLive("You were removed from this LIVE");return}lvDraw()}));
- LV.un.push(lis(db.collection("fanclub").where("host","==",l.host),function(s){FC={};s.docs.forEach(function(d){var x=d.data();FC[x.uid]=1});lvDraw()}));
+ 
  LV.un.push(lis(db.collection("lvreq").where("live","==",l.id),function(s){LR=s.docs.map(function(d){return d.data()});shRefresh()}));
  var b=el("button","",mine?"📊":"☰");b.id="shb";b.type="button";b.title=mine?"Streamer dashboard":"Menu";b.onclick=function(){shOpen(0)};$("lvt").insertBefore(b,$("lvx"));shRefresh()};
 var _sy=lvSync;lvSync=function(){_sy();if(LV)shRefresh()};
@@ -1756,11 +1657,34 @@ var _fw2=fxWrap;fxWrap=function(raw){var out=_fw2(raw);try{var ac=new(window.Aud
 var _fd2=fxDraw;fxDraw=function(){_fd2();var F=FX;if(!F||!LV||!LV.gv)return;var x=F.x,W=F.c.width,H=F.c.height,w=W*.26,h=w*.75,i=0;
  Object.keys(LV.gv).forEach(function(u){var v=LV.gv[u],vw=v.videoWidth,vh=v.videoHeight;if(!vw||i>2)return;var px=W-w-8,py=H-(i+1)*(h+8),k=Math.max(w/vw,h/vh);x.save();x.beginPath();x.rect(px,py,w,h);x.clip();x.drawImage(v,px+(w-vw*k)/2,py+(h-vh*k)/2,vw*k,vh*k);x.restore();x.strokeStyle="#fff";x.lineWidth=2;x.strokeRect(px,py,w,h);i++})};
 var _lsy=lvSay;lvSay=function(g){if(!g&&LV){var v=$("lvi").value.toLowerCase();if(modOf(me,"mute")){toast(function(){},"You are muted in this LIVE.","");return}if((curLive().filt||[]).some(function(w){return w&&v.indexOf(w)>=0})){toast(function(){},"That message is not allowed here.","");return}}_lsy(g)};
-$("lvg").onclick=function(){if(LV&&!LV.mine)shOpen(0)};
+
 $("lvx").onclick=function(){if(LV&&LV.mine)endAsk();else closeLive()};
 var _cl3=closeLive;closeLive=function(m){var sm=LV&&LV.mine?liveStats():null,ac=FX&&FX.ac;if(LV&&LV.gs){LV.gs.getTracks().forEach(function(x){x.stop()})}if(LV&&LV.gv)Object.keys(LV.gv).forEach(function(u){LV.gv[u].srcObject=null});sh.style.display="none";lov.textContent="";_cl3(m);try{if(ac)ac.close()}catch(e){}
- if(sm)setTimeout(function(){m2("LIVE summary",null,[],"⏱ Duration: "+dur(sm.dur)+"\n📈 Peak viewers: "+sm.peak+"\n♥ Likes: "+sm.likes.toLocaleString()+"\n💬 Comments: "+sm.com+"\n🪙 Coins received: "+sm.coins.toLocaleString()+"\n💰 Estimated earnings (50%): "+sm.earn.toLocaleString()+"\n\nTop gifters:\n"+(sm.top.length?sm.top.map(function(x,i){return(i+1)+". "+x.n+" — "+x.c.toLocaleString()}).join("\n"):"—")+"\n\nEstimates only. Final earnings are confirmed by the wallet server.");$("m2m").style.whiteSpace="pre-line"},400)};
+ if(sm)setTimeout(function(){m2("LIVE summary",null,[],"⏱ Duration: "+dur(sm.dur)+"\n📈 Peak viewers: "+sm.peak+"\n♥ Likes: "+sm.likes.toLocaleString()+"\n💬 Comments: "+sm.com);$("m2m").style.whiteSpace="pre-line"},400)};
 
+
+/* ===== LIVE together: the host invites friends on stage; invited friends join with one tap ===== */
+function myFriends(){var o={};Object.keys(contacts||{}).forEach(function(id){o[id]=1});FD.forEach(function(x){if(x.a===me&&FD.some(function(y){return y.a===x.b&&y.b===me}))o[x.b]=1});delete o[me];
+ return Object.keys(o).filter(function(id){return id&&id!=="bot"&&id.indexOf("c_")!==0}).map(function(id){var c=contacts[id];return{id:id,name:nc[id]||(c&&typeof c==="object"&&c.name)||("User "+id.slice(0,5))}}).sort(function(a,b){return String(a.name).localeCompare(String(b.name))})}
+var tGuests0=tGuests;
+tGuests=function(b){tGuests0(b);var l=curLive(),gs=l.guests||[],inv=l.inv||[],fr=myFriends();
+ b.appendChild(el("div","xh","👫 Invite friends to go LIVE with you"));
+ if(!fr.length)b.appendChild(el("div","empty","Add friends first, then invite them here."));
+ fr.forEach(function(f){var r=el("div","cr2"),on=gs.indexOf(f.id)>=0,sent=inv.indexOf(f.id)>=0;r.appendChild(av(f.name,f.id));r.lastChild.style.cssText+=";width:30px;height:30px;font-size:1rem";r.appendChild(el("span","",f.name));
+  var x=el("button","",on?"On stage":(sent?"✓ Invited":"Invite"));x.type="button";x.disabled=on||sent;
+  x.onclick=function(){db.doc("lives/"+LV.id).update({inv:FVal().arrayUnion(f.id)}).then(function(){toast(function(){},"Invite sent",f.name)}).catch(function(){toast(function(){},"Could not send the invite.","")})};
+  r.appendChild(x);b.appendChild(r)})};
+/* the host approves requests from invited friends automatically */
+var _sg0=syncGuests;
+syncGuests=function(){_sg0();if(!(LV&&LV.mine))return;var l=curLive(),inv=l.inv||[],gs=l.guests||[],n=gs.length;LV.ap=LV.ap||{};
+ LR.forEach(function(r){var k=r.uid+"_"+r.ts;if(r.st!=="wait"||inv.indexOf(r.uid)<0||gs.indexOf(r.uid)>=0||LV.ap[k]||n>=3)return;LV.ap[k]=1;n++;
+  db.doc("lives/"+LV.id).update({guests:FVal().arrayUnion(r.uid)}).catch(function(){});db.doc("lvreq/"+LV.id+"_"+r.uid).update({st:"ok"}).catch(function(){})})};
+/* the invited friend gets an alert; tapping it opens the LIVE and asks to join the stage */
+function acceptInv(l){var x=LVS.filter(function(q){return q.id===l.id})[0]||l;if(LV&&LV.id!==x.id){toast(function(){},"Leave your current LIVE first.","");return}
+ if(!LV)watchLive(x);db.doc("lvreq/"+x.id+"_"+me).set({live:x.id,uid:me,name:who(),st:"wait",ts:Date.now()}).catch(function(){})}
+function lvInvNotify(){var now=Date.now();LVS.forEach(function(l){if(!l||l.host===me||now-l.ts>45000||(l.inv||[]).indexOf(me)<0)return;var k="inv"+l.id;if(seenN[k])return;seenN[k]=1;
+ ntf(k,"🔴 "+(l.hostName||"?")+" invited you to go LIVE together",l.title||"",function(){acceptInv(l)})})}
+var _lc0=lvChanged;lvChanged=function(){_lc0();lvInvNotify()};
 
 /* scroll arrows for the top chips row */
 (function(){var B=document.getElementById("xch"),L=document.getElementById("xchl"),R=document.getElementById("xchr");if(!B||!L||!R)return;
@@ -1784,179 +1708,6 @@ function shPoll(p){sharePost({name:p.name||"?",text:"📊 "+p.q+"\n"+p.opts.map(
 function plAddOpt(p){m2(t("plAddT"),t("plO"),[{l:t("plAddB"),p:1,f:function(){var v=$("m2i").value.trim().slice(0,60);if(!v||p.opts.length>=6)return;$("m2").style.display="none";db.doc("polls/"+p.id).update({opts:p.opts.concat([v])}).catch(function(){})}}],"")}
 function plDelOpt(p,vs){m2(t("plDelT"),null,p.opts.map(function(o,ix){return{l:"✕ "+o,f:function(){if(p.opts.length<=2)return;$("m2").style.display="none";var no=p.opts.filter(function(x,j){return j!==ix});db.doc("polls/"+p.id).update({opts:no}).then(function(){vs.forEach(function(v){var d=db.doc("pvotes/"+p.id+"_"+v.by);if(v.opt===ix)d.delete().catch(function(){});else if(v.opt>ix)d.update({opt:v.opt-1}).catch(function(){})})}).catch(function(){})}}}),t("plDelNote"))}
 
-/* ===== wallet numbers: every member gets a unique 10-digit number (claimed once, never reused) ===== */
-var WNO=null,WLK2=null;
-function fmtW(n){n=String(n||"");return n.length===10?n.slice(0,3)+" "+n.slice(3,6)+" "+n.slice(6):n}
-function copyW(){var v=String(WNO||"");if(!v)return;var sh=function(){toast(function(){},"Your wallet number",fmtW(v))};try{navigator.clipboard.writeText(v).then(function(){toast(function(){},"Copied",fmtW(v))},sh)}catch(e){sh()}}
-async function ensureWno(){if(!(db&&me))return;
- try{var c=ld("epx_wno_"+me,null);if(c){WNO=c;xpRef()}
-  var pd=await db.doc("profiles/"+me).get(),pw=pd.exists&&pd.data()&&pd.data().wno;
-  if(pw){WNO=pw;lsv("epx_wno_"+me,pw);xpRef();return}
-  if(c){await db.doc("profiles/"+me).set({wno:c},{merge:true});return}
-  var nm=prof.name||"?";
-  for(var k=0;k<12;k++){var num=String(1000000000+Math.floor(Math.random()*9000000000)),ref=db.doc("wnums/"+num),ok=false;
-   try{await db.runTransaction(async function(tx){var s=await tx.get(ref);if(s.exists)throw new Error("taken");tx.set(ref,{uid:me,name:nm,ts:Date.now()})});ok=true}catch(e){if(!(e&&e.message==="taken"))throw e}
-   if(ok){await db.doc("profiles/"+me).set({wno:num},{merge:true});WNO=num;lsv("epx_wno_"+me,num);xpRef();return}}
- }catch(e){}}
-/* own balance + history (same as before; guarded so it never attaches twice) */
-function wLis(){if(!(db&&me)||WLK2===me)return;WLK2=me;
- lis(db.doc("wallets/"+me),function(d){var x=d.data&&d.data()||{};WAL={coins:x.coins||0,earn:x.earn||0,withdrawable:x.withdrawable||0};xpRef()});
- lis(db.collection("wtx").where("uid","==",me),function(s){WTX=s.docs.map(function(d){return d.data()}).sort(function(a,b){return b.ts-a.ts});xpRef()})}
-var _xl4=xLive;xLive=function(){_xl4();ensureWno();wLis()};
-if(db&&me){ensureWno();wLis()}
-
-/* ===== owner only: add EXX Coins by wallet number / name ===== */
-/* The owner signs in with Firebase Authentication; the database rules (or the wallet server) check it. This page never decides who is the owner. */
-function authErr(e){var c=e&&e.code||"";return c==="auth/wrong-password"||c==="auth/invalid-credential"||c==="auth/invalid-login-credentials"?"Wrong password.":c==="auth/user-not-found"?"The owner account is not created in Firebase Authentication yet.":c==="auth/operation-not-allowed"?"Email/Password sign-in is not turned on in Firebase.":c==="auth/too-many-requests"?"Too many tries. Wait a few minutes.":c==="auth/configuration-not-found"?"Authentication is not set up in Firebase yet (open Authentication and press Get started).":c==="auth/network-request-failed"?"No connection to Firebase. Check the internet.":c==="auth/invalid-email"?"The owner email is not valid.":"Could not sign in ("+(c||(e&&e.message)||"unknown")+")."}
-function grantErr(e){return e&&e.code==="permission-denied"?"The database rules do not allow this yet. Add the wallet rules in Firebase.":exxErr(e)}
-function ownerSignedIn(){try{var u=firebase.auth().currentUser;return!!(u&&OWNER_EMAILS.indexOf(String(u.email||"").toLowerCase())>=0)}catch(e){return false}}
-function ownerSignIn(next,back){var em=(acct&&acct.email&&OWNER_EMAILS.indexOf(String(acct.email).toLowerCase())>=0)?acct.email:OWNER_EMAILS[0];
- m2("🔐 Owner sign-in","Owner password",[{l:"←",f:back},{l:"Sign in",p:1,f:async function(){var pw=$("m2i").value;if(!pw)return;
-  try{await firebase.auth().signInWithEmailAndPassword(String(em).trim(),pw)}catch(e){toast(function(){},authErr(e),"");return}
-  $("m2i").type="text";next()}}],"Coins can only be added while you are signed in as the owner ("+em+").");$("m2i").type="password";$("m2m").style.whiteSpace=""}
-async function ownerGrant(uid,n,idem){
- if(EXX_API){await exx("/admin/grant",{uid:uid,coins:n,idem:idem});return}
- var au=firebase.auth().currentUser,FV=firebase.firestore.FieldValue,gr=db.doc("grants/"+idem),wr=db.doc("wallets/"+uid);
- await db.runTransaction(async function(tx){var g=await tx.get(gr);if(g.exists)return;
-  tx.set(wr,{coins:FV.increment(n)},{merge:true});
-  tx.set(db.collection("wtx").doc(),{uid:uid,type:"grant",coins:n,note:"Added by EPGEXX team",ts:Date.now(),by:au.uid});
-  tx.set(gr,{uid:uid,coins:n,by:au.uid,email:au.email,ts:Date.now()})})}
-async function grantCoins(u){if(!isOwner||!db)return;
- var w=u.wno;if(!w){try{var d=await db.doc("profiles/"+u.id).get();w=d.exists&&d.data()&&d.data().wno}catch(e){}}
- var idem=rid("g"),nm=u.name||"?";
- var run=async function(n){try{await ownerGrant(u.id,n,idem);$("m2").style.display="none";$("m2i").type="text";toast(function(){},"Coins added",n.toLocaleString()+" 🪙 → "+nm+(w?" · "+fmtW(w):""))}catch(e){toast(function(){},grantErr(e),"")}};
- m2("🪙 Add coins to "+nm,"Number of coins (1 to 1,000,000)",[{l:"←",f:function(){adminPanel()}},{l:"Add coins",p:1,f:function(){var n=parseInt($("m2i").value,10);if(!(n>=1&&n<=1000000)){toast(function(){},"Enter a number from 1 to 1,000,000.","");return}
-  if(!ownerSignedIn()){ownerSignIn(function(){run(n)},function(){grantCoins(u)});return}run(n)}}],
-  "Wallet number: "+(w?fmtW(w):"not created yet (the member must open the app once)")+"\nOnly the owner account can add coins.");
- $("m2i").inputMode="numeric";$("m2m").style.whiteSpace="pre-line"}
-/* type a 10-digit wallet number in the owner panel search box to find a member */
-function wLookupRow(L,q){var d=String(q||"").replace(/\D/g,"");if(d.length!==10)return;var row=el("div","mr");row.appendChild(el("span","","🔎 Wallet "+fmtW(d)));
- row.appendChild(btn("🪙",async function(){try{var s=await db.doc("wnums/"+d).get();if(!s.exists){toast(function(){},"No wallet with that number.","");return}var uid=s.data().uid,nm=s.data().name||"?";
-  try{var p=await db.doc("profiles/"+uid).get();if(p.exists&&p.data().name)nm=p.data().name}catch(e){}grantCoins({id:uid,name:nm,wno:d})}catch(e){toast(function(){},"Could not look that up.","")}}));L.appendChild(row)}
-
-/* ===== v10: withdraw by email + downloadable receipt, password check before money actions, transactions ===== */
-var WD_TO="gblu.global@gmail.com",WD_METHODS=["Telebirr","CBE Birr","Bank transfer","Mobile money","Other"],WREQ=[],WDL=null,WDD={coins:"",method:"",account:"",holder:""},TXF="all",PWBAD=0,PWLOCK=0,PWOKTS=0,WDBUSY=0;
-try{$("toast").style.zIndex=97}catch(e){}
-function wdKey(){return"epx_wd_"+(me||"x")}
-function wdLoad(){var a=ld(wdKey(),[]);WREQ=Array.isArray(a)?a:[]}
-function wdSave(){lsv(wdKey(),WREQ.slice(0,200))}
-function wdMerge(list){list.forEach(function(r){var i=WREQ.findIndex(function(x){return x.ref===r.ref});if(i>=0)WREQ[i]=Object.assign({},WREQ[i],r);else WREQ.push(r)});WREQ.sort(function(a,b){return b.ts-a.ts});wdSave()}
-function wdWatch(){if(!(db&&me))return;lis(db.collection("withdrawals").where("uid","==",me),function(s){wdMerge(s.docs.map(function(d){return d.data()}));xpRef()})}
-var _xl5=xLive;xLive=function(){_xl5();wdLoad();wdWatch()};if(db&&me){wdLoad();wdWatch()}
-/* coins already requested (last 3 days) are held back so the same coins are not requested twice */
-function wdPending(){var lim=Date.now()-3*864e5;return WREQ.filter(function(r){return r.status==="pending"&&r.ts>lim}).reduce(function(s,r){return s+(r.coins||0)},0)}
-function wdAvail(){return Math.max(0,(WAL.withdrawable||0)-wdPending())}
-function wdRef(ts){return"WD-"+new Date(ts).toISOString().slice(2,10).replace(/-/g,"")+"-"+Math.random().toString(36).slice(2,6).toUpperCase()}
-function wdDate(ts){var o={dateStyle:"medium",timeStyle:"short"};try{return new Date(ts).toLocaleString(LOC(),o)}catch(e){return new Date(ts).toLocaleString("en",o)}}
-function wdSt(r){return r.status==="paid"?"Paid":r.status==="rejected"?"Rejected":"Pending review"}
-
-/* ---- password check: the same password used to sign in ---- */
-async function pwOK(pw){if(!(db&&acct&&acct.h))return null;var x=await rd("accounts/"+acct.h);if(!x||!x.salt)return false;var dk=await derive(pw,x.salt);return dk.ver===x.ver}
-function askPw(title,msg,go,fresh){
- if(!fresh&&Date.now()-PWOKTS<300000){go();return}
- m2("🔐 "+title,t("pw"),[{l:"Confirm",p:1,f:async function(){
-  var v=$("m2i").value;if(!v)return;
-  if(Date.now()<PWLOCK){toast(function(){},"Too many wrong passwords.","Wait a minute and try again.");return}
-  var ok;try{ok=await pwOK(v)}catch(e){toast(function(){},"Could not check your password.","Check your internet and try again.");return}
-  if(ok===null){toast(function(){},"Sign in with your EPGEXX password account first.","");return}
-  if(!ok){PWBAD++;if(PWBAD>=5){PWBAD=0;PWLOCK=Date.now()+60000}$("m2i").value="";toast(function(){},"Wrong password.","");return}
-  PWBAD=0;PWOKTS=Date.now();$("m2i").value="";$("m2i").type="text";$("m2").style.display="none";go()}}],msg);
- $("m2").style.zIndex=96;var i=$("m2i");i.type="password";i.autocomplete="current-password"}
-
-/* ---- email to the GBLU team ---- */
-async function wdMail(r){var E=CFG.ejs;if(!(E&&E.service&&E.key))throw new Error("mail");
- var sum="WITHDRAWAL REQUEST "+r.ref+": "+r.coins.toLocaleString()+" EXX Coins ("+r.value+") via "+r.method+" → "+r.account+" ("+r.holder+"). Member: "+(r.name||"?")+(r.username?" @"+r.username:"")+" · "+(r.email||"no email")+" · wallet "+(r.wno?fmtW(r.wno):"?")+" · withdrawable before: "+(r.avail||0).toLocaleString();
- var res=await fetch("https://api.emailjs.com/api/v1.0/email/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({service_id:E.service,template_id:E.wtemplate||E.template,user_id:E.key,template_params:{
-  to_email:WD_TO,email:WD_TO,to:WD_TO,reply_to:r.email||WD_TO,subject:"Withdrawal request "+r.ref,from_name:r.name||"EPGEXX member",
-  ref:r.ref,coins:String(r.coins),value:r.value,method:r.method,account:r.account,holder:r.holder,member_name:r.name,username:r.username,member_email:r.email,wallet_number:r.wno?fmtW(r.wno):"",withdrawable_before:String(r.avail||0),date:wdDate(r.ts),
-  message:sum,code:sum,passcode:sum,time:wdDate(r.ts),app:"EPGEXX CONNECT"}})});
- if(!res.ok)throw new Error("mail")}
-
-/* ---- withdraw form ---- */
-function wdCard(b){
- if(WDL!==me){WDL=me;wdLoad()}
- var av=wdAvail(),pd=wdPending();if(!WDD.method)WDD.method=WD_METHODS[0];if(!WDD.holder)WDD.holder=prof.name||"";
- var w=card(b);w.appendChild(el("b","","💸 Withdraw earnings"));
- w.appendChild(el("small","xs","Available to withdraw: "+av.toLocaleString()+" coins ≈ "+coinVal(av)+(pd?" ("+pd.toLocaleString()+" already requested)":"")));
- var sm=el("small","xs","");
- function upd(){var n=parseInt(WDD.coins,10)||0;sm.textContent=n>0?"You will receive ≈ "+coinVal(n):""}
- var ci=xin("Coins to withdraw",9);ci.inputMode="numeric";ci.value=WDD.coins;ci.oninput=function(){WDD.coins=ci.value.replace(/\D/g,"");if(ci.value!==WDD.coins)ci.value=WDD.coins;upd()};w.appendChild(ci);
- w.appendChild(xb("Withdraw all",function(){WDD.coins=String(av);ci.value=WDD.coins;upd()}));w.appendChild(sm);
- var mr=el("div","xrow");WD_METHODS.forEach(function(m){mr.appendChild(xb(m,function(){WDD.method=m;xpRef(1)},m===WDD.method))});w.appendChild(mr);
- var ai=xin(WDD.method==="Bank transfer"?"Bank account number":"Phone number or account number",40);ai.value=WDD.account;ai.oninput=function(){WDD.account=ai.value};w.appendChild(ai);
- var hi=xin("Account holder name",60);hi.value=WDD.holder;hi.oninput=function(){WDD.holder=hi.value};w.appendChild(hi);
- upd();w.appendChild(xb("💸 Withdraw",wdGo,1));
- w.appendChild(el("small","xs","Your request is emailed to the GBLU team and you get a receipt to download. You confirm with your login password first."))}
-function wdGo(){
- var n=parseInt(WDD.coins,10),av=wdAvail(),acc=String(WDD.account||"").trim(),ho=String(WDD.holder||"").trim(),T=function(a,b2){toast(function(){},a,b2||"")};
- if(!(db&&me)){T("Sign in first.");return}
- if(!(n>0)){T("Enter how many coins to withdraw.");return}
- if(n>av){T("Not enough withdrawable balance.","You can withdraw up to "+av.toLocaleString()+" coins.");return}
- if(acc.length<5){T("Enter your phone or account number.");return}
- if(ho.length<2){T("Enter the account holder name.");return}
- var d={coins:n,method:WDD.method,account:acc,holder:ho};
- askPw("Confirm withdrawal","Withdraw "+n.toLocaleString()+" coins (≈ "+coinVal(n)+") to "+d.method+" "+acc+". Enter your login password to continue.",function(){wdSend(d)},1)}
-async function wdSend(d){
- if(WDBUSY)return;WDBUSY=1;toast(function(){},"Sending your request…","");
- var ts=Date.now(),r={ref:wdRef(ts),uid:me,coins:d.coins,value:coinVal(d.coins),method:d.method,account:d.account,holder:d.holder,name:prof.name||"",username:prof.username||"",email:(acct&&acct.email)||"",wno:WNO?String(WNO):"",ts:ts,status:"pending",avail:WAL.withdrawable||0};
- try{await wdMail(r)}catch(e){WDBUSY=0;toast(function(){},"Could not send the request.","Nothing was withdrawn. Check your internet and try again.");return}
- WREQ.unshift(r);wdSave();WDD.coins="";
- /* only non-private fields go to the database; the phone/account number stays on this device and in the email */
- try{await db.collection("withdrawals").doc(r.ref).set({ref:r.ref,uid:me,coins:r.coins,value:r.value,method:r.method,wno:r.wno,ts:r.ts,status:"pending"})}catch(e){}
- WDBUSY=0;toast(function(){},"Request sent ✅",r.ref);xpOpen("Withdrawal receipt",function(b){wdReceipt(b,r,1)})}
-
-/* ---- receipt (PNG) ---- */
-function fitTx(x,s,mw){if(x.measureText(s).width<=mw)return s;while(s.length>1&&x.measureText(s+"…").width>mw)s=s.slice(0,-1);return s+"…"}
-function wdCanvas(r){
- var rows=[["Reference",r.ref],["Date",wdDate(r.ts)],["Status",wdSt(r)],["Member",r.name||prof.name||"—"],["Username",(r.username||prof.username)?"@"+(r.username||prof.username):"—"],["Wallet number",r.wno?fmtW(r.wno):"—"],["Method",r.method||"—"],["Account",r.account||"—"],["Account holder",r.holder||"—"],["Sent to","GBLU team · "+WD_TO]];
- var W=540,top=214,rh=36,H=top+rows.length*rh+120,S=2,cv=document.createElement("canvas");cv.width=W*S;cv.height=H*S;
- var x=cv.getContext("2d");x.scale(S,S);
- var hd=(getComputedStyle(document.documentElement).getPropertyValue("--head")||"").trim()||"#0b2a6b",F='system-ui,-apple-system,"Segoe UI","Noto Sans Ethiopic","Noto Sans SC",sans-serif';
- x.fillStyle="#ffffff";x.fillRect(0,0,W,H);
- x.fillStyle=hd;x.fillRect(0,0,W,96);x.fillStyle="#ffffff";x.font="700 22px "+F;x.fillText("EPGEXX CONNECT",28,44);x.font="400 14px "+F;x.fillText("Withdrawal receipt · Global Business & Leadership Union",28,70);
- x.textAlign="center";x.fillStyle="#0b1f44";x.font="700 40px "+F;x.fillText((r.coins||0).toLocaleString()+" EXX Coins",W/2,156);
- x.fillStyle="#6b7a99";x.font="400 15px "+F;x.fillText("≈ "+(r.value||""),W/2,184);x.textAlign="left";
- rows.forEach(function(p,i){var y=top+i*rh;x.fillStyle=i%2?"#ffffff":"#f1f5fb";x.fillRect(20,y,W-40,rh);x.fillStyle="#6b7a99";x.font="400 13px "+F;x.fillText(p[0],32,y+23);
-  x.fillStyle="#0b1f44";x.font="600 14px "+F;x.textAlign="right";x.fillText(fitTx(x,String(p[1]),W-200),W-32,y+23);x.textAlign="left"});
- var fy=top+rows.length*rh+32;x.fillStyle="#6b7a99";x.font="400 12px "+F;
- ["This receipt confirms your withdrawal request was sent to the GBLU team.","Coins are paid after review. Quote the reference if you contact GBLU_OFFICIAL.","Never share your password or verification code with anyone."].forEach(function(s,i){x.fillText(s,28,fy+i*20)});
- return cv}
-function wdDownload(r){wdCanvas(r).toBlob(function(bl){if(!bl){toast(function(){},"Could not create the receipt.","");return}var u=URL.createObjectURL(bl),a=document.createElement("a");a.href=u;a.download="EPGEXX-receipt-"+r.ref+".png";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);toast(function(){},"Receipt downloaded",r.ref)},"image/png")}
-function wdShare(r){wdCanvas(r).toBlob(function(bl){try{var f=new File([bl],"EPGEXX-receipt-"+r.ref+".png",{type:"image/png"});if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],title:"Withdrawal receipt "+r.ref}).catch(function(){});else wdDownload(r)}catch(e){wdDownload(r)}},"image/png")}
-function wdReceipt(b,r,fresh){
- var h=card(b,"hero");h.appendChild(el("b","",fresh?"✅ Request sent":"🧾 Withdrawal receipt"));h.appendChild(el("small","",fresh?"Your withdrawal request was emailed to the GBLU team. Download your receipt and keep it.":"Reference "+r.ref));
- var c=card(b),cv=wdCanvas(r);cv.style.width="100%";cv.style.height="auto";cv.style.borderRadius="10px";c.appendChild(cv);
- c.appendChild(xb("⬇️ Download receipt",function(){wdDownload(r)},1));
- if(navigator.share)c.appendChild(xb("↗ Share receipt",function(){wdShare(r)}));
- c.appendChild(xb("📜 All transactions",function(){xpOpen("Transactions",txScreen)}));
- c.appendChild(xb("← Back to wallet",function(){xpOpen("Wallet",wallet)}));
- c.appendChild(el("small","xs","Quote the reference "+r.ref+" if you contact GBLU_OFFICIAL about this withdrawal."))}
-
-/* ---- transactions ---- */
-function txItems(){var a=[];
- WTX.forEach(function(x){var n=x.coins||0;a.push({ts:x.ts||0,label:x.note||x.type||"Transaction",coins:n,icon:n>0?"⬇️":"⬆️"})});
- WREQ.forEach(function(r){a.push({ts:r.ts,label:"Withdrawal · "+r.ref,coins:-(r.coins||0),icon:"💸",wd:r})});
- return a.sort(function(p,q){return q.ts-p.ts})}
-function txRow(b,x){var r=card(b),h=el("div","xsw");h.appendChild(el("span","",x.icon+" "+x.label));
- var am=el("b","",(x.coins>0?"+":"")+x.coins.toLocaleString());am.style.color=x.coins>0?"#1a9d57":"#d64545";h.appendChild(am);r.appendChild(h);
- r.appendChild(el("small","xs",wdDate(x.ts)+" · "+ago(x.ts)));
- if(x.wd){r.appendChild(el("small","xs",(x.wd.status==="paid"?"✅ ":x.wd.status==="rejected"?"❌ ":"⏳ ")+wdSt(x.wd)+" · "+(x.wd.method||"")+" · ≈ "+(x.wd.value||"")));r.appendChild(xb("🧾 Receipt",function(){xpOpen("Withdrawal receipt",function(bb){wdReceipt(bb,x.wd,0)})}))}}
-function txInline(b){if(WDL!==me){WDL=me;wdLoad()}var a=txItems();b.appendChild(el("div","xh","📜 Transaction history"));
- if(!a.length)b.appendChild(el("div","empty","No transactions yet."));
- a.slice(0,5).forEach(function(x){txRow(b,x)});var c=card(b);c.appendChild(xb("Open all transactions",function(){xpOpen("Transactions",txScreen)}))}
-function txScreen(b){if(WDL!==me){WDL=me;wdLoad()}
- var c=card(b),bar=el("div","xrow");bar.appendChild(xb("← Wallet",function(){xpOpen("Wallet",wallet)}));
- [["all","All"],["in","Money in"],["out","Withdrawals"]].forEach(function(f){bar.appendChild(xb(f[1],function(){TXF=f[0];xpRef(1)},TXF===f[0]))});c.appendChild(bar);
- var pd=wdPending();if(pd)c.appendChild(el("small","xs","⏳ Pending withdrawals: "+pd.toLocaleString()+" coins (≈ "+coinVal(pd)+")"));
- var a=txItems().filter(function(x){return TXF==="all"||(TXF==="out"?!!x.wd:!x.wd&&x.coins>0)});
- if(!a.length)b.appendChild(el("div","empty","No transactions yet."));
- a.slice(0,200).forEach(function(x){txRow(b,x)})}
-
-/* ---- password before sending gifts (remembered for 5 minutes) ---- */
-var _sgp=sendGift;sendGift=function(g){if(!LV)return;askPw("Confirm gift","Enter your login password to send "+g.e+" "+g.n+" ("+g.c.toLocaleString()+" coins).",function(){_sgp(g)},0)};
-</script>
-<script>
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 </script>
 </body>
 </html>
