@@ -372,6 +372,11 @@ body{display:flex;flex-direction:column}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="EPGEXX">
 </head>
 <body>
 <noscript><h1>EPGEXX CONNECT</h1><p>EPGEXX CONNECT is a free chat app for messaging friends, creating groups and channels, adding members by email or username, and calling. Sign up with email verification in English, Amharic or Chinese. Please turn on JavaScript to use the app.</p></noscript>
@@ -1709,5 +1714,6 @@ function plAddOpt(p){m2(t("plAddT"),t("plO"),[{l:t("plAddB"),p:1,f:function(){va
 function plDelOpt(p,vs){m2(t("plDelT"),null,p.opts.map(function(o,ix){return{l:"✕ "+o,f:function(){if(p.opts.length<=2)return;$("m2").style.display="none";var no=p.opts.filter(function(x,j){return j!==ix});db.doc("polls/"+p.id).update({opts:no}).then(function(){vs.forEach(function(v){var d=db.doc("pvotes/"+p.id+"_"+v.by);if(v.opt===ix)d.delete().catch(function(){});else if(v.opt>ix)d.update({opt:v.opt-1}).catch(function(){})})}).catch(function(){})}}}),t("plDelNote"))}
 
 </script>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
 </body>
 </html>
